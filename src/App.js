@@ -1,25 +1,22 @@
-import logo from './logo.svg';
+import { Canvas } from '@react-three/fiber'
+
+import { OrbitControls, Environment } from '@react-three/drei';
+
+import { Factory } from './3d/factory';
+
 import './App.css';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <div id="canvas-container">
+      <Canvas>
+        <OrbitControls></OrbitControls>
 
-export default App;
+        <Environment background={false} near={1} far={20} resolution={256} preset="apartment"></Environment>
+        <directionalLight position={[0, 2, 0]} color={"white"} intensity={.3} />
+
+        <Factory />
+      </Canvas>
+    </div>
+  )
+}
