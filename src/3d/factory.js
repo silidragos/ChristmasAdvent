@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import EnergyCube from './energy-cube';
+import { Letters } from './letters';
 
 export function Factory(props) {
     console.log(process.env.PUBLIC_URL);
@@ -49,6 +50,7 @@ export function Factory(props) {
         <mesh geometry={nodes.BezierCurve001.geometry} material={materials.Green} />
         <mesh geometry={nodes.BezierCurve001_1.geometry} material={materials.DarkGray} />
       </group>
+      <Letters/>
     </group>
   )
 }
