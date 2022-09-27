@@ -1,14 +1,15 @@
 import { Debug, useBox } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useLayoutEffect, useState } from "react";
+import { InstancedMesh } from "three";
 
-export function Letter({ count, interval }) {
+export function Letter({ count, interval }: { count: number; interval: number; }) {
     const currentTime = useRef(0);
     const currentIdx = useRef(-1);
 
     const collisionGroup1 = useRef(1);
     const collisionGroup2 = useRef(2);
-    const [letterCollider, letterAPI] = useBox((idx) => ({
+    const [letterCollider, letterAPI] = useBox<InstancedMesh>((idx) => ({
         args: [.4, 0.02, .7],
         position: [-.5, 2.25, 0],
         rotation: [0, 0, 0],
@@ -25,7 +26,7 @@ export function Letter({ count, interval }) {
     useEffect(()=>{
         for (let i = 0; i < count; i++) {
             if (i != currentIdx.current) {
-                letterAPI.at(i).angularDamping = 0.1;
+                letterAPI.at(i).angularDamping.set(0.1);
             }
         }
     },[])
@@ -57,7 +58,7 @@ export function Letter({ count, interval }) {
     });
 
     return (
-        <instancedMesh ref={letterCollider} args={[null, null, count]}>
+        <instancedMesh ref={letterCollider} args={[undefined, undefined, count]}>
             <boxBufferGeometry args={[.4, 0.02, .7]} />
             <meshBasicMaterial color="pink"></meshBasicMaterial>
         </instancedMesh>

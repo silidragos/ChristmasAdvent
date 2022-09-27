@@ -2,10 +2,18 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import EnergyCube from './energy-cube';
 import { Letters } from './letters';
+import { GLTF } from 'three-stdlib';
+import { GroupProps } from '@react-three/fiber';
+import { Materials, Nodes } from './3d.types';
 
-export function Factory(props) {
+type GLTFResult = GLTF & {
+  nodes: Nodes;
+  materials: Materials;
+}
+
+export function Factory(props: GroupProps) {
     console.log(process.env.PUBLIC_URL);
-  const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb')
+  const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <group position={[-0.74, 1.3, 0.07]}>
