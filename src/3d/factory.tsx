@@ -5,6 +5,7 @@ import { Letters } from './letters';
 import { GLTF } from 'three-stdlib';
 import { GroupProps } from '@react-three/fiber';
 import { Materials, Nodes } from './3d.types';
+import Gifts from './gifts';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -59,6 +60,7 @@ export function Factory(props: GroupProps) {
         <mesh geometry={nodes.BezierCurve001_1.geometry} material={materials.DarkGray} />
       </group>
       <Letters/>
+      <Gifts/>
     </group>
   )
 }
