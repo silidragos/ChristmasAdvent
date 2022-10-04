@@ -1,15 +1,15 @@
 import { useFrame } from "@react-three/fiber";
-import { off } from "process";
 import { useMemo, useRef } from "react";
-import { Vector3, Mesh } from "three";
+import { Vector3, Group } from "three";
+import GiftFactory from "../services/GiftFactory";
 import Curve from "./curve";
 
 const giftSpeed = 0.05;
 
-function Gift({curve, offset} : {curve : Curve, offset: number}) {
-    let cube = useRef<Mesh>(null);
+function Gift({ curve, offset, children }: { curve: Curve, offset: number, children: React.ReactNode }) {
+    let cube = useRef<Group>(null);
     let position = useRef<any>(offset);
-    
+
     useFrame((state, delta) => {
         if (cube.current === undefined || position.current === undefined) return;
 
@@ -19,10 +19,9 @@ function Gift({curve, offset} : {curve : Curve, offset: number}) {
     })
 
     return (
-        <mesh ref={cube} position={[0, 0, 0]}>
-            <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
-            <meshPhongMaterial attach="material" />
-        </mesh>
+        <group ref={cube} position={[0, 0, 0]}>
+            {children}
+        </group>
     )
 }
 
@@ -40,19 +39,42 @@ export default function Gifts() {
             new Vector3(2.5, 0, -2.1),
             new Vector3(3.5, 0, -1.6),
             new Vector3(4.1, 0, -1.0),
+            new Vector3(4.2, 0, -.75),
             new Vector3(4.3, 0, 0.5),
             new Vector3(4.0, 0, 1.3),
             new Vector3(3.5, 0, 1.7),
+            new Vector3(2.5, 0, 1.85),
             new Vector3(1.5, 0, 2)
         ]
         )
     }, []);
 
-    const getGifts = function(){
-        let gifts : any[] = [];
+    let giftFactory: GiftFactory = useMemo(() => {
+        return new GiftFactory([
+            <mesh>
+                <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
+                <meshPhongMaterial attach="material" />
+            </mesh>,
+            <mesh>
+                <sphereBufferGeometry args={[0.2, 8, 8]} attach="geometry" />
+                <meshPhongMaterial attach="material" />
+            </mesh>,
+            <mesh>
+                <torusKnotBufferGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
+                <meshPhongMaterial attach="material" />
+            </mesh>,
+        ]);
+    }, []);
+
+    const getGifts = function () {
+        let gifts: any[] = [];
         let count = 10;
-        for(let i=0; i<count; i++){
-            gifts.push(<Gift key={i} curve={curve} offset={i * (1.0 / count)}/>)
+        for (let i = 0; i < count; i++) {
+            gifts.push(
+            <Gift key={i} curve={curve} offset={i * (1.0 / count)}>
+                {giftFactory.getRandom()}    
+            </Gift>
+                );
         }
         return gifts;
     }
