@@ -12,14 +12,21 @@ export default function Gifts() {
             new Vector3(-1.1, 0, -1.3), 
             new Vector3(-0.4, 0, -1.8), 
             new Vector3(0.5, 0, -2.1), 
-            new Vector3(1.4, 0, -2.1)
+            new Vector3(1.4, 0, -2.1),
+            new Vector3(2.5, 0, -2.1),
+            new Vector3(3.5, 0, -1.6),
+            new Vector3(4.1, 0, -1.0),
+            new Vector3(4.3, 0, 0.5),
+            new Vector3(4.0, 0, 1.3),
+            new Vector3(3.5, 0, 1.7),
+            new Vector3(1.5, 0, 2)
         ]
         )
     }, []);
 
     let getGifts = function () {
         let gifts = [];
-        let count = 25;
+        let count = 100;
         for (let i = 0; i < count; i++) {
             let pos = curve.Sample(i * 1.0 / count);
             gifts.push(
