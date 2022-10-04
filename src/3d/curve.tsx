@@ -4,7 +4,6 @@ export default class Curve{
     private points : Array<Vector3>;
     constructor(points: Array<any>){
         this.points = points;
-        console.log(this.points);
     }
 
     public Sample(x : number){
