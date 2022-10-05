@@ -6,6 +6,7 @@ import { GLTF } from 'three-stdlib';
 import { GroupProps } from '@react-three/fiber';
 import { Materials, Nodes } from './3d.types';
 import Gifts from './gifts';
+import GiftsPhysics from './gifts-physics';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -61,6 +62,7 @@ export function Factory(props: GroupProps) {
       </group>
       <Letters/>
       <Gifts/>
+      <GiftsPhysics/>
     </group>
   )
 }
