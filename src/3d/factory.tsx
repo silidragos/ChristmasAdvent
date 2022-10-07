@@ -49,7 +49,7 @@ export function Factory(props: GroupProps) {
         <mesh geometry={nodes.Cube003_1.geometry} material={materials.DarkGray} />
       </group>
       <mesh geometry={nodes.Screws.geometry} material={materials.White} position={[0.19, 0.8, 2.5]} />
-      <group position={[-2.72, -0.03, 1.23]}>
+      <group>
         <RotativePalette nodes={nodes} materials={materials}/>
       </group>
       <group position={[-2.84, 0.09, 2.02]} scale={0.64}>
