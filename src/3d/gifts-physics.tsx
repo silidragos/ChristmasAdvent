@@ -1,11 +1,13 @@
 import { useBox, useCylinder } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Group, InstancedMesh, Mesh } from "three";
+import { factory } from "typescript";
+import ElementFactory from "../services/ElementsFactory";
 
 
-function GiftPhysics({ delay, lifetime }: { delay: number, lifetime: number }) {
-    const mesh = useRef<Mesh>(null);
+function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: number, children: React.ReactNode }) {
+    const mesh = useRef<Group>(null);
 
     const [gift, physicsAPI] = useBox<Group>((idx) => ({
         args: [.4, .4, .4],
@@ -30,6 +32,12 @@ function GiftPhysics({ delay, lifetime }: { delay: number, lifetime: number }) {
                 physicsAPI.position.set(0, 1.25, 2);
                 physicsAPI.mass.set(1);
                 physicsAPI.velocity.set(-1, 0, 0);
+
+                setInterval(() => {
+                    physicsAPI.position.set(0, 1.25, 2);
+                    physicsAPI.mass.set(1);
+                    physicsAPI.velocity.set(-1, 0, 0);
+                }, lifetime)
             }
         }, delay);
 
@@ -38,10 +46,9 @@ function GiftPhysics({ delay, lifetime }: { delay: number, lifetime: number }) {
     })
     return (
         <group ref={gift}>
-            <mesh ref={mesh} visible={false}>
-                <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
-                <meshPhongMaterial attach="material" color='green' />
-            </mesh>
+            <group ref={mesh} visible={false}>
+                {children}
+            </group>
         </group>
     )
 }
@@ -80,12 +87,40 @@ export default function GiftsPhysics() {
         }
     ));
 
+
+    let texFactory: ElementFactory = useMemo(()=>{
+        return new ElementFactory([
+                <meshPhongMaterial attach="material" color="green"/>,
+                <meshPhongMaterial attach="material" color="red"/>,
+                <meshPhongMaterial attach="material" color="yellow"/>
+        ]);
+    },[]);
+
+    let giftFactory: ElementFactory = useMemo(() => {
+        return new ElementFactory([
+            <mesh>
+                <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
+                {texFactory.getRandom()}
+            </mesh>,
+            <mesh>
+                <sphereBufferGeometry args={[0.2, 8, 8]} attach="geometry" />
+                {texFactory.getRandom()}
+            </mesh>,
+            <mesh>
+                <torusKnotBufferGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
+                {texFactory.getRandom()}
+            </mesh>,
+        ]);
+    }, []);
+
     const getGifts = function () {
         let gifts = [];
-        const giftNumber = 10;
+        const giftNumber = 5;
         for (let i = 0; i < giftNumber; i++) {
             gifts.push(
-                <GiftPhysics delay={3000 * i} lifetime={5000}></GiftPhysics>
+                <GiftPhysics delay={3000 * i} lifetime={3000 * giftNumber}>
+                    {giftFactory.getRandom()}
+                </GiftPhysics>
             )
         }
         return gifts;

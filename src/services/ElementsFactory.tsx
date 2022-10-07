@@ -1,4 +1,4 @@
-export default class GiftFactory{
+export default class ElementsFactory{
     public elements : Array<any>;
     constructor(elementsList : Array<any>){
         this.elements = elementsList;

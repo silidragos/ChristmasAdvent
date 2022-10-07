@@ -7,6 +7,7 @@ import { GroupProps } from '@react-three/fiber';
 import { Materials, Nodes } from './3d.types';
 import Gifts from './gifts';
 import GiftsPhysics from './gifts-physics';
+import RotativePalette from './rotative-palette';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -49,8 +50,7 @@ export function Factory(props: GroupProps) {
       </group>
       <mesh geometry={nodes.Screws.geometry} material={materials.White} position={[0.19, 0.8, 2.5]} />
       <group position={[-2.72, -0.03, 1.23]}>
-        <mesh geometry={nodes.Cylinder013.geometry} material={materials.DarkGray} />
-        <mesh geometry={nodes.Cylinder013_1.geometry} material={materials.Red} />
+        <RotativePalette nodes={nodes} materials={materials}/>
       </group>
       <group position={[-2.84, 0.09, 2.02]} scale={0.64}>
         <mesh geometry={nodes.Cylinder014.geometry} material={materials.Red} />

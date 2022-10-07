@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import { Vector3, Group } from "three";
-import GiftFactory from "../services/GiftFactory";
+import GiftFactory from "../services/ElementsFactory";
 import Curve from "./curve";
 
 const giftSpeed = 0.05;
