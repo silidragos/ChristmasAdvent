@@ -23,7 +23,7 @@ export function Model(props) {
         <mesh geometry={nodes.EnergySphere_1.geometry} material={materials.Red} />
         <mesh geometry={nodes.EnergySphere_2.geometry} material={materials.Glass} />
       </group>
-      <group position={[-3.64, 0.64, 3.83]} scale={0.61}>
+      <group position={[-3.64, 0.64, 3.83]} rotation={[-Math.PI / 2, 0, 0]} scale={0.44}>
         <mesh geometry={nodes.Cube002.geometry} material={materials.Red} />
         <mesh geometry={nodes.Cube002_1.geometry} material={materials.Green} />
       </group>
@@ -37,11 +37,11 @@ export function Model(props) {
         <mesh geometry={nodes.Plane.geometry} material={materials.Floor} />
         <mesh geometry={nodes.Plane_1.geometry} material={materials.Green} />
       </group>
-      <group position={[0.19, 0, -1.67]}>
+      <group position={[0.19, 0, 2.43]}>
         <mesh geometry={nodes.Cube003.geometry} material={materials.Red} />
         <mesh geometry={nodes.Cube003_1.geometry} material={materials.DarkGray} />
       </group>
-      <mesh geometry={nodes.Screws.geometry} material={materials.White} position={[0.19, 0.8, -1.54]} />
+      <mesh geometry={nodes.Screws.geometry} material={materials.White} position={[0.19, 0.8, 2.56]} />
       <group position={[-2.72, -0.03, 1.23]}>
         <mesh geometry={nodes.Cylinder013.geometry} material={materials.DarkGray} />
         <mesh geometry={nodes.Cylinder013_1.geometry} material={materials.Red} />
@@ -54,6 +54,7 @@ export function Model(props) {
         <mesh geometry={nodes.BezierCurve001.geometry} material={materials.Green} />
         <mesh geometry={nodes.BezierCurve001_1.geometry} material={materials.DarkGray} />
       </group>
+      <mesh geometry={nodes.DestinationText.geometry} material={materials.Green} position={[-2.98, 1.89, 4.76]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.55} />
     </group>
   )
 }

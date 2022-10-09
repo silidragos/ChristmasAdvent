@@ -71,13 +71,6 @@ export default function GiftsPhysics() {
         }
     }
     ));
-    const [boxCollider,] = useBox<InstancedMesh>((idx) => ({
-        args: [1.8, .9, 2],
-        position: [-3.4, .2, 3.8],
-        rotation: [0, 0, 0],
-        mass: 0
-    }
-    ));
 
     const [tableCollider,] = useCylinder<InstancedMesh>((idx) => (
         {
@@ -118,7 +111,7 @@ export default function GiftsPhysics() {
         const giftNumber = 5;
         for (let i = 0; i < giftNumber; i++) {
             gifts.push(
-                <GiftPhysics delay={3000 * i} lifetime={3000 * giftNumber}>
+                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber}>
                     {giftFactory.getRandom()}
                 </GiftPhysics>
             )

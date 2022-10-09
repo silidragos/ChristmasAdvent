@@ -34,6 +34,8 @@ export interface Nodes {
 
   EnergySphere_1: THREE.Mesh;
   EnergySphere_2: THREE.Mesh;
+
+  DestinationText: THREE.Mesh;
 }
 
 export interface Materials {

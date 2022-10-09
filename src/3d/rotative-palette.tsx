@@ -4,11 +4,13 @@ import { useMemo, useRef } from "react";
 import { Group } from "three";
 import { Materials, Nodes } from "./3d.types";
 
+const initialPosition = [-3, 1.55, 1.5];
 export default function RotativePalette({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
     const totalTime = useRef<number>(0);
-    const speed = useMemo(() => { return 2; }, []);
+    const speed = useMemo(() => { return 2.1; }, []);
+
     const [palette, physicsAPI] = useBox<Group>((idx) => ({
-        args: [2, 1.2, .1],
+        args: [2, 1.2, .5],
         position: [-2.5, 1.55, 1.2],
         rotation: [0, 0, 0],
         mass: 0,
@@ -20,16 +22,15 @@ export default function RotativePalette({ nodes, materials }: { nodes: Nodes, ma
 
     useFrame((state, delta) => {
         totalTime.current += delta;
-        physicsAPI.rotation.set(0, -totalTime.current * speed, 0);
+        physicsAPI.position.set(initialPosition[0], initialPosition[1],initialPosition[2] + Math.sin(totalTime.current * speed) * 1);
     });
 
     return (
         <group>
-            <mesh position={[-2.72, -0.03, 1.23]} geometry={nodes.Cylinder013.geometry} material={materials.DarkGray} />
             <group ref={palette}>
                 <mesh>
-                    <boxBufferGeometry args={[2, 1.2, .1]} attach="geometry" />
-                    <meshPhongMaterial attach="material" color="red" />
+                    <boxBufferGeometry args={[2, 1.2, .5]} attach="geometry" />
+                    <meshPhongMaterial attach="material" color="gray" specular={0xffffff} />
                 </mesh>
             </group>
         </group>

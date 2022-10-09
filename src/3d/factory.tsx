@@ -8,6 +8,7 @@ import { Materials, Nodes } from './3d.types';
 import Gifts from './gifts';
 import GiftsPhysics from './gifts-physics';
 import RotativePalette from './rotative-palette';
+import DestinationBox from './destination-box';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -15,7 +16,7 @@ type GLTFResult = GLTF & {
 }
 
 export function Factory(props: GroupProps) {
-    console.log(process.env.PUBLIC_URL);
+  console.log(process.env.PUBLIC_URL);
   const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
@@ -29,11 +30,23 @@ export function Factory(props: GroupProps) {
         <mesh geometry={nodes.Cube001_2.geometry} material={materials.White} />
         <mesh geometry={nodes.Cube001_3.geometry} material={materials.DarkGray} />
       </group>
-      <EnergyCube nodes={nodes} materials={materials}/>
-      <group position={[-3.64, 0.64, 3.83]} scale={0.61}>
-        <mesh geometry={nodes.Cube002.geometry} material={materials.Red} />
-        <mesh geometry={nodes.Cube002_1.geometry} material={materials.Green} />
+      {/* Batteries */}
+      <group position={[-.75, 2.1, .8]} rotation={[0, 0, 0]}>
+        <mesh>
+          <torusBufferGeometry args={[.25, .2, 8, 16]} attach="geometry" />
+          <meshPhongMaterial color="black" attach="material" specular={0xffffff}></meshPhongMaterial>
+        </mesh>
       </group>
+      <group position={[-.75, 2.1, -.65]} rotation={[0, 0, 0]}>
+        <mesh>
+          <torusBufferGeometry args={[.25, .2, 8, 16]} attach="geometry" />
+          <meshPhongMaterial color="black" attach="material" specular={0xffffff}></meshPhongMaterial>
+        </mesh>
+      </group>
+
+      <EnergyCube nodes={nodes} materials={materials} />
+      <DestinationBox nodes={nodes} materials={materials}/>
+
       <group position={[-2.06, 0.31, -0.01]}>
         <mesh geometry={nodes.BandSupport_1.geometry} material={materials.DarkGray} />
         <mesh geometry={nodes.BandSupport_2.geometry} material={materials.Red} />
@@ -50,19 +63,22 @@ export function Factory(props: GroupProps) {
       </group>
       <mesh geometry={nodes.Screws.geometry} material={materials.White} position={[0.19, 0.8, 2.5]} />
       <group>
-        <RotativePalette nodes={nodes} materials={materials}/>
+        <RotativePalette nodes={nodes} materials={materials} />
       </group>
+
       <group position={[-2.84, 0.09, 2.02]} scale={0.64}>
         <mesh geometry={nodes.Cylinder014.geometry} material={materials.Red} />
         <mesh geometry={nodes.Cylinder014_1.geometry} material={materials.Green} />
       </group>
+
       <group position={[-2.16, 0.87, 0.07]}>
         <mesh geometry={nodes.BezierCurve001.geometry} material={materials.Green} />
         <mesh geometry={nodes.BezierCurve001_1.geometry} material={materials.DarkGray} />
       </group>
-      <Letters/>
-      <Gifts/>
-      <GiftsPhysics/>
+      
+      <Letters />
+      <Gifts />
+      <GiftsPhysics />
     </group>
   )
 }
