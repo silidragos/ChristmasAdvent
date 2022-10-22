@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import { Group, InstancedMesh, Mesh } from "three";
 import { factory } from "typescript";
+import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
 
 
@@ -82,11 +83,7 @@ export default function GiftsPhysics() {
 
 
     let texFactory: ElementFactory = useMemo(()=>{
-        return new ElementFactory([
-                <meshPhongMaterial attach="material" color="green"/>,
-                <meshPhongMaterial attach="material" color="red"/>,
-                <meshPhongMaterial attach="material" color="yellow"/>
-        ]);
+        return new ElementFactory(Day4_Texturing());
     },[]);
 
     let giftFactory: ElementFactory = useMemo(() => {

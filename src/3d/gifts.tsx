@@ -1,33 +1,31 @@
-import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
-import { Vector3, Group } from "three";
+import { useMemo } from "react";
+import { Vector3, BufferGeometry } from "three";
+import * as THREE from "three";
+
 import GiftFactory from "../services/ElementsFactory";
 import Curve from "./curve";
 
+import Day2CustomShapes from "../courses/day2-custom-shapes";
+import Gift from "../courses/day3-useFrame";
+import { Line } from "@react-three/drei";
+import { extend, ReactThreeFiber } from "@react-three/fiber";
+
 const giftSpeed = 0.05;
 
-function Gift({ curve, offset, children }: { curve: Curve, offset: number, children: React.ReactNode }) {
-    let cube = useRef<Group>(null);
-    let position = useRef<any>(offset);
 
-    useFrame((state, delta) => {
-        if (cube.current === undefined || position.current === undefined) return;
+extend({ Line_: THREE.Line })
 
-        position.current = (position.current + delta * giftSpeed) % 1;
-        let pos = curve.Sample(position.current);
-        cube.current?.position.set(pos.x, pos.y, pos.z);
-    })
-
-    return (
-        <group ref={cube} position={[0, 0, 0]}>
-            {children}
-        </group>
-    )
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            line_: ReactThreeFiber.Object3DNode<THREE.Line, typeof THREE.Line>
+        }
+    }
 }
 
 export default function Gifts() {
-    let curve: Curve = useMemo(() => {
-        return new Curve([
+    let [myLineGeometry, curve] = useMemo(() => {
+        let points = [
             new Vector3(0, 0, 0),
             new Vector3(-0.8, 0, -.05),
             new Vector3(-1.1, 0, -.25),
@@ -44,26 +42,15 @@ export default function Gifts() {
             new Vector3(4.0, 0, 1.3),
             new Vector3(3.5, 0, 1.7),
             new Vector3(2.5, 0, 1.85),
-            new Vector3(1.5, 0, 2)
-        ]
-        )
+            new Vector3(1.5, 0, 2)];
+
+        const lineGeometry = new BufferGeometry().setFromPoints(points);
+        return [lineGeometry, new Curve(points)];
     }, []);
 
     let giftFactory: GiftFactory = useMemo(() => {
-        return new GiftFactory([
-            <mesh>
-                <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
-                <meshPhongMaterial attach="material" />
-            </mesh>,
-            <mesh>
-                <sphereBufferGeometry args={[0.2, 8, 8]} attach="geometry" />
-                <meshPhongMaterial attach="material" />
-            </mesh>,
-            <mesh>
-                <torusKnotBufferGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
-                <meshPhongMaterial attach="material" />
-            </mesh>,
-        ]);
+        console.log(Day2CustomShapes());
+        return new GiftFactory(Day2CustomShapes());
     }, []);
 
     const getGifts = function () {
@@ -71,16 +58,21 @@ export default function Gifts() {
         let count = 10;
         for (let i = 0; i < count; i++) {
             gifts.push(
-            <Gift key={i} curve={curve} offset={i * (1.0 / count)}>
-                {giftFactory.getRandom()}    
-            </Gift>
-                );
+                <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed}>
+                    {giftFactory.getRandom()}
+                </Gift>
+            );
         }
         return gifts;
     }
     return (
-        <group position={[-1.5, 1, 0]}>
-            {getGifts()}
-        </group>
+        <>
+            <group position={[-1.5, 1, 0]}>
+                <line_ geometry={myLineGeometry}>
+                    <lineBasicMaterial attach="material" color="red"></lineBasicMaterial>
+                </line_>
+                {getGifts()}
+            </group>
+        </>
     );
 }

@@ -9,24 +9,21 @@ export function Model(props) {
   const { nodes, materials } = useGLTF('/scene.glb')
   return (
     <group {...props} dispose={null}>
-      <group position={[-0.74, 1.3, 0.07]}>
-        <mesh geometry={nodes.Cube.geometry} material={materials.Red} />
-        <mesh geometry={nodes.Cube_1.geometry} material={materials.DarkGray} />
-      </group>
+      <mesh geometry={nodes.GiftGenerator.geometry} material={materials.Red} position={[-0.74, 1.3, 0.07]} />
       <group position={[-0.74, 2.04, 0.07]} rotation={[0, -Math.PI / 2, 0]} scale={0.67}>
         <mesh geometry={nodes.Cube001.geometry} material={materials.Green} />
         <mesh geometry={nodes.Cube001_1.geometry} material={materials.Red} />
         <mesh geometry={nodes.Cube001_2.geometry} material={materials.White} />
-        <mesh geometry={nodes.Cube001_3.geometry} material={materials.DarkGray} />
+        <group position={[0.04, 0.11, 0]} rotation={[0, Math.PI / 2, 0]} scale={1.49}>
+          <mesh geometry={nodes.Signaler_1.geometry} material={materials.White} />
+          <mesh geometry={nodes.Signaler_2.geometry} material={materials.GreenLight} />
+        </group>
       </group>
       <group position={[-0.74, 2.86, 0.07]} scale={0.4}>
         <mesh geometry={nodes.EnergySphere_1.geometry} material={materials.Red} />
         <mesh geometry={nodes.EnergySphere_2.geometry} material={materials.Glass} />
       </group>
-      <group position={[-3.64, 0.64, 3.83]} rotation={[-Math.PI / 2, 0, 0]} scale={0.44}>
-        <mesh geometry={nodes.Cube002.geometry} material={materials.Red} />
-        <mesh geometry={nodes.Cube002_1.geometry} material={materials.Green} />
-      </group>
+      <mesh geometry={nodes.EndBucket.geometry} material={materials.Red} position={[-3.64, 0.64, 3.83]} rotation={[-Math.PI / 2, 0, 0]} scale={0.44} />
       <group position={[-2.06, 0.31, -0.01]}>
         <mesh geometry={nodes.BandSupport_1.geometry} material={materials.DarkGray} />
         <mesh geometry={nodes.BandSupport_2.geometry} material={materials.Red} />

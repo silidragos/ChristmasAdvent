@@ -1,14 +1,15 @@
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import {useMemo, useRef } from 'react'
+import {useGLTF } from '@react-three/drei'
 import EnergyCube from './energy-cube';
-import { Letters } from './letters';
 import { GLTF } from 'three-stdlib';
-import { GroupProps } from '@react-three/fiber';
+import { GroupProps, useFrame } from '@react-three/fiber';
 import { Materials, Nodes } from './3d.types';
 import Gifts from './gifts';
 import GiftsPhysics from './gifts-physics';
-import RotativePalette from './rotative-palette';
-import DestinationBox from './destination-box';
+import RotativePalette from '../courses/day5-physics';
+import DestinationBox from '../courses/day6-spring';
+import state from '../services/State';
+import { MeshBasicMaterial, PointLight } from 'three';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -16,36 +17,48 @@ type GLTFResult = GLTF & {
 }
 
 export function Factory(props: GroupProps) {
+  const startLight = useRef<PointLight>(null);
+  const hadBattery = useRef<boolean>(false);
+
+
+  let lightMat: THREE.MeshBasicMaterial = useMemo(() => {
+    return new MeshBasicMaterial({ color: 0xff0000 });
+  }, [])
+
+
+
+  useFrame(() => {
+    if (startLight.current === null) return;
+    if (!hadBattery.current && state.hasBattery) {
+      hadBattery.current = true;
+      startLight.current.intensity = 5;
+      lightMat.color.set(0x00ff00);
+    } else if (hadBattery.current && !state.hasBattery) {
+      hadBattery.current = false;
+      startLight.current.intensity = 0;
+      lightMat.color.set(0xff0000);
+    }
+  })
+
   console.log(process.env.PUBLIC_URL);
   const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
-      <group position={[-0.74, 1.3, 0.07]}>
-        <mesh geometry={nodes.Cube.geometry} material={materials.Red} />
-        <mesh geometry={nodes.Cube_1.geometry} material={materials.DarkGray} />
-      </group>
+
+      <pointLight ref={startLight} color="green" position={[-2, 2, 0]} intensity={0} distance={3}></pointLight>
+      <mesh geometry={nodes.GiftGenerator.geometry} material={materials.Red} position={[-0.74, 1.3, 0.07]} />
       <group position={[-0.74, 2.04, 0.07]} rotation={[0, -Math.PI / 2, 0]} scale={0.67}>
         <mesh geometry={nodes.Cube001.geometry} material={materials.Green} />
         <mesh geometry={nodes.Cube001_1.geometry} material={materials.Red} />
         <mesh geometry={nodes.Cube001_2.geometry} material={materials.White} />
-        <mesh geometry={nodes.Cube001_3.geometry} material={materials.DarkGray} />
-      </group>
-      {/* Batteries */}
-      <group position={[-.75, 2.1, .8]} rotation={[0, 0, 0]}>
-        <mesh>
-          <torusBufferGeometry args={[.25, .2, 8, 16]} attach="geometry" />
-          <meshPhongMaterial color="black" attach="material" specular={0xffffff}></meshPhongMaterial>
-        </mesh>
-      </group>
-      <group position={[-.75, 2.1, -.65]} rotation={[0, 0, 0]}>
-        <mesh>
-          <torusBufferGeometry args={[.25, .2, 8, 16]} attach="geometry" />
-          <meshPhongMaterial color="black" attach="material" specular={0xffffff}></meshPhongMaterial>
-        </mesh>
+        <group position={[0.04, 0.11, 0]} rotation={[0, Math.PI / 2, 0]} scale={1.49}>
+          <mesh geometry={nodes.Signaler_1.geometry} material={materials.White} />
+          <mesh geometry={nodes.Signaler_2.geometry} material={lightMat} />
+        </group>
       </group>
 
       <EnergyCube nodes={nodes} materials={materials} />
-      <DestinationBox nodes={nodes} materials={materials}/>
+      <DestinationBox nodes={nodes} materials={materials} />
 
       <group position={[-2.06, 0.31, -0.01]}>
         <mesh geometry={nodes.BandSupport_1.geometry} material={materials.DarkGray} />
@@ -75,8 +88,7 @@ export function Factory(props: GroupProps) {
         <mesh geometry={nodes.BezierCurve001.geometry} material={materials.Green} />
         <mesh geometry={nodes.BezierCurve001_1.geometry} material={materials.DarkGray} />
       </group>
-      
-      <Letters />
+
       <Gifts />
       <GiftsPhysics />
     </group>

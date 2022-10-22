@@ -1,3 +1,5 @@
+import { ThreeElements } from "@react-three/fiber";
+
 export interface Nodes {
   Cube: THREE.Mesh;
 
@@ -13,10 +15,18 @@ export interface Nodes {
   Cube003: THREE.Mesh;
   Cube003_1: THREE.Mesh;
 
+  Cube004: THREE.Mesh;
+  Cube004_1: THREE.Mesh;
+
   BandSupport_1: THREE.Mesh;
   BandSupport_2: THREE.Mesh;
   BandSupport_3: THREE.Mesh;
   BandSupport_4: THREE.Mesh;
+
+  GiftGenerator: THREE.Mesh;
+  Signaler_1: THREE.Mesh;
+  Signaler_2: THREE.Mesh;
+  EndBucket: THREE.Mesh;
 
   Screws: THREE.Mesh;
 
@@ -45,4 +55,5 @@ export interface Materials {
   White: THREE.Material;
   Floor: THREE.Material;
   Glass: THREE.Material;
+  GreenLight: THREE.Material;
 }
