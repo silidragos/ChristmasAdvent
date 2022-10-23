@@ -52,6 +52,7 @@ export function Model(props) {
         <mesh geometry={nodes.BezierCurve001_1.geometry} material={materials.DarkGray} />
       </group>
       <mesh geometry={nodes.DestinationText.geometry} material={materials.Green} position={[-2.98, 1.89, 4.76]} rotation={[Math.PI / 2, 0, -Math.PI]} scale={0.55} />
+      <mesh geometry={nodes.Battery.geometry} material={materials.Battery} position={[-0.74, 2.1, -0.67]} rotation={[-Math.PI / 2, 0, 0]} />
     </group>
   )
 }

@@ -47,7 +47,7 @@ export default function EnergyCube({
     });
     return (
         <group>
-            <HierarchyDay1 leftBattery={leftBattery} rightBattery={rightBattery} />
+            <HierarchyDay1 leftBattery={leftBattery} rightBattery={rightBattery} nodes={nodes} materials={materials}/>
             <group position={[-0.74, 2.86, 0.07]} scale={0.4}>
                 <mesh ref={batteryCore} geometry={nodes.EnergySphere_1.geometry} material={materials.Red} />
                 <mesh geometry={nodes.EnergySphere_2.geometry} material={materials.Glass} />

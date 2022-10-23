@@ -27,6 +27,7 @@ export interface Nodes {
   Signaler_1: THREE.Mesh;
   Signaler_2: THREE.Mesh;
   EndBucket: THREE.Mesh;
+  Battery: THREE.Mesh;
 
   Screws: THREE.Mesh;
 
@@ -56,4 +57,5 @@ export interface Materials {
   Floor: THREE.Material;
   Glass: THREE.Material;
   GreenLight: THREE.Material;
+  Battery: THREE.Material;
 }
