@@ -6,7 +6,7 @@ export default function Day1_HierarchyAndAttributes({ leftBattery, rightBattery,
     return (
         <>
             {/* Left Battery Placeholder */}
-            <group position={[-0.75, 2.1, .8]}>
+            <group position={[-1.75, 2.1, .8]}>
                 <mesh ref={leftBattery} geometry={nodes.Battery.geometry} material={materials.Battery} rotation={[-Math.PI / 2, 0, Math.PI]} />
             </group>
             {/* Right Battery Placeholder */}

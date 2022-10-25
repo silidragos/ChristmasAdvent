@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import { Group, InstancedMesh, Mesh } from "three";
 import { factory } from "typescript";
+
 import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
 
@@ -87,6 +88,8 @@ export default function GiftsPhysics() {
     },[]);
 
     let giftFactory: ElementFactory = useMemo(() => {
+        if(texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
+
         return new ElementFactory([
             <mesh>
                 <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />

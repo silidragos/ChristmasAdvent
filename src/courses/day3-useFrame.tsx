@@ -11,7 +11,7 @@ export default function Day3_useFrame({ curve, offset, giftSpeed, children }: { 
         if (cube.current === null || position.current === null) return;
 
         //To write
-        position.current = (position.current + delta * giftSpeed) % 1;
+        // position.current = (position.current + delta * giftSpeed) % 1;
         
         
         let pos = curve.Sample(position.current);
