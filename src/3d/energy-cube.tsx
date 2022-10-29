@@ -1,9 +1,17 @@
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
-import { Vector3, Mesh } from "three";
+import { Ref, useEffect, useRef } from "react";
+import { Vector3, Mesh, Quaternion, Euler } from "three";
 import HierarchyDay1 from "../courses/day1-hierarchy-attributes";
 import { Materials, Nodes } from "./3d.types";
 import state from "../services/State";
+
+function GetWorldRotation(mesh: Mesh): Euler {
+    const quatRot = new Quaternion();
+    mesh.getWorldQuaternion(quatRot);
+    let eulerRot = new Euler().setFromQuaternion(quatRot);
+    return eulerRot;
+    //leftBatteryRotationInEuler = 180  / Math.PI * leftBatteryRotationInEuler.x;
+}
 
 export default function EnergyCube({
     nodes,
@@ -31,12 +39,22 @@ export default function EnergyCube({
         leftBattery.current.getWorldPosition(leftBatteryWorldPos);
         const leftBatteryDistance = leftBatteryWorldPos.distanceTo(new Vector3(-0.75, 2.1, 0.8));
 
+        const leftBatteryRotation = GetWorldRotation(leftBattery.current);
+        const isLeftBatteryInCorrectRotation = Math.abs(leftBatteryRotation.x - Math.PI / 2.0) < 0.1 &&
+            Math.abs(leftBatteryRotation.y) < 0.1 &&
+            Math.abs(leftBatteryRotation.z) < 0.1;
+
         const rightBatteryWorldPos = new Vector3();
         rightBattery.current.getWorldPosition(rightBatteryWorldPos);
         const rightBatteryDistance = rightBatteryWorldPos.distanceTo(new Vector3(-0.75, 2.1, -.65));
 
+        const rightBatteryRotation = GetWorldRotation(rightBattery.current);
+        const isRightBatteryInCorrectRotation = Math.abs(rightBatteryRotation.x - Math.PI/2) < 0.1 &&
+            Math.abs(rightBatteryRotation.y) < 0.1 &&
+            Math.abs(rightBatteryRotation.z) < 0.1;
+
         //@ts-ignore
-        state.hasBattery = leftBatteryDistance < 0.1 && rightBatteryDistance < 0.1
+        state.hasBattery = leftBatteryDistance < 0.1 && rightBatteryDistance < 0.1 && isLeftBatteryInCorrectRotation && isRightBatteryInCorrectRotation;
         if (state.hasBattery) {
 
             let newPos = new Vector3();
@@ -47,7 +65,7 @@ export default function EnergyCube({
     });
     return (
         <group>
-            <HierarchyDay1 leftBattery={leftBattery} rightBattery={rightBattery} nodes={nodes} materials={materials}/>
+            <HierarchyDay1 leftBattery={leftBattery} rightBattery={rightBattery} nodes={nodes} materials={materials} />
             <group position={[-0.74, 2.86, 0.07]} scale={0.4}>
                 <mesh ref={batteryCore} geometry={nodes.EnergySphere_1.geometry} material={materials.Red} />
                 <mesh geometry={nodes.EnergySphere_2.geometry} material={materials.Glass} />

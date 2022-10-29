@@ -9,6 +9,17 @@ import { Materials, Nodes } from "../3d/3d.types";
 import myFont from '../fonts/Mountains of Christmas_Bold.json';
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
+
+/*
+Concepts:
+    - What is tweening
+    - Spring, useSpring
+    - springApi
+    - configs
+Tasks:
+    - Rotate the Good Children text whenever a gift enters the bag, given the target position and rotation
+ */
+
 extend({ TextGeometry });
 
 declare global {

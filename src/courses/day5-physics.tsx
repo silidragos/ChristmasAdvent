@@ -4,6 +4,25 @@ import { useMemo, useRef } from "react";
 import { Group } from "three";
 import { Materials, Nodes } from "../3d/3d.types";
 
+/*
+Concepts:
+    - Physics - CannonJS
+    - Physics Primitives
+    - Material, friciton, mass, kinematic 
+    - set position vs force, vs impulse
+    - Parenting objects to Physics (position is weird)
+    - React - useBox, useSphere etc.
+Bonus:
+    - Compound shapes
+    - Spring physics, connections etc.
+Tasks:
+    - Attach a physics box to the palette and move it so that it hits objects inside the sack
+Hints:
+    - Mass: 0
+    - Position.set
+    - Math.Sin() is a great come and go function
+ */
+
 const initialPosition = [-3, 1.55, 1.5];
 export default function RotativePalette({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
     const totalTime = useRef<number>(0);
