@@ -16,9 +16,9 @@ export default function App() {
         <ambientLight intensity={.1}/>
         <Environment background={false} near={1} far={20} resolution={256} preset="apartment"></Environment>
         <Physics gravity={[0, -1.98, 0]}>
-          {/* <Debug color="white" scale={1.01}> */}
+          <Debug color="white" scale={1.01}>
             <Factory />
-          {/* </Debug> */}
+          </Debug>
         </Physics>
       </Canvas>
     </div>

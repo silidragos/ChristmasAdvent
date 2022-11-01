@@ -29,9 +29,9 @@ export default function Day3_useFrame({ curve, offset, giftSpeed, children }: { 
         if (cube.current === null || totalOffset.current === null) return;
 
         //To write
-        // totalOffset.current = (totalOffset.current + delta * giftSpeed) % 1;
-        // let pos = curve.Sample(totalOffset.current);
-        // cube.current.position.set(pos.x, pos.y, pos.z);
+        totalOffset.current = (totalOffset.current + delta * giftSpeed) % 1;
+        let pos = curve.Sample(totalOffset.current);
+        cube.current.position.set(pos.x, pos.y, pos.z);
     })
 
     return (

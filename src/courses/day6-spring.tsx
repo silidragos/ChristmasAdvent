@@ -43,12 +43,12 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
         onCollide: (evt) => {
             numberOfGifts.current++;
             //To Write
-            // springAPI.start({
-            //     to: {
-            //         position: [0, Math.floor(numberOfGifts.current % 2) === 0 ? 0 : 1, 0],
-            //         rotation: [0, Math.floor(numberOfGifts.current % 2) === 0 ? 0 : 2 * Math.PI, 0]
-            //     }
-            // })
+            springAPI.start({
+                to: {
+                    position: [0, Math.floor(numberOfGifts.current % 2) === 0 ? 0 : 1, 0],
+                    rotation: [0, Math.floor(numberOfGifts.current % 2) === 0 ? 0 : 2 * Math.PI, 0]
+                }
+            })
         }
     }
     ));

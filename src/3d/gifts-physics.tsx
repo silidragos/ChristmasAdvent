@@ -57,7 +57,7 @@ function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: n
 
 export default function GiftsPhysics() {
     const [floorCollider,] = useBox<InstancedMesh>((idx) => ({
-        args: [6, .2, 6],
+        args: [12, .2, 12],
         position: [-2, 0, 3],
         rotation: [0, 0, 0],
         mass: 0
