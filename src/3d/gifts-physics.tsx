@@ -1,14 +1,16 @@
 import { useBox, useCylinder } from "@react-three/cannon";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
-import { Group, InstancedMesh, Mesh } from "three";
+import { Group, InstancedMesh, Mesh, PositionalAudio } from "three";
 import { factory } from "typescript";
+import * as THREE from "three";
 
 import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
+import { listener } from "./audio-component";
 
 
-function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: number, children: React.ReactNode }) {
+function GiftPhysics({ delay, lifetime, children, onSpawn }: { delay: number, lifetime: number, children: React.ReactNode, onSpawn: any }) {
     const mesh = useRef<Group>(null);
 
     const [gift, physicsAPI] = useBox<Group>((idx) => ({
@@ -30,20 +32,24 @@ function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: n
         setTimeout(() => {
             if (mesh.current !== null) {
                 mesh.current.visible = true;
+
                 physicsAPI.wakeUp();
                 physicsAPI.position.set(0, 1.25, 2);
                 physicsAPI.mass.set(1);
                 physicsAPI.velocity.set(-1, 0, 0);
+                onSpawn();
 
                 setInterval(() => {
                     physicsAPI.position.set(0, 1.25, 2);
                     physicsAPI.mass.set(1);
                     physicsAPI.velocity.set(-1, 0, 0);
+                    onSpawn();
                 }, lifetime)
             }
         }, delay);
 
     }, [mesh.current])
+
     useFrame(() => {
     })
     return (
@@ -56,6 +62,9 @@ function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: n
 }
 
 export default function GiftsPhysics() {
+    const giftsSound = useRef<PositionalAudio>(null);
+    const buffer = useLoader(THREE.AudioLoader, './sfx/spray.wav');
+
     const [floorCollider,] = useBox<InstancedMesh>((idx) => ({
         args: [12, .2, 12],
         position: [-2, 0, 3],
@@ -83,12 +92,12 @@ export default function GiftsPhysics() {
     ));
 
 
-    let texFactory: ElementFactory = useMemo(()=>{
+    let texFactory: ElementFactory = useMemo(() => {
         return new ElementFactory(Day4_Texturing());
-    },[]);
+    }, []);
 
     let giftFactory: ElementFactory = useMemo(() => {
-        if(texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
+        if (texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
 
         return new ElementFactory([
             <mesh>
@@ -106,12 +115,30 @@ export default function GiftsPhysics() {
         ]);
     }, []);
 
+    useEffect(() => {
+        if (giftsSound.current === null || giftsSound.current === undefined) return;
+
+        console.log(giftsSound.current);
+        giftsSound.current.setBuffer(buffer);
+        giftsSound.current.setLoop(false);
+        giftsSound.current.setVolume(1);
+    }, [giftsSound.current]);
+
     const getGifts = function () {
         let gifts = [];
         const giftNumber = 5;
         for (let i = 0; i < giftNumber; i++) {
             gifts.push(
-                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber}>
+                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber} onSpawn={()=>{
+                    if(giftsSound.current === null || giftsSound.current === undefined){
+                        return;
+                    }
+
+                    if(giftsSound.current.isPlaying){
+                        giftsSound.current.stop();
+                    }
+                    giftsSound.current.play();
+                }}>
                     {giftFactory.getRandom()}
                 </GiftPhysics>
             )
@@ -122,6 +149,7 @@ export default function GiftsPhysics() {
     return (
         <group>
             {getGifts()}
+            <positionalAudio ref={giftsSound} args={[listener]} />
         </group>
     );
 }

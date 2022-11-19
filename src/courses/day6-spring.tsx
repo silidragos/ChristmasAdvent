@@ -1,13 +1,15 @@
 import { useBox } from "@react-three/cannon";
 import { useSpring, config, animated } from '@react-spring/three';
 import { useEffect, useRef, useState } from "react";
-import { Group, Mesh } from "three";
-import { extend, ReactThreeFiber } from "@react-three/fiber";
+import { Group, Mesh, PositionalAudio } from "three";
+import * as THREE from 'three';
+import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Materials, Nodes } from "../3d/3d.types";
 
 import myFont from '../fonts/Mountains of Christmas_Bold.json';
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { listener } from "../3d/audio-component";
 
 
 /*
@@ -31,6 +33,17 @@ declare global {
 }
 
 export default function DestinationBox({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
+    const magicSound = useRef<PositionalAudio>(null);
+    const buffer = useLoader(THREE.AudioLoader, './sfx/magic.wav');
+    
+    useEffect(() => {
+        if (magicSound.current === null || magicSound.current === undefined) return;
+
+        magicSound.current.setBuffer(buffer);
+        magicSound.current.setLoop(false);
+        magicSound.current.setVolume(1);
+    }, [magicSound.current]);
+
     const font = new FontLoader().parse(myFont);
     let numberOfGifts = useRef(0);
 
@@ -41,6 +54,13 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
         mass: 0,
         isTrigger: true,
         onCollide: (evt) => {
+            if(magicSound.current !== null && magicSound.current !== undefined){
+                if (magicSound.current.isPlaying) {
+                    magicSound.current.stop();
+                }
+                magicSound.current.play();
+            }
+            
             numberOfGifts.current++;
             //To Write
             springAPI.start({
@@ -74,6 +94,7 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
                 </animated.group>
                 {/* <animated.mesh position={styles.position} rotation={styles.rotation} geometry={nodes.DestinationText.geometry} material={materials.Green} scale={0.55} /> */}
             </group>
+            <positionalAudio ref={magicSound} args={[listener]} />
         </group>
     );
 

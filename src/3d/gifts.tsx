@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { Vector3, BufferGeometry } from "three";
+import { useEffect, useMemo, useRef } from "react";
+import { Vector3, BufferGeometry, PositionalAudio } from "three";
 import * as THREE from "three";
 
 import GiftFactory from "../services/ElementsFactory";
@@ -8,7 +8,8 @@ import Curve from "./curve";
 import Day2CustomShapes from "../courses/day2-custom-shapes";
 import Gift from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
-import { extend, ReactThreeFiber } from "@react-three/fiber";
+import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
+import { listener } from "./audio-component";
 
 const giftSpeed = 0.05;
 
@@ -24,6 +25,9 @@ declare global {
 }
 
 export default function Gifts() {
+    const giftsSound = useRef<PositionalAudio>(null);
+    const buffer = useLoader(THREE.AudioLoader, './sfx/boop.wav');
+
     let [myLineGeometry, curve] = useMemo(() => {
         let points = [
             new Vector3(0, 0, 0),
@@ -48,8 +52,16 @@ export default function Gifts() {
         return [lineGeometry, new Curve(points)];
     }, []);
 
+
+    useEffect(() => {
+        if(giftsSound.current === null || giftsSound.current === undefined) return;
+
+        giftsSound.current.setBuffer(buffer);
+        giftsSound.current.setLoop(false);
+        giftsSound.current.setVolume(1);
+    }, [giftsSound.current]);
+
     let giftFactory: GiftFactory = useMemo(() => {
-        console.log(Day2CustomShapes());
         return new GiftFactory(Day2CustomShapes());
     }, []);
 
@@ -58,9 +70,18 @@ export default function Gifts() {
         let count = 10;
         for (let i = 0; i < count; i++) {
             gifts.push(
-                <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed}>
+                <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
+                    if(giftsSound.current === null || giftsSound.current === undefined){
+                        return;
+                    }
+
+                    if(giftsSound.current.isPlaying){
+                        giftsSound.current.stop();
+                    }
+                    giftsSound.current.play();
+                }}>
                     {giftFactory.getRandom()}
-                </Gift>
+                </Gift >
             );
         }
         return gifts;
@@ -72,6 +93,9 @@ export default function Gifts() {
                     <lineBasicMaterial attach="material" color="red"></lineBasicMaterial>
                 </line_>
                 {getGifts()}
+
+
+                <positionalAudio ref={giftsSound} args={[listener]} />
             </group>
         </>
     );

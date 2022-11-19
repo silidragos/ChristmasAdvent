@@ -1,15 +1,17 @@
-import {useMemo, useRef } from 'react'
-import {useGLTF } from '@react-three/drei'
+import { useEffect, useMemo, useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
 import EnergyCube from './energy-cube';
 import { GLTF } from 'three-stdlib';
-import { GroupProps, useFrame } from '@react-three/fiber';
+import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
 import { Materials, Nodes } from './3d.types';
 import Gifts from './gifts';
 import GiftsPhysics from './gifts-physics';
 import RotativePalette from '../courses/day5-physics';
 import DestinationBox from '../courses/day6-spring';
 import state from '../services/State';
-import { MeshBasicMaterial, PointLight } from 'three';
+import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
+import AudioComponent, { listener } from './audio-component';
+import * as THREE from 'three';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -20,23 +22,53 @@ export function Factory(props: GroupProps) {
   const startLight = useRef<PointLight>(null);
   const hadBattery = useRef<boolean>(false);
 
+  const factorySound = useRef<PositionalAudio>(null);
+  const hoSound = useRef<PositionalAudio>(null);
+  const ambientSound = useRef<PositionalAudio>(null);
 
   let lightMat: THREE.MeshBasicMaterial = useMemo(() => {
     return new MeshBasicMaterial({ color: 0xff0000 });
   }, [])
 
 
+  const buffer = useLoader(THREE.AudioLoader, './sfx/factory-loop.wav');
+  const hoBuffer = useLoader(THREE.AudioLoader, './sfx/ho-ho.mp3');
+  const ambientSoundBuffer = useLoader(THREE.AudioLoader, './sfx/652617__percyfrench__kitsune.mp3');
+
+
+  useEffect(() => {
+    if (ambientSound.current === null || ambientSound.current === undefined) return;
+
+    ambientSound.current.setBuffer(ambientSoundBuffer);
+    ambientSound.current.setLoop(true);
+    ambientSound.current.setVolume(.5);
+    ambientSound.current.play();
+  }, [ambientSound.current]);
 
   useFrame(() => {
     if (startLight.current === null) return;
+
     if (!hadBattery.current && state.hasBattery) {
       hadBattery.current = true;
       startLight.current.intensity = 5;
       lightMat.color.set(0x00ff00);
+
+      hoSound.current?.setBuffer(hoBuffer);
+      hoSound.current?.setLoop(false);
+      hoSound.current?.setVolume(1);
+      hoSound.current?.play();
+
+      factorySound.current?.setBuffer(buffer);
+      factorySound.current?.setLoop(true);
+      factorySound.current?.setVolume(0.5);
+      factorySound.current?.play();
+
     } else if (hadBattery.current && !state.hasBattery) {
       hadBattery.current = false;
       startLight.current.intensity = 0;
       lightMat.color.set(0xff0000);
+
+      factorySound.current?.stop();
     }
   })
 
@@ -91,6 +123,10 @@ export function Factory(props: GroupProps) {
 
       <Gifts />
       <GiftsPhysics />
+
+      <positionalAudio ref={factorySound} args={[listener]} />
+      <positionalAudio ref={hoSound} args={[listener]} />
+      <positionalAudio ref={ambientSound} args={[listener]} />
     </group>
   )
 }

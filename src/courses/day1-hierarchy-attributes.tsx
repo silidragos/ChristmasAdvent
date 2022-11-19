@@ -24,17 +24,17 @@ export default function Day1_HierarchyAndAttributes({ leftBattery, rightBattery,
     return (
         <>
             <group position={[-2.5, 1, 0]} rotation={[0, 0, 0]}>
-                <mesh ref={leftBattery} geometry={nodes.Battery.geometry} material={materials.Battery}/>
             </group>
 
             <group position={[-2.5, 1, -.5]} rotation={[-Math.PI/6, Math.PI/6.0, 0]}>
-                <mesh ref={rightBattery} geometry={nodes.Battery.geometry} material={materials.Battery}/>
             </group>
 
-            <group name="left-battery-holder" position={[-.75, 2.1, .8]}>
+            <group name="left-battery-holder" position={[-.75, 2.1, .8]} rotation={[Math.PI/2, 0 , 0]}>
+                <mesh ref={leftBattery} geometry={nodes.Battery.geometry} material={materials.Battery}/>
             </group>
             
-            <group name="right-battery-holder" position={[-.75, 2.1, -.65]}>
+            <group name="right-battery-holder" position={[-.75, 2.1, -.65]}  rotation={[Math.PI/2, 0 , 0]}>
+                <mesh ref={rightBattery} geometry={nodes.Battery.geometry} material={materials.Battery}/>
             </group>
         </>
     )
