@@ -17,12 +17,6 @@ export function Letter({ count, interval }: { count: number; interval: number; }
     }
     ));
 
-    useLayoutEffect(() => {
-        // for(let i=0; i<count; i++){
-        //     letterAPI.at(i).
-        // }
-    }, []);
-
     useEffect(()=>{
         for (let i = 0; i < count; i++) {
             if (i != currentIdx.current) {
@@ -59,7 +53,7 @@ export function Letter({ count, interval }: { count: number; interval: number; }
 
     return (
         <instancedMesh ref={letterCollider} args={[undefined, undefined, count]}>
-            <boxBufferGeometry args={[.4, 0.02, .7]} />
+            <boxGeometry args={[.4, 0.02, .7]} />
             <meshBasicMaterial color="pink"></meshBasicMaterial>
         </instancedMesh>
     )

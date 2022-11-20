@@ -22,28 +22,15 @@ export function Factory(props: GroupProps) {
   const startLight = useRef<PointLight>(null);
   const hadBattery = useRef<boolean>(false);
 
-  const factorySound = useRef<PositionalAudio>(null);
-  const hoSound = useRef<PositionalAudio>(null);
-  const ambientSound = useRef<PositionalAudio>(null);
+  let hoSound: PositionalAudio;
+  let factorySound: PositionalAudio;
 
   let lightMat: THREE.MeshBasicMaterial = useMemo(() => {
     return new MeshBasicMaterial({ color: 0xff0000 });
   }, [])
 
 
-  const buffer = useLoader(THREE.AudioLoader, './sfx/factory-loop.wav');
   const hoBuffer = useLoader(THREE.AudioLoader, './sfx/ho-ho.mp3');
-  const ambientSoundBuffer = useLoader(THREE.AudioLoader, './sfx/652617__percyfrench__kitsune.mp3');
-
-
-  useEffect(() => {
-    if (ambientSound.current === null || ambientSound.current === undefined) return;
-
-    ambientSound.current.setBuffer(ambientSoundBuffer);
-    ambientSound.current.setLoop(true);
-    ambientSound.current.setVolume(.5);
-    ambientSound.current.play();
-  }, [ambientSound.current]);
 
   useFrame(() => {
     if (startLight.current === null) return;
@@ -53,26 +40,18 @@ export function Factory(props: GroupProps) {
       startLight.current.intensity = 5;
       lightMat.color.set(0x00ff00);
 
-      hoSound.current?.setBuffer(hoBuffer);
-      hoSound.current?.setLoop(false);
-      hoSound.current?.setVolume(1);
-      hoSound.current?.play();
-
-      factorySound.current?.setBuffer(buffer);
-      factorySound.current?.setLoop(true);
-      factorySound.current?.setVolume(0.5);
-      factorySound.current?.play();
+      hoSound.play();
+      factorySound.play();
 
     } else if (hadBattery.current && !state.hasBattery) {
       hadBattery.current = false;
       startLight.current.intensity = 0;
       lightMat.color.set(0xff0000);
 
-      factorySound.current?.stop();
+      factorySound.stop();
     }
   })
 
-  console.log(process.env.PUBLIC_URL);
   const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
@@ -124,9 +103,13 @@ export function Factory(props: GroupProps) {
       <Gifts />
       <GiftsPhysics />
 
-      <positionalAudio ref={factorySound} args={[listener]} />
-      <positionalAudio ref={hoSound} args={[listener]} />
-      <positionalAudio ref={ambientSound} args={[listener]} />
+      <AudioComponent url={"./sfx/factory-loop.mp3"} volume={1} loop={true} autoplay={false} play={false} onInit={sound =>{
+        factorySound = sound;
+      }}/>
+      <AudioComponent url={"./sfx/652617__percyfrench__kitsune.mp3"}  loop={true} volume={0.25}/>
+      <AudioComponent url={"./sfx/ho-ho.mp3"} volume={1} loop={false} autoplay={false} play={false} onInit={sound =>{
+        hoSound = sound;
+      }}/>
     </group>
   )
 }

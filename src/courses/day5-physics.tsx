@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Group, PositionalAudio } from "three";
 import * as THREE from 'three';
 import { Materials, Nodes } from "../3d/3d.types";
-import { listener } from "../3d/audio-component";
+import AudioComponent, { listener, TryPlaySound } from "../3d/audio-component";
 
 /*
 Concepts:
@@ -27,23 +27,13 @@ Hints:
 
 const initialPosition = [-3, 1.55, 1.5];
 export default function RotativePalette({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
-    const paletteSound = useRef<PositionalAudio>(null);
-    const buffer = useLoader(THREE.AudioLoader, './sfx/punch.wav');
+    let paletteSound: PositionalAudio;
 
     const totalTime = useRef<number>(0);
 
     const deltaTimeInsideStep = useRef<number>(0);
     const hasPunched = useRef<boolean>(false);
     const speed = useMemo(() => { return 2.1; }, []);
-
-
-    useEffect(() => {
-        if (paletteSound.current === null || paletteSound.current === undefined) return;
-
-        paletteSound.current.setBuffer(buffer);
-        paletteSound.current.setLoop(false);
-        paletteSound.current.setVolume(1);
-    }, [paletteSound.current]);
 
     //To Write
     const [palette, physicsAPI] = useBox<Group>((idx) => ({
@@ -62,13 +52,7 @@ export default function RotativePalette({ nodes, materials }: { nodes: Nodes, ma
         deltaTimeInsideStep.current += delta * speed;
 
         if (deltaTimeInsideStep.current > Math.PI * 3.75 / 2 && !hasPunched.current) {
-            if (paletteSound.current !== null && paletteSound.current !== undefined) {
-
-                if (paletteSound.current.isPlaying) {
-                    paletteSound.current.stop();
-                }
-                paletteSound.current.play();
-            }
+            TryPlaySound(paletteSound);
             hasPunched.current = true;
         }
 
@@ -86,11 +70,13 @@ export default function RotativePalette({ nodes, materials }: { nodes: Nodes, ma
         <group>
             <group ref={palette}>
                 <mesh>
-                    <boxBufferGeometry args={[2, 1.2, .5]} attach="geometry" />
+                    <boxGeometry args={[2, 1.2, .5]} attach="geometry" />
                     <meshPhongMaterial attach="material" color="gray" specular={0xffffff} />
                 </mesh>
             </group>
-            <positionalAudio ref={paletteSound} args={[listener]} />
+            <AudioComponent url={'./sfx/punch.mp3'} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                paletteSound = sound;
+            }} />
         </group>
     );
 }

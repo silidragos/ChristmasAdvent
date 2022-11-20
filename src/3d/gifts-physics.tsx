@@ -7,7 +7,7 @@ import * as THREE from "three";
 
 import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
-import { listener } from "./audio-component";
+import AudioComponent, { listener, TryPlaySound } from "./audio-component";
 
 
 function GiftPhysics({ delay, lifetime, children, onSpawn }: { delay: number, lifetime: number, children: React.ReactNode, onSpawn: any }) {
@@ -62,8 +62,7 @@ function GiftPhysics({ delay, lifetime, children, onSpawn }: { delay: number, li
 }
 
 export default function GiftsPhysics() {
-    const giftsSound = useRef<PositionalAudio>(null);
-    const buffer = useLoader(THREE.AudioLoader, './sfx/spray.wav');
+    let giftsSound: PositionalAudio;
 
     const [floorCollider,] = useBox<InstancedMesh>((idx) => ({
         args: [12, .2, 12],
@@ -101,43 +100,27 @@ export default function GiftsPhysics() {
 
         return new ElementFactory([
             <mesh>
-                <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
+                <boxGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
                 {texFactory.getRandom()}
             </mesh>,
             <mesh>
-                <sphereBufferGeometry args={[0.2, 8, 8]} attach="geometry" />
+                <sphereGeometry args={[0.2, 8, 8]} attach="geometry" />
                 {texFactory.getRandom()}
             </mesh>,
             <mesh>
-                <torusKnotBufferGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
+                <torusGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
                 {texFactory.getRandom()}
             </mesh>,
         ]);
     }, []);
-
-    useEffect(() => {
-        if (giftsSound.current === null || giftsSound.current === undefined) return;
-
-        console.log(giftsSound.current);
-        giftsSound.current.setBuffer(buffer);
-        giftsSound.current.setLoop(false);
-        giftsSound.current.setVolume(1);
-    }, [giftsSound.current]);
 
     const getGifts = function () {
         let gifts = [];
         const giftNumber = 5;
         for (let i = 0; i < giftNumber; i++) {
             gifts.push(
-                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber} onSpawn={()=>{
-                    if(giftsSound.current === null || giftsSound.current === undefined){
-                        return;
-                    }
-
-                    if(giftsSound.current.isPlaying){
-                        giftsSound.current.stop();
-                    }
-                    giftsSound.current.play();
+                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber} onSpawn={() => {
+                    TryPlaySound(giftsSound);
                 }}>
                     {giftFactory.getRandom()}
                 </GiftPhysics>
@@ -149,7 +132,9 @@ export default function GiftsPhysics() {
     return (
         <group>
             {getGifts()}
-            <positionalAudio ref={giftsSound} args={[listener]} />
+            <AudioComponent url={"./sfx/spray.mp3"} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                giftsSound = sound;
+            }} />
         </group>
     );
 }

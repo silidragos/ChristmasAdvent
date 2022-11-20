@@ -9,7 +9,7 @@ import { Materials, Nodes } from "../3d/3d.types";
 
 import myFont from '../fonts/Mountains of Christmas_Bold.json';
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { listener } from "../3d/audio-component";
+import AudioComponent, { listener, TryPlaySound } from "../3d/audio-component";
 
 
 /*
@@ -33,16 +33,7 @@ declare global {
 }
 
 export default function DestinationBox({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
-    const magicSound = useRef<PositionalAudio>(null);
-    const buffer = useLoader(THREE.AudioLoader, './sfx/magic.wav');
-    
-    useEffect(() => {
-        if (magicSound.current === null || magicSound.current === undefined) return;
-
-        magicSound.current.setBuffer(buffer);
-        magicSound.current.setLoop(false);
-        magicSound.current.setVolume(1);
-    }, [magicSound.current]);
+    let magicSound: PositionalAudio;
 
     const font = new FontLoader().parse(myFont);
     let numberOfGifts = useRef(0);
@@ -54,12 +45,7 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
         mass: 0,
         isTrigger: true,
         onCollide: (evt) => {
-            if(magicSound.current !== null && magicSound.current !== undefined){
-                if (magicSound.current.isPlaying) {
-                    magicSound.current.stop();
-                }
-                magicSound.current.play();
-            }
+           TryPlaySound(magicSound);
             
             numberOfGifts.current++;
             //To Write
@@ -94,7 +80,9 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
                 </animated.group>
                 {/* <animated.mesh position={styles.position} rotation={styles.rotation} geometry={nodes.DestinationText.geometry} material={materials.Green} scale={0.55} /> */}
             </group>
-            <positionalAudio ref={magicSound} args={[listener]} />
+            <AudioComponent url={'./sfx/magic.mp3'} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                magicSound = sound;
+            }} />
         </group>
     );
 

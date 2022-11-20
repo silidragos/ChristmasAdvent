@@ -9,7 +9,7 @@ import Day2CustomShapes from "../courses/day2-custom-shapes";
 import Gift from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
-import { listener } from "./audio-component";
+import AudioComponent, { listener, TryPlaySound } from "./audio-component";
 
 const giftSpeed = 0.05;
 
@@ -25,8 +25,7 @@ declare global {
 }
 
 export default function Gifts() {
-    const giftsSound = useRef<PositionalAudio>(null);
-    const buffer = useLoader(THREE.AudioLoader, './sfx/boop.wav');
+    let  giftsSound: PositionalAudio;
 
     let [myLineGeometry, curve] = useMemo(() => {
         let points = [
@@ -52,15 +51,6 @@ export default function Gifts() {
         return [lineGeometry, new Curve(points)];
     }, []);
 
-
-    useEffect(() => {
-        if(giftsSound.current === null || giftsSound.current === undefined) return;
-
-        giftsSound.current.setBuffer(buffer);
-        giftsSound.current.setLoop(false);
-        giftsSound.current.setVolume(1);
-    }, [giftsSound.current]);
-
     let giftFactory: GiftFactory = useMemo(() => {
         return new GiftFactory(Day2CustomShapes());
     }, []);
@@ -71,14 +61,7 @@ export default function Gifts() {
         for (let i = 0; i < count; i++) {
             gifts.push(
                 <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
-                    if(giftsSound.current === null || giftsSound.current === undefined){
-                        return;
-                    }
-
-                    if(giftsSound.current.isPlaying){
-                        giftsSound.current.stop();
-                    }
-                    giftsSound.current.play();
+                    TryPlaySound(giftsSound);
                 }}>
                     {giftFactory.getRandom()}
                 </Gift >
@@ -94,8 +77,9 @@ export default function Gifts() {
                 </line_>
                 {getGifts()}
 
-
-                <positionalAudio ref={giftsSound} args={[listener]} />
+                <AudioComponent url={"./sfx/boop.mp3"} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                    giftsSound = sound;
+                }} />
             </group>
         </>
     );
