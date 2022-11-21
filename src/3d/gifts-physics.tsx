@@ -8,6 +8,8 @@ import * as THREE from "three";
 import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
+import Day2_CustomShapes from "../courses/day2-custom-shapes";
+import { Test4, Test4Passed } from "../services/TestingService";
 
 
 function GiftPhysics({ delay, lifetime, children, onSpawn }: { delay: number, lifetime: number, children: React.ReactNode, onSpawn: any }) {
@@ -98,20 +100,24 @@ export default function GiftsPhysics() {
     let giftFactory: ElementFactory = useMemo(() => {
         if (texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
 
-        return new ElementFactory([
-            <mesh>
-                <boxGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
-                {texFactory.getRandom()}
-            </mesh>,
-            <mesh>
-                <sphereGeometry args={[0.2, 8, 8]} attach="geometry" />
-                {texFactory.getRandom()}
-            </mesh>,
-            <mesh>
-                <torusGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
-                {texFactory.getRandom()}
-            </mesh>,
-        ]);
+        let elements = Day2_CustomShapes();
+
+        let meshes = [];
+
+        Test4(texFactory.getAll());
+
+        if (Test4Passed()) {
+            for (let i = 0; i < elements.length; i++) {
+                meshes.push(
+                    <mesh>
+                        {elements[i].props.children}
+                        {texFactory.getAll()[i]}
+                    </mesh>
+                )
+            }
+        }
+
+        return new ElementFactory(meshes);
     }, []);
 
     const getGifts = function () {

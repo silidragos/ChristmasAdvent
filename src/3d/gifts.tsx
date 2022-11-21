@@ -10,6 +10,7 @@ import Gift from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
+import { Test2, Test2Passed } from "../services/TestingService";
 
 const giftSpeed = 0.05;
 
@@ -25,7 +26,7 @@ declare global {
 }
 
 export default function Gifts() {
-    let  giftsSound: PositionalAudio;
+    let giftsSound: PositionalAudio;
 
     let [myLineGeometry, curve] = useMemo(() => {
         let points = [
@@ -58,14 +59,18 @@ export default function Gifts() {
     const getGifts = function () {
         let gifts: any[] = [];
         let count = 10;
-        for (let i = 0; i < count; i++) {
-            gifts.push(
-                <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
-                    TryPlaySound(giftsSound);
-                }}>
-                    {giftFactory.getRandom()}
-                </Gift >
-            );
+        Test2(giftFactory.getAll());
+
+        if (Test2Passed()) {
+            for (let i = 0; i < count; i++) {
+                gifts.push(
+                    <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
+                        TryPlaySound(giftsSound);
+                    }}>
+                        {giftFactory.getRandom()}
+                    </Gift >
+                );
+            }
         }
         return gifts;
     }

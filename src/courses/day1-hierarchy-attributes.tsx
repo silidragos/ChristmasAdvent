@@ -33,7 +33,7 @@ export default function Day1_HierarchyAndAttributes({ leftBattery, rightBattery,
                 <mesh ref={leftBattery} geometry={nodes.Battery.geometry} material={materials.Battery}/>
             </group>
             
-            <group name="right-battery-holder" position={[-.75, 2.1, -.65]}  rotation={[Math.PI/2, 0 , 0]}>
+            <group name="right-battery-holder" position={[-.75, 2.1, -.65]}  rotation={[-Math.PI/2, 0 , 0]}>
                 <mesh ref={rightBattery} geometry={nodes.Battery.geometry} material={materials.Battery}/>
             </group>
         </>

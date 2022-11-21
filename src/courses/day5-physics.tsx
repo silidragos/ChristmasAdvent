@@ -5,6 +5,8 @@ import { Group, PositionalAudio } from "three";
 import * as THREE from 'three';
 import { Materials, Nodes } from "../3d/3d.types";
 import AudioComponent, { listener, TryPlaySound } from "../3d/audio-component";
+import { Test4, Test5, Test5Passed } from "../services/TestingService";
+import { off } from "process";
 
 /*
 Concepts:
@@ -24,6 +26,11 @@ Hints:
     - Position.set
     - Math.Sin() is a great come and go function
  */
+
+
+function PaletteMoveFunction(totalTime: number, speed: number) {
+    return Math.sin(totalTime * speed);
+}
 
 const initialPosition = [-3, 1.55, 1.5];
 export default function RotativePalette({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
@@ -51,19 +58,22 @@ export default function RotativePalette({ nodes, materials }: { nodes: Nodes, ma
         totalTime.current += delta;
         deltaTimeInsideStep.current += delta * speed;
 
-        if (deltaTimeInsideStep.current > Math.PI * 3.75 / 2 && !hasPunched.current) {
-            TryPlaySound(paletteSound);
-            hasPunched.current = true;
+        let offset = PaletteMoveFunction(totalTime.current, speed);
+        Test5(totalTime.current, offset);
+
+        if (Test5Passed()) {
+            if (deltaTimeInsideStep.current > Math.PI * 3.75 / 2 && !hasPunched.current) {
+                TryPlaySound(paletteSound);
+                hasPunched.current = true;
+            }
+
+            if (deltaTimeInsideStep.current > Math.PI * 2) {
+                hasPunched.current = false;
+                deltaTimeInsideStep.current = 0;
+            }
+            //To Write?
+            physicsAPI.position.set(initialPosition[0], initialPosition[1], initialPosition[2] + PaletteMoveFunction(totalTime.current, speed));
         }
-
-        if (deltaTimeInsideStep.current > Math.PI * 2) {
-            hasPunched.current = false;
-            deltaTimeInsideStep.current = 0;
-        }
-
-
-        //To Write?
-        physicsAPI.position.set(initialPosition[0], initialPosition[1], initialPosition[2] + Math.sin(totalTime.current * speed) * 1);
     });
 
     return (
