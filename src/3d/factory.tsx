@@ -8,10 +8,10 @@ import Gifts from './gifts';
 import GiftsPhysics from './gifts-physics';
 import RotativePalette from '../courses/day5-physics';
 import DestinationBox from '../courses/day6-spring';
-import state from '../services/State';
 import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
 import AudioComponent, { listener } from './audio-component';
 import * as THREE from 'three';
+import { Test1Passed } from '../services/TestingService';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -30,12 +30,11 @@ export function Factory(props: GroupProps) {
   }, [])
 
 
-  const hoBuffer = useLoader(THREE.AudioLoader, './sfx/ho-ho.mp3');
-
   useFrame(() => {
     if (startLight.current === null) return;
 
-    if (!hadBattery.current && state.hasBattery) {
+    let test1Passed : boolean = Test1Passed();
+    if (!hadBattery.current && test1Passed) {
       hadBattery.current = true;
       startLight.current.intensity = 5;
       lightMat.color.set(0x00ff00);
@@ -43,7 +42,7 @@ export function Factory(props: GroupProps) {
       hoSound.play();
       factorySound.play();
 
-    } else if (hadBattery.current && !state.hasBattery) {
+    } else if (hadBattery.current && !test1Passed) {
       hadBattery.current = false;
       startLight.current.intensity = 0;
       lightMat.color.set(0xff0000);

@@ -5,7 +5,6 @@ import { Debug, Physics } from '@react-three/cannon';
 import { Factory } from './3d/factory';
 
 import './App.css';
-import state from './services/State';
 
 export default function App() {
   return (
