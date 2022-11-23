@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
-import { Ref, useEffect, useRef } from "react";
-import { Vector3, Mesh, Quaternion, Euler } from "three";
+import { useEffect, useRef } from "react";
+import { Vector3, Mesh } from "three";
 import HierarchyDay1 from "../courses/day1-hierarchy-attributes";
 import { Materials, Nodes } from "./3d.types";
 import { Test1, Test1Passed } from "../services/TestingService";

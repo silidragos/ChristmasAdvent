@@ -78,7 +78,6 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
                         <meshLambertMaterial color="green"></meshLambertMaterial>
                     </mesh>
                 </animated.group>
-                {/* <animated.mesh position={styles.position} rotation={styles.rotation} geometry={nodes.DestinationText.geometry} material={materials.Green} scale={0.55} /> */}
             </group>
             <AudioComponent url={'./sfx/magic.mp3'} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
                 magicSound = sound;

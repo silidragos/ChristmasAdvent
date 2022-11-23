@@ -1,6 +1,6 @@
-import { Debug, useBox } from "@react-three/cannon";
+import { useBox } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef, useLayoutEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { InstancedMesh } from "three";
 
 export function Letter({ count, interval }: { count: number; interval: number; }) {

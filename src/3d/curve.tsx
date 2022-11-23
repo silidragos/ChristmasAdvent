@@ -19,7 +19,6 @@ export default class Curve{
         
         let from = this.points[fromIdx].clone();
         let to = this.points[toIdx].clone();
-        // console.log(x + ", " + fromIdx + ", " + toIdx + ", " + fromInfluence + ", " + toInfluence);
         let result =  from.multiplyScalar(fromInfluence).add
         (to.multiplyScalar(toInfluence));
         return result;
