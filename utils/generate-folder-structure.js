@@ -10,7 +10,11 @@ run();
 
 async function run() {
   const FOLDER_PATH = 'src';
+
+  const packageJSONStructure = await getPackageJSONStructure();
   const result = await createFolderStructure('', FOLDER_PATH);
+
+  result.files.push(packageJSONStructure);
 
   fs.promises.writeFile(`${__dirname}/result.txt`, JSON.stringify(result));
   console.log("Written result in result.txt");
@@ -56,5 +60,14 @@ async function createFolderStructure(folderName, folderPath) {
   }
   catch (err) {
     console.error("Something went wrong!", err);
+  }
+}
+
+async function getPackageJSONStructure() {
+  const packageJSONContent = await fs.promises.readFile(`${__dirname}/../package.json`, "utf-8");
+  return {
+    key: uuid(),
+    name: 'package.json',
+    content: packageJSONContent
   }
 }
