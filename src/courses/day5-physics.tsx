@@ -7,6 +7,7 @@ import { Materials, Nodes } from "../3d/3d.types";
 import AudioComponent, { listener, TryPlaySound } from "../3d/audio-component";
 import { Test4, Test5, Test5Passed } from "../services/TestingService";
 import { off } from "process";
+import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
 /*
 Concepts:
@@ -84,7 +85,7 @@ export default function RotativePalette({ nodes, materials }: { nodes: Nodes, ma
                     <meshPhongMaterial attach="material" color="gray" specular={0xffffff} />
                 </mesh>
             </group>
-            <AudioComponent url={'./sfx/punch.mp3'} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+            <AudioComponent url={`${AUDIO_PUBLIC_URL}/punch.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
                 paletteSound = sound;
             }} />
         </group>

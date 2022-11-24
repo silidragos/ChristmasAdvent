@@ -12,6 +12,7 @@ import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
 import AudioComponent, { listener } from './audio-component';
 import * as THREE from 'three';
 import { Test1Passed } from '../services/TestingService';
+import { AUDIO_PUBLIC_URL, PUBLIC_URL } from '../services/Constants';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -51,7 +52,7 @@ export function Factory(props: GroupProps) {
     }
   })
 
-  const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF(PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
 
@@ -102,15 +103,15 @@ export function Factory(props: GroupProps) {
       <Gifts />
       <GiftsPhysics />
 
-      <AudioComponent url={"./sfx/factory-loop.mp3"} volume={1} loop={true} autoplay={false} play={false} onInit={sound =>{
+      <AudioComponent url={`${AUDIO_PUBLIC_URL}/factory-loop.mp3`} volume={1} loop={true} autoplay={false} play={false} onInit={sound =>{
         factorySound = sound;
       }}/>
-      <AudioComponent url={"./sfx/652617__percyfrench__kitsune.mp3"}  loop={true} volume={0.25}/>
-      <AudioComponent url={"./sfx/ho-ho.mp3"} volume={1} loop={false} autoplay={false} play={false} onInit={sound =>{
+      <AudioComponent url={`${AUDIO_PUBLIC_URL}/652617__percyfrench__kitsune.mp3`}  loop={true} volume={0.25}/>
+      <AudioComponent url={`${AUDIO_PUBLIC_URL}/ho-ho.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound =>{
         hoSound = sound;
       }}/>
     </group>
   )
 }
 
-useGLTF.preload(process.env.PUBLIC_URL + './gltf/scene.glb')
+useGLTF.preload(PUBLIC_URL + '/gltf/scene.glb')

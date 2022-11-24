@@ -10,6 +10,7 @@ import ElementFactory from "../services/ElementsFactory";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import { Test4, Test4Passed } from "../services/TestingService";
+import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
 
 function GiftPhysics({ delay, lifetime, children, onSpawn }: { delay: number, lifetime: number, children: React.ReactNode, onSpawn: any }) {
@@ -138,7 +139,7 @@ export default function GiftsPhysics() {
     return (
         <group>
             {getGifts()}
-            <AudioComponent url={"./sfx/spray.mp3"} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+            <AudioComponent url={`${AUDIO_PUBLIC_URL}/spray.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
                 giftsSound = sound;
             }} />
         </group>

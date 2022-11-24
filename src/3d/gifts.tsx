@@ -11,6 +11,7 @@ import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
 import { Test2, Test2Passed } from "../services/TestingService";
+import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
 const giftSpeed = 0.05;
 
@@ -82,7 +83,7 @@ export default function Gifts() {
                 </line_>
                 {getGifts()}
 
-                <AudioComponent url={"./sfx/boop.mp3"} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                <AudioComponent url={`${AUDIO_PUBLIC_URL}/boop.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
                     giftsSound = sound;
                 }} />
             </group>
