@@ -11,7 +11,8 @@ import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
 import { Test2, Test2Passed } from "../services/TestingService";
-import { AUDIO_PUBLIC_URL } from "../services/Constants";
+import { AUDIO_PUBLIC_URL, WINDOW_EVENTS } from "../services/Constants";
+import { useWindowEvent, WindowMessage, emitWindowEvent } from "../services/WindowEvents";
 
 const giftSpeed = 0.05;
 
@@ -87,6 +88,25 @@ export default function Gifts() {
                     giftsSound = sound;
                 }} />
             </group>
+            <Test2Component giftFactory={giftFactory} />
         </>
     );
+}
+
+const Test2Component = ({ giftFactory }: { giftFactory: GiftFactory }) => {
+    const onMessage = (message: WindowMessage) => {
+        const didTest2Pass = Test2Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_2_RESULT,
+            payload: {
+                status: didTest2Pass,
+                reason: 'Unknown yet'
+            }
+        });
+     
+        console.log(didTest2Pass);
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
+    return null;
 }
