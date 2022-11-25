@@ -5,7 +5,7 @@ import * as THREE from "three";
 import GiftFactory from "../services/ElementsFactory";
 import Curve from "./curve";
 
-import Day2CustomShapes from "../courses/day2-custom-shapes";
+import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import Gift from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
@@ -55,7 +55,7 @@ export default function Gifts() {
     }, []);
 
     let giftFactory: GiftFactory = useMemo(() => {
-        return new GiftFactory(Day2CustomShapes());
+        return new GiftFactory(Day2_CustomShapes());
     }, []);
 
     const getGifts = function () {
