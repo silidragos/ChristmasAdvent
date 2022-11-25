@@ -101,7 +101,7 @@ export default function GiftsPhysics() {
     let giftFactory: ElementFactory = useMemo(() => {
         if (texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
 
-        let elements = Day2_CustomShapes();
+        let elements = Day2_CustomShapes;
 
         let meshes = [];
 

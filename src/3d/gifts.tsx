@@ -55,7 +55,7 @@ export default function Gifts() {
     }, []);
 
     let giftFactory: GiftFactory = useMemo(() => {
-        return new GiftFactory(Day2_CustomShapes());
+        return new GiftFactory(Day2_CustomShapes);
     }, []);
 
     const getGifts = function () {
