@@ -100,7 +100,7 @@ const Test2Component = ({ giftFactory }: { giftFactory: GiftFactory }) => {
             type: WINDOW_EVENTS.TEST_2_RESULT,
             payload: {
                 status: didTest2Pass,
-                reason: 'Unknown yet'
+                reason: 'Test failed. Reason TBD'
             }
         });
      
