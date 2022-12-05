@@ -44,7 +44,7 @@ export default function RotativePalette({ nodes, materials }: { nodes: Nodes, ma
         totalTime.current += delta;
 
         //To Write?
-        physicsAPI.position.set(initialPosition[0], initialPosition[1],initialPosition[2] + Math.sin(totalTime.current * speed) * 1);
+        // physicsAPI.position.set(initialPosition[0], initialPosition[1],initialPosition[2] + Math.sin(totalTime.current * speed) * 1);
     });
 
     return (
