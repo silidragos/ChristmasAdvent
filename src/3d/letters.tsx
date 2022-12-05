@@ -1,6 +1,6 @@
-import { Debug, useBox } from "@react-three/cannon";
+import { useBox } from "@react-three/cannon";
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef, useLayoutEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { InstancedMesh } from "three";
 
 export function Letter({ count, interval }: { count: number; interval: number; }) {
@@ -16,12 +16,6 @@ export function Letter({ count, interval }: { count: number; interval: number; }
         mass: 1
     }
     ));
-
-    useLayoutEffect(() => {
-        // for(let i=0; i<count; i++){
-        //     letterAPI.at(i).
-        // }
-    }, []);
 
     useEffect(()=>{
         for (let i = 0; i < count; i++) {
@@ -59,7 +53,7 @@ export function Letter({ count, interval }: { count: number; interval: number; }
 
     return (
         <instancedMesh ref={letterCollider} args={[undefined, undefined, count]}>
-            <boxBufferGeometry args={[.4, 0.02, .7]} />
+            <boxGeometry args={[.4, 0.02, .7]} />
             <meshBasicMaterial color="pink"></meshBasicMaterial>
         </instancedMesh>
     )

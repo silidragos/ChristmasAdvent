@@ -7,4 +7,8 @@ export default class ElementsFactory{
     public getRandom(){
         return this.elements[Math.floor(Math.random() * this.elements.length)];
     }
+
+    public getAll(){
+        return this.elements;
+    }
 }

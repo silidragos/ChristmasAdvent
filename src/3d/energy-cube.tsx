@@ -1,17 +1,9 @@
 import { useFrame } from "@react-three/fiber";
-import { Ref, useEffect, useRef } from "react";
-import { Vector3, Mesh, Quaternion, Euler } from "three";
+import { useEffect, useRef } from "react";
+import { Vector3, Mesh } from "three";
 import HierarchyDay1 from "../courses/day1-hierarchy-attributes";
 import { Materials, Nodes } from "./3d.types";
-import state from "../services/State";
-
-function GetWorldRotation(mesh: Mesh): Euler {
-    const quatRot = new Quaternion();
-    mesh.getWorldQuaternion(quatRot);
-    let eulerRot = new Euler().setFromQuaternion(quatRot);
-    return eulerRot;
-    //leftBatteryRotationInEuler = 180  / Math.PI * leftBatteryRotationInEuler.x;
-}
+import { Test1, Test1Passed } from "../services/TestingService";
 
 export default function EnergyCube({
     nodes,
@@ -35,28 +27,10 @@ export default function EnergyCube({
             leftBattery.current === null || rightBattery.current === null) {
             return;
         }
-        const leftBatteryWorldPos = new Vector3();
-        leftBattery.current.getWorldPosition(leftBatteryWorldPos);
-        const leftBatteryDistance = leftBatteryWorldPos.distanceTo(new Vector3(-0.75, 2.1, 0.8));
 
-        const leftBatteryRotation = GetWorldRotation(leftBattery.current);
-        const isLeftBatteryInCorrectRotation = Math.abs(leftBatteryRotation.x - Math.PI / 2.0) < 0.1 &&
-            Math.abs(leftBatteryRotation.y) < 0.1 &&
-            Math.abs(leftBatteryRotation.z) < 0.1;
+        Test1(leftBattery.current, rightBattery.current);
 
-        const rightBatteryWorldPos = new Vector3();
-        rightBattery.current.getWorldPosition(rightBatteryWorldPos);
-        const rightBatteryDistance = rightBatteryWorldPos.distanceTo(new Vector3(-0.75, 2.1, -.65));
-
-        const rightBatteryRotation = GetWorldRotation(rightBattery.current);
-        const isRightBatteryInCorrectRotation = Math.abs(rightBatteryRotation.x - Math.PI/2) < 0.1 &&
-            Math.abs(rightBatteryRotation.y) < 0.1 &&
-            Math.abs(rightBatteryRotation.z) < 0.1;
-
-        //@ts-ignore
-        state.hasBattery = leftBatteryDistance < 0.1 && rightBatteryDistance < 0.1 && isLeftBatteryInCorrectRotation && isRightBatteryInCorrectRotation;
-        if (state.hasBattery) {
-
+        if (Test1Passed()) {
             let newPos = new Vector3();
             newPos.addVectors(new Vector3(Math.random(), Math.random(), Math.random()).multiplyScalar(0.2), batteryCoreMainPosition.current);
             batteryCore.current.position.set(newPos.x, newPos.y, newPos.z);

@@ -1,15 +1,18 @@
-import {useMemo, useRef } from 'react'
-import {useGLTF } from '@react-three/drei'
+import { useEffect, useMemo, useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
 import EnergyCube from './energy-cube';
 import { GLTF } from 'three-stdlib';
-import { GroupProps, useFrame } from '@react-three/fiber';
+import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
 import { Materials, Nodes } from './3d.types';
 import Gifts from './gifts';
 import GiftsPhysics from './gifts-physics';
 import RotativePalette from '../courses/day5-physics';
 import DestinationBox from '../courses/day6-spring';
-import state from '../services/State';
-import { MeshBasicMaterial, PointLight } from 'three';
+import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
+import AudioComponent, { listener } from './audio-component';
+import * as THREE from 'three';
+import { Test1Passed } from '../services/TestingService';
+import { AUDIO_PUBLIC_URL, PUBLIC_URL } from '../services/Constants';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
@@ -20,28 +23,36 @@ export function Factory(props: GroupProps) {
   const startLight = useRef<PointLight>(null);
   const hadBattery = useRef<boolean>(false);
 
+  let hoSound: PositionalAudio;
+  let factorySound: PositionalAudio;
 
   let lightMat: THREE.MeshBasicMaterial = useMemo(() => {
     return new MeshBasicMaterial({ color: 0xff0000 });
   }, [])
 
 
-
   useFrame(() => {
     if (startLight.current === null) return;
-    if (!hadBattery.current && state.hasBattery) {
+
+    let test1Passed : boolean = Test1Passed();
+    if (!hadBattery.current && test1Passed) {
       hadBattery.current = true;
       startLight.current.intensity = 5;
       lightMat.color.set(0x00ff00);
-    } else if (hadBattery.current && !state.hasBattery) {
+
+      hoSound.play();
+      factorySound.play();
+
+    } else if (hadBattery.current && !test1Passed) {
       hadBattery.current = false;
       startLight.current.intensity = 0;
       lightMat.color.set(0xff0000);
+
+      factorySound.stop();
     }
   })
 
-  console.log(process.env.PUBLIC_URL);
-  const { nodes, materials } = useGLTF(process.env.PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF(PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
 
@@ -91,8 +102,16 @@ export function Factory(props: GroupProps) {
 
       <Gifts />
       <GiftsPhysics />
+
+      <AudioComponent url={`${AUDIO_PUBLIC_URL}/factory-loop.mp3`} volume={1} loop={true} autoplay={false} play={false} onInit={sound =>{
+        factorySound = sound;
+      }}/>
+      <AudioComponent url={`${AUDIO_PUBLIC_URL}/652617__percyfrench__kitsune.mp3`}  loop={true} volume={0.25}/>
+      <AudioComponent url={`${AUDIO_PUBLIC_URL}/ho-ho.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound =>{
+        hoSound = sound;
+      }}/>
     </group>
   )
 }
 
-useGLTF.preload(process.env.PUBLIC_URL + './gltf/scene.glb')
+useGLTF.preload(PUBLIC_URL + '/gltf/scene.glb')

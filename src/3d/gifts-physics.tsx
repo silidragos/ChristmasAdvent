@@ -1,14 +1,19 @@
 import { useBox, useCylinder } from "@react-three/cannon";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
-import { Group, InstancedMesh, Mesh } from "three";
+import { Group, InstancedMesh, Mesh, PositionalAudio } from "three";
 import { factory } from "typescript";
+import * as THREE from "three";
 
 import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
+import AudioComponent, { listener, TryPlaySound } from "./audio-component";
+import Day2_CustomShapes from "../courses/day2-custom-shapes";
+import { Test4, Test4Passed } from "../services/TestingService";
+import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
 
-function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: number, children: React.ReactNode }) {
+function GiftPhysics({ delay, lifetime, children, onSpawn }: { delay: number, lifetime: number, children: React.ReactNode, onSpawn: any }) {
     const mesh = useRef<Group>(null);
 
     const [gift, physicsAPI] = useBox<Group>((idx) => ({
@@ -30,20 +35,24 @@ function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: n
         setTimeout(() => {
             if (mesh.current !== null) {
                 mesh.current.visible = true;
+
                 physicsAPI.wakeUp();
                 physicsAPI.position.set(0, 1.25, 2);
                 physicsAPI.mass.set(1);
                 physicsAPI.velocity.set(-1, 0, 0);
+                onSpawn();
 
                 setInterval(() => {
                     physicsAPI.position.set(0, 1.25, 2);
                     physicsAPI.mass.set(1);
                     physicsAPI.velocity.set(-1, 0, 0);
+                    onSpawn();
                 }, lifetime)
             }
         }, delay);
 
     }, [mesh.current])
+
     useFrame(() => {
     })
     return (
@@ -56,6 +65,8 @@ function GiftPhysics({ delay, lifetime, children }: { delay: number, lifetime: n
 }
 
 export default function GiftsPhysics() {
+    let giftsSound: PositionalAudio;
+
     const [floorCollider,] = useBox<InstancedMesh>((idx) => ({
         args: [12, .2, 12],
         position: [-2, 0, 3],
@@ -83,27 +94,31 @@ export default function GiftsPhysics() {
     ));
 
 
-    let texFactory: ElementFactory = useMemo(()=>{
+    let texFactory: ElementFactory = useMemo(() => {
         return new ElementFactory(Day4_Texturing());
-    },[]);
+    }, []);
 
     let giftFactory: ElementFactory = useMemo(() => {
-        if(texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
+        if (texFactory.elements === undefined || texFactory.elements.length === 0) return new ElementFactory([]);
 
-        return new ElementFactory([
-            <mesh>
-                <boxBufferGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
-                {texFactory.getRandom()}
-            </mesh>,
-            <mesh>
-                <sphereBufferGeometry args={[0.2, 8, 8]} attach="geometry" />
-                {texFactory.getRandom()}
-            </mesh>,
-            <mesh>
-                <torusKnotBufferGeometry args={[0.1, 0.05, 24, 6]} attach="geometry" />
-                {texFactory.getRandom()}
-            </mesh>,
-        ]);
+        let elements = Day2_CustomShapes;
+
+        let meshes = [];
+
+        Test4(texFactory.getAll());
+
+        if (Test4Passed()) {
+            for (let i = 0; i < elements.length; i++) {
+                meshes.push(
+                    <mesh>
+                        {elements[i].props.children}
+                        {texFactory.getAll()[i]}
+                    </mesh>
+                )
+            }
+        }
+
+        return new ElementFactory(meshes);
     }, []);
 
     const getGifts = function () {
@@ -111,7 +126,9 @@ export default function GiftsPhysics() {
         const giftNumber = 5;
         for (let i = 0; i < giftNumber; i++) {
             gifts.push(
-                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber}>
+                <GiftPhysics key={i} delay={3000 * i} lifetime={3000 * giftNumber} onSpawn={() => {
+                    TryPlaySound(giftsSound);
+                }}>
                     {giftFactory.getRandom()}
                 </GiftPhysics>
             )
@@ -122,6 +139,9 @@ export default function GiftsPhysics() {
     return (
         <group>
             {getGifts()}
+            <AudioComponent url={`${AUDIO_PUBLIC_URL}/spray.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                giftsSound = sound;
+            }} />
         </group>
     );
 }

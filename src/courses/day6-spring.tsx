@@ -1,13 +1,15 @@
 import { useBox } from "@react-three/cannon";
 import { useSpring, config, animated } from '@react-spring/three';
 import { useEffect, useRef, useState } from "react";
-import { Group, Mesh } from "three";
-import { extend, ReactThreeFiber } from "@react-three/fiber";
+import { Group, Mesh, PositionalAudio } from "three";
+import * as THREE from 'three';
+import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Materials, Nodes } from "../3d/3d.types";
 
-import myFont from '../fonts/Mountains of Christmas_Bold.json';
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import AudioComponent, { listener, TryPlaySound } from "../3d/audio-component";
+import { AUDIO_PUBLIC_URL, PUBLIC_URL } from "../services/Constants";
 
 
 /*
@@ -31,7 +33,24 @@ declare global {
 }
 
 export default function DestinationBox({ nodes, materials }: { nodes: Nodes, materials: Materials }) {
-    const font = new FontLoader().parse(myFont);
+    const [didLoadFont, setDidLoadFont] = useState(false);
+    const fontRef = useRef<Font | null>(null);
+
+    let magicSound: PositionalAudio;
+
+    useEffect(() => {
+        loadFont();
+    }, []);
+
+    const loadFont = async () => {
+        const resp = await fetch(`${PUBLIC_URL}/fonts/Mountains_of_Christmas_Bold.json`);
+        const fontJson = await resp.json();
+
+        fontRef.current = new FontLoader().parse(fontJson);
+        setDidLoadFont(true);
+    }
+
+    
     let numberOfGifts = useRef(0);
 
     const [boxCollider,] = useBox<Group>((idx) => ({
@@ -41,6 +60,8 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
         mass: 0,
         isTrigger: true,
         onCollide: (evt) => {
+           TryPlaySound(magicSound);
+            
             numberOfGifts.current++;
             //To Write
             springAPI.start({
@@ -60,6 +81,7 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
             config: config.slow,
         }
     ));
+
     return (
         <group>
             <mesh geometry={nodes.EndBucket.geometry} material={materials.Red} position={[-3.64, 0.64, 3.83]} rotation={[-Math.PI / 2, 0, 0]} scale={0.44} />
@@ -68,12 +90,16 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
                 {/* @ts-ignore */}
                 <animated.group position={styles.position} rotation={styles.rotation}>
                     <mesh position={[1, 0, 0]} rotation={[0, Math.PI, 0]}>
-                        <textGeometry args={["Good Children", { font: font, size: .5, height: .2 }]}></textGeometry>
+                        {(didLoadFont && fontRef.current) && (
+                            <textGeometry args={["Good Children", { font: fontRef.current, size: .5, height: .2 }]}></textGeometry>
+                        )}
                         <meshLambertMaterial color="green"></meshLambertMaterial>
                     </mesh>
                 </animated.group>
-                {/* <animated.mesh position={styles.position} rotation={styles.rotation} geometry={nodes.DestinationText.geometry} material={materials.Green} scale={0.55} /> */}
             </group>
+            <AudioComponent url={`${AUDIO_PUBLIC_URL}/magic.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                magicSound = sound;
+            }} />
         </group>
     );
 

@@ -1,14 +1,18 @@
-import { useMemo } from "react";
-import { Vector3, BufferGeometry } from "three";
+import { useEffect, useMemo, useRef } from "react";
+import { Vector3, BufferGeometry, PositionalAudio } from "three";
 import * as THREE from "three";
 
 import GiftFactory from "../services/ElementsFactory";
 import Curve from "./curve";
 
-import Day2CustomShapes from "../courses/day2-custom-shapes";
+import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import Gift from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
-import { extend, ReactThreeFiber } from "@react-three/fiber";
+import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
+import AudioComponent, { listener, TryPlaySound } from "./audio-component";
+import { Test2, Test2Passed } from "../services/TestingService";
+import { AUDIO_PUBLIC_URL, WINDOW_EVENTS } from "../services/Constants";
+import { useWindowEvent, WindowMessage, emitWindowEvent } from "../services/WindowEvents";
 
 const giftSpeed = 0.05;
 
@@ -24,6 +28,8 @@ declare global {
 }
 
 export default function Gifts() {
+    let giftsSound: PositionalAudio;
+
     let [myLineGeometry, curve] = useMemo(() => {
         let points = [
             new Vector3(0, 0, 0),
@@ -49,19 +55,24 @@ export default function Gifts() {
     }, []);
 
     let giftFactory: GiftFactory = useMemo(() => {
-        console.log(Day2CustomShapes());
-        return new GiftFactory(Day2CustomShapes());
+        return new GiftFactory(Day2_CustomShapes);
     }, []);
 
     const getGifts = function () {
         let gifts: any[] = [];
         let count = 10;
-        for (let i = 0; i < count; i++) {
-            gifts.push(
-                <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed}>
-                    {giftFactory.getRandom()}
-                </Gift>
-            );
+        Test2(giftFactory.getAll());
+
+        if (Test2Passed()) {
+            for (let i = 0; i < count; i++) {
+                gifts.push(
+                    <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
+                        TryPlaySound(giftsSound);
+                    }}>
+                        {giftFactory.getRandom()}
+                    </Gift >
+                );
+            }
         }
         return gifts;
     }
@@ -72,7 +83,30 @@ export default function Gifts() {
                     <lineBasicMaterial attach="material" color="red"></lineBasicMaterial>
                 </line_>
                 {getGifts()}
+
+                <AudioComponent url={`${AUDIO_PUBLIC_URL}/boop.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound => {
+                    giftsSound = sound;
+                }} />
             </group>
+            <Test2Component giftFactory={giftFactory} />
         </>
     );
+}
+
+const Test2Component = ({ giftFactory }: { giftFactory: GiftFactory }) => {
+    const onMessage = (message: WindowMessage) => {
+        const didTest2Pass = Test2Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_2_RESULT,
+            payload: {
+                status: didTest2Pass,
+                reason: 'Test failed. Reason TBD'
+            }
+        });
+     
+        console.log(didTest2Pass);
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
+    return null;
 }

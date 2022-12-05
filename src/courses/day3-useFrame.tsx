@@ -21,7 +21,7 @@ Tasks:
     - Once a gift gets to 1 (finish the curve), allow it to start again. Thus we reuse the mesh, and we keep our performance good.
  */
 
-export default function Day3_useFrame({ curve, offset, giftSpeed, children }: { curve: Curve, offset: number, giftSpeed: number, children: React.ReactNode }) {
+export default function Day3_useFrame({ curve, offset, giftSpeed, children, onRespawn}: { curve: Curve, offset: number, giftSpeed: number, children: React.ReactNode, onRespawn: any }) {
     let cube = useRef<Group>(null);
     let totalOffset = useRef<any>(offset);
 
@@ -30,6 +30,9 @@ export default function Day3_useFrame({ curve, offset, giftSpeed, children }: { 
 
         //To write
         totalOffset.current = (totalOffset.current + delta * giftSpeed) % 1;
+        if(totalOffset.current <= delta*giftSpeed){
+            onRespawn();
+        }
         let pos = curve.Sample(totalOffset.current);
         cube.current.position.set(pos.x, pos.y, pos.z);
     })
