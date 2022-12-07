@@ -112,7 +112,7 @@ Ok, am făcut o introducere în mare, dar este timpul să vă explicăm în ce c
 
 ---
 
-# Challenge-ul zilei 1
+# Ziua 1. Bateriile
 Fabrica de cadouri a lui Moș Crăciun este nefuncțională. Un an a trecut, și a fost neatinsă.
 
 Primul pas este acela de a **pune cele două baterii în formă de inel pe cilindrele lor corespunzătoare**. Pentru aceasta fiecare baterie trebuie *poziționată* și *rotită* corespunzător, cu semnele +/- spre exterior.
