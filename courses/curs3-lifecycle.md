@@ -97,7 +97,7 @@ Avem cadouri! Dar banda nu funcționează. Ei bine.. nu vom mișca banda, ci cad
 Task-ul tău este de a muta cadourile de-a lungul acestui Spline. 
 Totul fiind Smoke and Mirrors, când un cadou ajunge la capătul liniei, acesta ar trebui să sară la început, pentru simplicitate și pentru a putea refolosi un număr fix de obiecte.
 
-## Spline
+## Despre Spline
 În scenă se poate vedea o linie frântă roșie. `curve.Sample(x: number)` așteaptă o valoare de la 0 la 1, unde 0 este începutul curbei, iar 1 capătul ei.
 
 Pentru a crea curba, am inițializat-o oferindu-i un array de poziții Vector3, reprezentând fiecare punct intermediar al acesteia.
