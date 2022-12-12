@@ -1,4 +1,4 @@
-# Ziua 4. Legile fizicii
+# Ziua 5. Legile fizicii
 
 Animațiile liniare sunt de multe ori îndeajuns, dar de multe ori dorim ceva mai realistic. Atunci suntem nevoiți să importăm un engine de physics. Asta vom face și noi astăzi pentru a ajuta cadourile (care acum au formă și culoare) să se rostogolească în sac. ⚽
 
