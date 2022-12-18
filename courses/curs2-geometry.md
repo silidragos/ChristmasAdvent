@@ -10,8 +10,6 @@ Lista dorințe este destul de simplă. Ar trebui să fie suficiente primitivele 
  - O pălărie conica, cu raza bazei de 20cm și înălțimea de 50cm.
  - Un zar cu 4 fețe triunghiulare, cu raza de 10cm
  - Un zar cu 8 fețe, cu raza de 10 cm
- - un zar cu 12 fețe, cu raza de 10 cm
- - un..torus knot? Ciudată formă. Raza de 50cm, p=5, q=1. 
 
 Asigurați-vă ca toate formele sunt sub formă de elemente JSX, și fac parte din array-ul exportat by default din fișierul zilei de astăzi!
 
