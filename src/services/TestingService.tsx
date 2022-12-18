@@ -1,4 +1,7 @@
 import { Vector3, Mesh, Quaternion, Euler } from "three";
+import { WINDOW_EVENTS } from "./Constants";
+import ElementsFactory from "./ElementsFactory";
+import { emitWindowEvent, useWindowEvent, WindowMessage } from "./WindowEvents";
 
 // ---------- Test 1 -------------
 
@@ -113,3 +116,65 @@ export function Test5(totalTime: number, value: number) {
 export function Test5Passed() {
     return test5Passed;
 }
+
+
+/**
+ * ***** REACT COMPONENTS
+ * These are mounted in the page and listen to Window Events
+ */
+
+const Test1Component = () => {
+    const onMessage = (message: WindowMessage) => {
+        const didTest1Pass = Test1Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_1_RESULT,
+            payload: {
+                status: didTest1Pass,
+                reason: 'Test failed. Reason TBD'
+            }
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage);
+    return null;
+}
+
+const Test2Component = ({ giftFactory }: { giftFactory: ElementsFactory }) => {
+    const onMessage = (message: WindowMessage) => {
+        const didTest2Pass = Test2Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_2_RESULT,
+            payload: {
+                status: didTest2Pass,
+                reason: 'Test failed. Reason TBD'
+            }
+        });
+     
+        console.log(didTest2Pass);
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
+    return null;
+}
+
+const Test4Component = () => {
+    const onMessage = () => {
+        const didTest4Pass = Test4Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_4_RESULT,
+            payload: {
+                status: didTest4Pass,
+                reason: 'Test failed. Reason TBD'
+            }
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_4_RUN, onMessage);
+    return null;
+}
+
+export {
+    Test1Component,
+    Test2Component,
+    Test4Component
+};

@@ -10,9 +10,14 @@ import { Day3_useFrame } from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
-import { Test1Passed, Test2, Test2Passed, Test4Passed } from "../services/TestingService";
-import { AUDIO_PUBLIC_URL, WINDOW_EVENTS } from "../services/Constants";
-import { useWindowEvent, WindowMessage, emitWindowEvent } from "../services/WindowEvents";
+import {
+    Test1Component,
+    Test2,
+    Test2Component,
+    Test2Passed,
+    Test4Component,
+} from "../services/TestingService";
+import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
 const giftSpeed = 0.05;
 
@@ -93,54 +98,4 @@ export default function Gifts() {
             <Test4Component />
         </>
     );
-}
-
-const Test1Component = () => {
-    const onMessage = (message: WindowMessage) => {
-        const didTest1Pass = Test1Passed();
-        emitWindowEvent({
-            type: WINDOW_EVENTS.TEST_1_RESULT,
-            payload: {
-                status: didTest1Pass,
-                reason: 'Test failed. Reason TBD'
-            }
-        });
-    }
-
-    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage);
-    return null;
-}
-
-const Test2Component = ({ giftFactory }: { giftFactory: GiftFactory }) => {
-    const onMessage = (message: WindowMessage) => {
-        const didTest2Pass = Test2Passed();
-        emitWindowEvent({
-            type: WINDOW_EVENTS.TEST_2_RESULT,
-            payload: {
-                status: didTest2Pass,
-                reason: 'Test failed. Reason TBD'
-            }
-        });
-     
-        console.log(didTest2Pass);
-    }
-
-    useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
-    return null;
-}
-
-const Test4Component = () => {
-    const onMessage = () => {
-        const didTest4Pass = Test4Passed();
-        emitWindowEvent({
-            type: WINDOW_EVENTS.TEST_4_RESULT,
-            payload: {
-                status: didTest4Pass,
-                reason: 'Test failed. Reason TBD'
-            }
-        });
-    }
-
-    useWindowEvent(WINDOW_EVENTS.TEST_4_RUN, onMessage);
-    return null;
 }
