@@ -111,17 +111,6 @@ let test2_expectedTypes: {
     // implementation is correct.
     type: string;
 
-<<<<<<< HEAD
-export function Test2(gifts: any[]) {
-    // let types = gifts.map(gift => gift.props.children.type);
-    // for (let expectedType of test2_expectedTypes) {
-    //     if (!types.includes(expectedType)) {
-    //         test2Passed = false;
-    //         console.warn(`No ${expectedType} found!`)
-    //         return;
-    //     }
-    // }
-=======
     // This is meant to be human-readable.
     // Usually displayed as an Error message.
     label: string;
@@ -146,7 +135,6 @@ export function Test2(gifts: JSX.Element[]): TestResult {
             }
         }
     }
->>>>>>> 23bab8fcd752beffa5e42bc005370e0a62814d6e
 
     console.log(`All types were found!`)
     test2Passed = true;
