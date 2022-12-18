@@ -95,7 +95,7 @@ export default function GiftsPhysics() {
 
 
     let texFactory: ElementFactory = useMemo(() => {
-        return new ElementFactory(Day4_Texturing());
+        return new ElementFactory(Day4_Texturing);
     }, []);
 
     let giftFactory: ElementFactory = useMemo(() => {
