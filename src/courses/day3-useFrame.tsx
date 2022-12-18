@@ -29,6 +29,7 @@ function Day3_Gift({ curve, offset, giftSpeed, children, onRespawnCallback}: { c
         let calculatedPosition:THREE.Vector3 = CalculateNewPosition(curve, currentOffsetAlongCurve, offsetAlongCurveSinceLastFrame, onRespawnCallback);
         
         //set "pos" to parent.current
+        parent.current.position.set(calculatedPosition.x,calculatedPosition.y, calculatedPosition.z)
     })
 
     return (

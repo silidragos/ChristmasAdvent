@@ -32,7 +32,7 @@ Ajută-ne calculând corect formula pentru `offsetAlongCurveSinceLastFrame`.
 
 ---
 
-# React Hooks
+# React Hooks & R3F Hooks
 
 Deja presupunem că ai cunoștinte de React, însă un small recap nu strică. Pentru challenge-ul de astăzi nu o să trebuiască să le stăpânești, dar pentru proiecte mai complexe sunt esențiale. Plus că le folosim extensiv și în core code-ul acestui proiect, pe care recomandăm cu căldură să îl citești 🚀. 
 
