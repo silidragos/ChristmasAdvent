@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { useMemo } from "react";
-import { extend, ReactThreeFiber } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
+import { extend, ReactThreeFiber, useFrame } from "@react-three/fiber";
 import { Vector3, BufferGeometry, PositionalAudio } from "three";
 
 import Curve from "./curve";
@@ -13,8 +13,11 @@ import {
   Test2,
   Test2Component,
   Test2Passed,
+  Test3,
+  Test3Passed,
   Test4Component,
 } from "../services/TestingService";
+import { count } from "console";
 
 const giftSpeed = 0.05;
 
@@ -29,7 +32,37 @@ declare global {
   }
 }
 
+
+export function Day3_CalculateNewPosition(curve: Curve, newOffset: number, onRespawnCallback: ()=>void): THREE.Vector3{
+  if(newOffset <= .1){
+      onRespawnCallback();
+  }
+  let newPosOnCurve = curve.Sample(newOffset);
+
+  return newPosOnCurve;
+}
+
+function Day3_Tester({ idx, curve, initialOffset, giftSpeedPerSecond, children, giftPosReferences}: { idx:number, curve: Curve, initialOffset: number, giftSpeedPerSecond: number, children: React.ReactNode, giftPosReferences: any}){
+
+  useFrame(()=>{
+    let isCorrect = Test3({idx, curve, initialOffset, giftSpeedPerSecond, giftPosReferences});
+
+    if(!isCorrect.valid){
+      giftPosReferences[idx].children[0].material.color.setHex("0xff0000");
+    }else{
+      giftPosReferences[idx].children[0].material.color.setHex("0xffffff");
+    }
+  })
+
+  return(
+    <>
+      {children}
+    </>
+  )
+}
+
 export default function Gifts() {
+  let giftPositionReferences = useRef<any>([]);
   let giftsSound: PositionalAudio;
 
   let [myLineGeometry, curve] = useMemo(() => {
@@ -64,15 +97,21 @@ export default function Gifts() {
     let gifts: any[] = [];
     let count = 10;
     const test2Result = Test2(giftFactory.getAll());
+    giftPositionReferences.current = [];
 
     if (test2Result.valid) {
       for (let i = 0; i < count; i++) {
         gifts.push(
-          <Day3_Gift key={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} onRespawnCallback={() => {
-            TryPlaySound(giftsSound);
-          }}>
-            {giftFactory.getRandom()}
-          </Day3_Gift >
+          <Day3_Tester key={i} idx={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} giftPosReferences = {giftPositionReferences.current}>
+            <Day3_Gift key={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} onRespawnCallback={() => {
+              TryPlaySound(giftsSound);
+            }}
+            onInit = {(posRef: any)=>{
+              giftPositionReferences.current.push(posRef);
+            }}>
+              {giftFactory.getRandom()}
+            </Day3_Gift >
+          </Day3_Tester>
         );
       }
     }

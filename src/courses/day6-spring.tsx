@@ -58,8 +58,8 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
                     rotation: [0, Math.floor(numberOfGifts.current % 2) === 0 ? 0 : 2 * Math.PI, 0]
                 }
             })
-            console.log(styles.position.animation.to);
-            console.log(styles.rotation.animation.to);
+            // console.log(styles.position.animation.to);
+            // console.log(styles.rotation.animation.to);
         }
     }
     ));

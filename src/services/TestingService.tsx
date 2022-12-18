@@ -1,5 +1,7 @@
 import { useThree } from "@react-three/fiber";
 import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
+import Curve from "../3d/curve";
+import { Day3_CalculateNewPosition } from "../3d/gifts";
 import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { emitWindowEvent, useWindowEvent, WindowMessage } from "./WindowEvents";
@@ -152,6 +154,30 @@ export function Test2Passed() {
 
 // ---------- Test 3 -------------
 
+let test3Passed = false;
+
+let isCorrect:Array<boolean> = [];
+
+for(let i=0; i< 10; i++){
+    isCorrect.push(false);
+}
+
+export function Test3({ idx, curve, initialOffset, giftSpeedPerSecond, giftPosReferences}: { idx:number, curve: Curve, initialOffset: number, giftSpeedPerSecond: number, giftPosReferences: any}): TestResult {
+    let newOffset = (initialOffset + Date.now()/1000.0 * giftSpeedPerSecond) % 1;
+    let expectedPos = Day3_CalculateNewPosition(curve, newOffset, ()=>{});
+    
+    const dist = expectedPos.distanceTo(giftPosReferences[idx].position); 
+    isCorrect[idx] = dist < 0.1;
+
+    test3Passed = true;
+    return {
+        valid: isCorrect[idx],
+    }
+}
+
+export function Test3Passed() {
+    return isCorrect.findIndex(val => val === false) === -1;
+}
 // ---------- Test 4 -------------
 let test4Passed = false;
 
