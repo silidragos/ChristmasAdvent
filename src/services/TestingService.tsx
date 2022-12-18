@@ -106,24 +106,42 @@ function GetWorldRotation(mesh: Mesh): Euler {
 // ---------- Test 2 -------------
 
 let test2Passed = false;
-let test2_expectedTypes = [
-    "boxGeometry",
-    "sphereGeometry",
-    "torusGeometry"
-]
+let test2_expectedTypes: {
+    // This is the actual type we're checking to see if the
+    // implementation is correct.
+    type: string;
 
-export function Test2(gifts: any[]) {
-    let types = gifts.map(gift => gift.props.children.type);
-    for (let expectedType of test2_expectedTypes) {
-        if (!types.includes(expectedType)) {
+    // This is meant to be human-readable.
+    // Usually displayed as an Error message.
+    label: string;
+}[] = [
+    { type: 'boxGeometry', label: 'box' },
+    { type: 'sphereGeometry', label: 'sphere' },
+    { type: 'torusGeometry', label: 'torus' },
+];
+
+export function Test2(gifts: JSX.Element[]): TestResult {
+    const giftTypes = gifts.map(gift => gift.props.children.type);
+
+    for (let { type, label } of test2_expectedTypes) {
+        if (!giftTypes.includes(type)) {
             test2Passed = false;
-            console.warn(`No ${expectedType} found!`)
-            return;
+            console.warn(`No ${type} found!`)
+            return {
+                valid: false,
+                error: {
+                    description: `Nu am putut găsi o geometrie de tipul "${label}".`
+                }
+            }
         }
     }
 
     console.log(`All types were found!`)
     test2Passed = true;
+
+    return {
+        valid: true,
+    }
 }
 
 export function Test2Passed() {
@@ -197,17 +215,12 @@ const Test1Component = ({ leftBatteryName, rightBatteryName }: { leftBatteryName
 }
 
 const Test2Component = ({ giftFactory }: { giftFactory: ElementsFactory }) => {
-    const onMessage = (message: WindowMessage) => {
-        const didTest2Pass = Test2Passed();
+    const onMessage = () => {
+        let result: TestResult = Test2(giftFactory.getAll());
         emitWindowEvent({
             type: WINDOW_EVENTS.TEST_2_RESULT,
-            payload: {
-                status: didTest2Pass,
-                reason: 'Test failed. Reason TBD'
-            }
+            payload: result,
         });
-
-        console.log(didTest2Pass);
     }
 
     useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
