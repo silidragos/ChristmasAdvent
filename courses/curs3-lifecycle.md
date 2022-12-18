@@ -1,6 +1,37 @@
 # Ziua 3. Să meargă banda! Cum scriem funcționalitățile?
 ---
 
+# Ziua 3. Să meargă banda!
+
+
+##
+Avem cadouri! Dar banda nu funcționează. Ei bine.. nu vom mișca banda, ci cadourile pe bandă. Pentru ca 3D-ul e mult "Smoke & Mirrors" 🧙‍♂️
+
+Ți-am pregătit deja traseul, folosing o clasă făcută de noi, `Curve` ale cărei poziții le poți sample-ui cu `curve.Sample(x: number)`. 
+
+Task-ul tău este de a muta cadourile de-a lungul acestui Spline. 
+Totul fiind Smoke and Mirrors, când un cadou ajunge la capătul liniei, acesta ar trebui să sară la început, pentru simplicitate și pentru a putea refolosi un număr fix de obiecte.
+
+
+## Cerință
+
+Azi vom modifica direct componenta `Gift`. Aici ai acces printre altele la:
+
+- `curve:Curve` - clasa prin care vom sample-ui poziția corectă de-a lungul curbei anterior definite (unde 0 este începutul acesteia și 1 este finalul ei)
+- `initialOffsetAlongCurve` în intervalul (0,1) - un Ref în care vom seta offsetul curent de-a lungul curbei pentru fiecare Gift în parte
+- `deltaTime` - timpul trecut de la frame-ul anterior
+- `giftSpeed:number` - viteza pe secundă pe care am ne-o dorim
+
+
+1) La fiecare frame vom calcula noi poziția nouă în metoda `CalculateNewPosition(...)` dar avem nevoie de offsetul pe curbă cu care s-a mutat elementul de la ultimul frame. 
+Ajută-ne calculând corect formula pentru `offsetAlongCurveSinceLastFrame`.
+
+2) De asemenea, vom stoca rezultatul într-un Vector3 numit `calculatedPosition: Vector3`. Asignează la fiecare frame poziția calculată pe elementul `parent.current`.
+
+![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)
+
+---
+
 # React Hooks
 
 Deja presupunem că ai cunoștinte de React, însă un small recap nu strică. Pentru challenge-ul de astăzi nu o să trebuiască să le stăpânești, dar pentru proiecte mai complexe sunt esențiale. Plus că le folosim extensiv și în core code-ul acestui proiect, pe care recomandăm cu căldură să îl citești 🚀. 
@@ -84,18 +115,6 @@ Un hook specializat pe încărcarea asset-urilor externe - modele 3D, texturi, a
 
 [Mai multe aici](https://gracious-keller-98ef35.netlify.app/docs/api/hooks/introduction)
 
----
-
-# Ziua 3. Să meargă banda!
-
-
-##
-Avem cadouri! Dar banda nu funcționează. Ei bine.. nu vom mișca banda, ci cadourile pe bandă. Pentru ca 3D-ul e mult "Smoke & Mirrors" 🧙‍♂️
-
-Ți-am pregătit deja traseul, folosing o clasă făcută de noi, `Curve` ale cărei poziții le poți sample-ui cu `curve.Sample(x: number)`. 
-
-Task-ul tău este de a muta cadourile de-a lungul acestui Spline. 
-Totul fiind Smoke and Mirrors, când un cadou ajunge la capătul liniei, acesta ar trebui să sară la început, pentru simplicitate și pentru a putea refolosi un număr fix de obiecte.
 
 ## Despre Spline
 În scenă se poate vedea o linie frântă roșie. `curve.Sample(x: number)` așteaptă o valoare de la 0 la 1, unde 0 este începutul curbei, iar 1 capătul ei.
@@ -130,5 +149,3 @@ Aceasta este folosită în `src/3d/gifs.tsx`.
 
 
 Codul este în `src/3d/curve.tsx`.
-
-![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)

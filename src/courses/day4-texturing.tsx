@@ -1,21 +1,3 @@
-/*
-Concepts:
-    - Basic materials
-    - Physical materials - roughness, metallic
-    - Activating Transparency
-Bonus:
-    - Using maps
-    - Normal maps
-Tasks:
-    We need the following materials
-    - Basic red
-    - Basic blue opacity 50%
-    - Physical: White, full metallic, smooth
-    - Physical: green, smooth
-    - Physical: White, full metallic, smooth, 50% transparency
-Hints:
-    - In case transparency doesn't work...
- */
 
 const Day4_Texturing = [
     <meshPhongMaterial attach="material" color="green" />,

@@ -1,5 +1,27 @@
-# Ziua 2. Geometria in ThreeJS
+# Ziua 2. Generatorul de cadouri.
+Ok. Avem curent. Acum trebuie sa generăm aleatoriu o serie de cadouri, de diferite forme. Nu îți face griji. Scopul zilei de astăzi este să ne familiarizăm cu primitivele 3D din ThreeJS.
+
+Toate informațiile despre primitive sunt [!! AICI !!](https://threejs.org/docs/#api/en/geometries/BoxGeometry) însă va trebui să le adaptezi la R3F, fie să gasești exemple funcționale în [documentația oficială](https://docs.pmnd.rs/react-three-fiber/getting-started/examples).
+
+Lista dorințe este destul de simplă. Ar trebui să fie suficiente primitivele pe care ni le oferă ThreeJS. Ce trebuie neapărat să fie în array-ul exportat este:
+
+ - O cutie de 40cmx40cmx40cm
+ - O minge cu diametrul de 20cm. Asigură-te ca este suficient de șlefuită.
+ - O pălărie conica, cu raza bazei de 20cm și înălțimea de 50cm.
+ - Un zar cu 4 fețe triunghiulare, cu raza de 10cm
+ - Un zar cu 8 fețe, cu raza de 10 cm
+ - un zar cu 12 fețe, cu raza de 10 cm
+ - un..torus knot? Ciudată formă. Raza de 50cm, p=5, q=1. 
+
+Asigurați-vă ca toate formele sunt sub formă de elemente JSX, și fac parte din array-ul exportat by default din fișierul zilei de astăzi!
+
+Formele nu sunt încă colorate, dar ne vom ocupa de asta peste 2 zile. 🦄
+
+![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)
+
 ---
+
+# Geometry
 
 ## Basics
 
@@ -36,29 +58,3 @@ In ThreeJS, obiectele se pot apoi importa în formatul GLTF. GLTF se consideră 
 >       const { nodes, materials } = useGLTF(PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
 
 Fiecare obiect 3D poate fi spart în componentele sale, în multiple componente JSX parentate unele la altele. În mod normal ar trebui să facem asta manual, pentru a crea toate elementele JSX din `/3d/factory.tsx`, dar din fericire există o utilitară pentru asta: [GLTF2JSX](https://github.com/pmndrs/gltfjsx).
-
-
-
----
-
-
-# Ziua 2. Generatorul de cadouri.
-Ok. Avem curent. Acum trebuie sa generăm aleatoriu o serie de cadouri, de diferite forme. Nu îți face griji. Scopul zilei de astăzi este să ne familiarizăm cu primitivele 3D din ThreeJS.
-
-Toate informațiile despre primitive sunt [!! AICI !!](https://threejs.org/docs/#api/en/geometries/BoxGeometry) însă va trebui să le adaptezi la R3F, fie să gasești exemple funcționale în [documentația oficială](https://docs.pmnd.rs/react-three-fiber/getting-started/examples).
-
-Lista dorințe este destul de simplă. Ar trebui să fie suficiente primitivele pe care ni le oferă ThreeJS. Ce trebuie neapărat să fie în array-ul exportat este:
-
- - O cutie de 40cmx40cmx40cm
- - O minge cu diametrul de 20cm. Asigură-te ca este suficient de șlefuită.
- - O pălărie conica, cu raza bazei de 20cm și înălțimea de 50cm.
- - Un zar cu 4 fețe triunghiulare, cu raza de 10cm
- - Un zar cu 8 fețe, cu raza de 10 cm
- - un zar cu 12 fețe, cu raza de 10 cm
- - un..torus knot? Ciudată formă. Raza de 50cm, p=5, q=1. 
-
-Asigurați-vă ca toate formele sunt sub formă de elemente JSX, și fac parte din array-ul exportat by default din fișierul zilei de astăzi!
-
-Formele nu sunt încă colorate, dar ne vom ocupa de asta peste 2 zile. 🦄
-
-![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)

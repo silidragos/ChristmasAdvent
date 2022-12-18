@@ -1,4 +1,19 @@
-# Ziua 4. Culori. Materiale. Texturi.
+# Ziua 4. Culoarea cadourilor
+
+Similar cu ziua 2, avem nevoie astăzi de o lista de materiale cu care sa colorăm cadourile venite pe banda de producție, înainte de a fi trimise mai departe.
+Pentru astăzi nu avem nevoie de texturi, dar avem nevoie de anumite materiale specifice, și anume:
+
+- Un material PBR standard verde, fara stralucire, non-metalic
+- Un material PBR verde care *emite* culoare verde.
+- Un material PBR rosu, 100% smooth, metalic
+- Un material basic, de culoare roz
+- Un material toon, albastru, cu transparență 50%
+
+![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c4-cerinta.png)
+
+---
+
+# Culori. Materiale. Texturi.
 
 Culoarea fiecărui obiect este dată de modul în care acesta reacționează la interacțiunea cu lumina. Acest comportament este definit prin programe care comunica direct cu placa grafică, numite Shadere, care sunt atașate obiectelor prin ceea ce numim [Materiale](https://threejs.org/docs/#api/en/materials/Material)
 
@@ -85,18 +100,3 @@ Luminile sunt de mai multe tipuri, printre care:
 Există și conceptul de [Helpers](https://threejs.org/docs/#api/en/helpers/DirectionalLightHelper) care ne ajută să vizualizăm luminile în browser mai bine.
 
 În cazul nostru avem un **Directional Light**, un **Ambient Light** și un `<Environment/>` - o sursă de iluminare specială provenită dintr-o imagine 360, prin intermediul bibliotecii drei - [learn more here](https://github.com/pmndrs/drei#environment), lucru de altfel [posibil și în vanilla ThreeJS](https://threejs.org/examples/?q=hdr#webgl_materials_envmaps_hdr).
-
----
-
-# Ziua 4. Culoarea cadourilor
-
-Similar cu ziua 2, avem nevoie astăzi de o lista de materiale cu care sa colorăm cadourile venite pe banda de producție, înainte de a fi trimise mai departe.
-Pentru astăzi nu avem nevoie de texturi, dar avem nevoie de anumite materiale specifice, și anume:
-
-- Un material PBR standard verde, fara stralucire, non-metalic
-- Un material PBR verde care *emite* culoare verde.
-- Un material PBR rosu, 100% smooth, metalic
-- Un material basic, de culoare roz
-- Un material toon, albastru, cu transparență 50%
-
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c4-cerinta.png)

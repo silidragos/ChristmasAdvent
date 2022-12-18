@@ -1,24 +1,6 @@
 import React, { useRef } from "react"
 import { Materials, Nodes } from "../3d/3d.types"
 
-
-/*
-Concepts:
-    - What is TreeJS, what is R3F
-    - What is a mesh, what is geometry, what is material
-    - position, rotation and scale as attributes
-    - rotation in radians
-    - Parenting importance, local vs Global
-Bonus:
-    - Why is our geometry in nodes/materials? -> Imported GLTF scene, the "JPEG" of 3D 
-    - **Ref
-Tasks:
-    - Try putting the batteries into their correct position
-Hints:
-    - Reparent the objects to the correct empty groups
-    - Hmm, something's not right..maybe we can use the rotation attribute?
- */
-
 export default function Day1_HierarchyAndAttributes({ leftBattery, rightBattery, nodes, materials }: { leftBattery: React.RefObject<any>, rightBattery: React.RefObject<any>, nodes: Nodes, materials: Materials }) {
 
     return (

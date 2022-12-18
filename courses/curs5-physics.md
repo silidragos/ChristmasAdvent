@@ -1,4 +1,16 @@
-# Ziua 5. Legile fizicii
+# Ziua 5. Împinge cadourile în sac!
+
+Trebuie să mișcăm paleta de împingere! Aceasta trebuie să meargă ba în față ba în spate, să împingă cadourile colorate anterior, care cad pe măsuță, ca în cele din urmă să se rostogolească în sac,
+
+Pentru a nu brusca nimic prea tare recomandăm un traseu sinusoidal.
+
+Testele noastre urmăresc numărul de cadouri care ajung la destinație 🧑‍🔧
+
+![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c5-cerinta.png)
+
+---
+
+# Legile fizicii
 
 Animațiile liniare sunt de multe ori îndeajuns, dar de multe ori dorim ceva mai realistic. Atunci suntem nevoiți să importăm un engine de physics. Asta vom face și noi astăzi pentru a ajuta cadourile (care acum au formă și culoare) să se rostogolească în sac. ⚽
 
@@ -65,13 +77,3 @@ Câteva linii de cod relevante folosite de noi, fiind:
 >       physicsAPI.wakeUp();
 
 Pretty self-explanatory 😊
-
-# Ziua 5. Împinge cadourile în sac!
-
-Trebuie să mișcăm paleta de împingere! Aceasta trebuie să meargă ba în față ba în spate, să împingă cadourile colorate anterior, care cad pe măsuță, ca în cele din urmă să se rostogolească în sac,
-
-Pentru a nu brusca nimic prea tare recomandăm un traseu sinusoidal.
-
-Testele noastre urmăresc numărul de cadouri care ajung la destinație 🧑‍🔧
-
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c5-cerinta.png)

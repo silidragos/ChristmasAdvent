@@ -11,17 +11,6 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import AudioComponent, { listener, TryPlaySound } from "../3d/audio-component";
 import { AUDIO_PUBLIC_URL, PUBLIC_URL } from "../services/Constants";
 
-
-/*
-Concepts:
-    - What is tweening
-    - Spring, useSpring
-    - springApi
-    - configs
-Tasks:
-    - Rotate the Good Children text whenever a gift enters the bag, given the target position and rotation
- */
-
 extend({ TextGeometry });
 
 declare global {

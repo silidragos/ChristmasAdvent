@@ -9,25 +9,6 @@ import { Test4, Test5, Test5Passed } from "../services/TestingService";
 import { off } from "process";
 import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
-/*
-Concepts:
-    - Physics - CannonJS
-    - Physics Primitives
-    - Material, friciton, mass, kinematic 
-    - set position vs force, vs impulse
-    - Parenting objects to Physics (position is weird)
-    - React - useBox, useSphere etc.
-Bonus:
-    - Compound shapes
-    - Spring physics, connections etc.
-Tasks:
-    - Attach a physics box to the palette and move it so that it hits objects inside the sack
-Hints:
-    - Mass: 0
-    - Position.set
-    - Math.Sin() is a great come and go function
- */
-
 
 function PaletteMoveFunction(totalTime: number, speed: number) {
     return Math.sin(totalTime * speed);

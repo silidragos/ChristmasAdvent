@@ -1,6 +1,27 @@
 # Ziua 1. Javascript în 3 dimensiuni?
 ---
 
+
+
+# Ziua 1. Bateriile
+Fabrica de cadouri a lui Moș Crăciun este nefuncțională. Un an a trecut, și a fost neatinsă.
+
+Primul pas este acela de a **pune cele două baterii în formă de inel pe cilindrele lor corespunzătoare**. Pentru aceasta fiecare baterie trebuie *poziționată* și *rotită* corespunzător, cu semnele +/- spre exterior.
+
+Poziția necesită o exactitate de +-0.1, iar rotația de +- 15 grade.
+
+îți vei da seama că sunt așezate corect, dupa lumina roșie care va deveni verde odată ce bateriile sunt conectate. Nu uita să dai submit spre server odată ce totul este funcțional!
+
+![Cerinta-1](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c1-cerinta.png)
+
+### Hint 1
+Rotațiile se exprimă în radiani. Pentru acces la constanta Pi, Javascript oferă `Math.PI`.
+
+### Hint 2
+Fii sigur că știi diferența dintre poziția **globală** și cea **locală**.
+
+---
+
 ## ThreeJS??
 
 Ne bucurăm că vrei sa participi la adventul 3D de Crăciun Front-end.ro! Ne dorim ca acesta să fie un intro cât mai smooth in React-Three-Fiber, și în ThreeJS ca framework 3D peste WebGL. Browserul tău va câștiga după aceste 5 zile o nouă dimensiune 🤯
@@ -101,30 +122,3 @@ Cateva atribute foarte la care avem acces prin acesta sunt:
 >       //...etc
 
 Ne vom întoarce la acestea zilele următoare. Ce este important de știut este ca în final, totul se rezumă la un Object3D.
-
----
-# Adventul de Crăciun Front-End.ro
-Ok, am făcut o introducere în mare, dar este timpul să vă explicăm în ce constă provocarea zilei 1 din Advent. Fiind doar începutul, scopului acestei zile este să vă familiarizați cu cerința, cu codul proiectului și cu modul de gândire din spatele R3F.
-
-### Platforma
-
-<< ... Explicatie folosire platforma >>
-
----
-
-# Ziua 1. Bateriile
-Fabrica de cadouri a lui Moș Crăciun este nefuncțională. Un an a trecut, și a fost neatinsă.
-
-Primul pas este acela de a **pune cele două baterii în formă de inel pe cilindrele lor corespunzătoare**. Pentru aceasta fiecare baterie trebuie *poziționată* și *rotită* corespunzător, cu semnele +/- spre exterior.
-
-Poziția necesită o exactitate de +-0.1, iar rotația de +- 15 grade.
-
-îți vei da seama că sunt așezate corect, dupa lumina roșie care va deveni verde odată ce bateriile sunt conectate. Nu uita să dai submit spre server odată ce totul este funcțional!
-
-![Cerinta-1](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c1-cerinta.png)
-
-### Hint 1
-Rotațiile se exprimă în radiani. Pentru acces la constanta Pi, Javascript oferă `Math.PI`.
-
-### Hint 2
-Fii sigur ca verifici poziția **globală** nu este aceiași cu cea **locală**.

@@ -1,4 +1,12 @@
-# Ziua 6. Tweening animations
+# Ziua 6. The final step!
+
+Great! Tot flow-ul este complet, dar vrem un indicator care să ne anunțe când cadourile au intrat în sac. Ultimul pas este acela de a aplica o animație textului "Good Children".
+
+![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-cerinta.png)
+
+---
+
+# Tweening animations
 În primul rând, congrats că ai ajuns până aici. Experiența este deja funcțională, it oonly needs one last touch 💫
 
 După cum știm, să facem animații în `useFrame` funcționează bine, dar cere mult cod, și grijă, mai ales daca e ceva mai mult decât o animație liniară.
@@ -66,9 +74,3 @@ E important ca atributul position să se numească la fel în ambele ipostaze (�
 
 ## Primitiva de Text
 Așa cum avem primitive precum cubul, sfera etc, există și [textGeometry](https://threejs.org/docs/#examples/en/geometries/TextGeometry), care primește ca argumente textul, fontul folosit, mărimea, înălțimea.
-
-# Ziua 6. The final step!
-
-Great! Tot flow-ul este complet, dar vrem un indicator care să ne anunțe când cadourile au intrat în sac. Ultimul pas este acela de a aplica o animație textului "Good Children".
-
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-cerinta.png)
