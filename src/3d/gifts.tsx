@@ -10,7 +10,6 @@ import { Day3_useFrame } from "../courses/day3-useFrame";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import AudioComponent, { TryPlaySound } from "./audio-component";
 import {
-  Test1Component,
   Test2,
   Test2Component,
   Test2Passed,
@@ -91,7 +90,6 @@ export default function Gifts() {
           giftsSound = sound;
         }} />
       </group>
-      <Test1Component />
       <Test2Component giftFactory={giftFactory} />
       <Test4Component />
     </>
