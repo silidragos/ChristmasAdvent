@@ -6,7 +6,7 @@ import GiftFactory from "../services/ElementsFactory";
 import Curve from "./curve";
 
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
-import Gift from "../courses/day3-useFrame";
+import { Day3_useFrame } from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
@@ -66,11 +66,11 @@ export default function Gifts() {
         if (Test2Passed()) {
             for (let i = 0; i < count; i++) {
                 gifts.push(
-                    <Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
+                    <Day3_useFrame key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawn={() => {
                         TryPlaySound(giftsSound);
                     }}>
                         {giftFactory.getRandom()}
-                    </Gift >
+                    </Day3_useFrame >
                 );
             }
         }

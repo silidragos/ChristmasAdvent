@@ -21,7 +21,7 @@ Tasks:
     - Once a gift gets to 1 (finish the curve), allow it to start again. Thus we reuse the mesh, and we keep our performance good.
  */
 
-export default function Day3_useFrame({ curve, offset, giftSpeed, children, onRespawn}: { curve: Curve, offset: number, giftSpeed: number, children: React.ReactNode, onRespawn: any }) {
+function Day3_useFrame({ curve, offset, giftSpeed, children, onRespawn}: { curve: Curve, offset: number, giftSpeed: number, children: React.ReactNode, onRespawn: any }) {
     let parent = useRef<Group>(null);
     let totalOffset = useRef<any>(offset);
 
@@ -43,3 +43,5 @@ export default function Day3_useFrame({ curve, offset, giftSpeed, children, onRe
         </group>
     )
 }
+
+export { Day3_useFrame };
