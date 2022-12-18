@@ -17,12 +17,10 @@ Hints:
     - In case transparency doesn't work...
  */
 
-export default function Day4_Texturing() {
+const Day4_Texturing = [
+    <meshPhongMaterial attach="material" color="green" />,
+    <meshPhongMaterial attach="material" color="red" />,
+    <meshPhongMaterial attach="material" color="yellow" />
+];
 
-    return ([
-        <meshPhongMaterial attach="material" color="green" />,
-        <meshPhongMaterial attach="material" color="red" />,
-        <meshPhongMaterial attach="material" color="yellow" />
-    ]
-    )
-}
+export default Day4_Texturing;

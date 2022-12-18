@@ -10,7 +10,7 @@ import Gift from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
-import { Test2, Test2Passed } from "../services/TestingService";
+import { Test1Passed, Test2, Test2Passed } from "../services/TestingService";
 import { AUDIO_PUBLIC_URL, WINDOW_EVENTS } from "../services/Constants";
 import { useWindowEvent, WindowMessage, emitWindowEvent } from "../services/WindowEvents";
 
@@ -88,9 +88,26 @@ export default function Gifts() {
                     giftsSound = sound;
                 }} />
             </group>
+            <Test1Component />
             <Test2Component giftFactory={giftFactory} />
         </>
     );
+}
+
+const Test1Component = () => {
+    const onMessage = (message: WindowMessage) => {
+        const didTest1Pass = Test1Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_1_RESULT,
+            payload: {
+                status: didTest1Pass,
+                reason: 'Test failed. Reason TBD'
+            }
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage);
+    return null;
 }
 
 const Test2Component = ({ giftFactory }: { giftFactory: GiftFactory }) => {
