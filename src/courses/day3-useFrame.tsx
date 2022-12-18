@@ -22,11 +22,11 @@ Tasks:
  */
 
 export default function Day3_useFrame({ curve, offset, giftSpeed, children, onRespawn}: { curve: Curve, offset: number, giftSpeed: number, children: React.ReactNode, onRespawn: any }) {
-    let cube = useRef<Group>(null);
+    let parent = useRef<Group>(null);
     let totalOffset = useRef<any>(offset);
 
     useFrame((state, delta) => {
-        if (cube.current === null || totalOffset.current === null) return;
+        if (parent.current === null || totalOffset.current === null) return;
 
         //To write
         totalOffset.current = (totalOffset.current + delta * giftSpeed) % 1;
@@ -34,11 +34,11 @@ export default function Day3_useFrame({ curve, offset, giftSpeed, children, onRe
             onRespawn();
         }
         let pos = curve.Sample(totalOffset.current);
-        cube.current.position.set(pos.x, pos.y, pos.z);
+        parent.current.position.set(pos.x, pos.y, pos.z);
     })
 
     return (
-        <group ref={cube} position={[0, 0, 0]}>
+        <group ref={parent} position={[0, 0, 0]}>
             {children}
         </group>
     )

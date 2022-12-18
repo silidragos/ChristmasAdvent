@@ -127,4 +127,4 @@ Poziția necesită o exactitate de +-0.1, iar rotația de +- 15 grade.
 Rotațiile se exprimă în radiani. Pentru acces la constanta Pi, Javascript oferă `Math.PI`.
 
 ### Hint 2
-Asigură-te că modifici atributele bateriile, și nu pe ale pozițiilor. Cum spuneam mai sus, poziția **globală** nu este aceiași cu cea **locală**.
+Fii sigur ca verifici poziția **globală** nu este aceiași cu cea **locală**.
