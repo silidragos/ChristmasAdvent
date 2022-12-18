@@ -10,7 +10,7 @@ import { Day3_useFrame } from "../courses/day3-useFrame";
 import { Line } from "@react-three/drei";
 import { extend, ReactThreeFiber, useLoader } from "@react-three/fiber";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
-import { Test1Passed, Test2, Test2Passed } from "../services/TestingService";
+import { Test1Passed, Test2, Test2Passed, Test4Passed } from "../services/TestingService";
 import { AUDIO_PUBLIC_URL, WINDOW_EVENTS } from "../services/Constants";
 import { useWindowEvent, WindowMessage, emitWindowEvent } from "../services/WindowEvents";
 
@@ -90,6 +90,7 @@ export default function Gifts() {
             </group>
             <Test1Component />
             <Test2Component giftFactory={giftFactory} />
+            <Test4Component />
         </>
     );
 }
@@ -125,5 +126,21 @@ const Test2Component = ({ giftFactory }: { giftFactory: GiftFactory }) => {
     }
 
     useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
+    return null;
+}
+
+const Test4Component = () => {
+    const onMessage = () => {
+        const didTest4Pass = Test4Passed();
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_4_RESULT,
+            payload: {
+                status: didTest4Pass,
+                reason: 'Test failed. Reason TBD'
+            }
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_4_RUN, onMessage);
     return null;
 }

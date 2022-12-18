@@ -12,4 +12,7 @@ export const WINDOW_EVENTS = {
 
     TEST_2_RUN: 'TEST_2_RUN',
     TEST_2_RESULT: 'TEST_2_RESULT',
+
+    TEST_4_RUN: 'TEST_4_RUN',
+    TEST_4_RESULT: 'TEST_4_RESULT',
 };
