@@ -155,26 +155,48 @@ export function Test2Passed() {
 // ---------- Test 4 -------------
 let test4Passed = false;
 
-let test4_materialsInfo = [
-    { type: "meshStandardMaterial", color: "green" },
-    { type: "meshStandardMaterial", color: "green" },
-    { type: "meshStandardMaterial", color: "red" },
-    { type: "meshBasicMaterial", color: "pink" },
-    { type: "meshToonMaterial", color: "blue" },
+let test4_materialsInfo: {
+    type: string,
+    color: string;
+    // Romanian label used to correctly display the error
+    // string (if any) to the user.
+    colorLabel: string;
+}[] = [
+    { type: "meshStandardMaterial", color: "green", colorLabel: "verde" },
+    { type: "meshStandardMaterial", color: "green", colorLabel: "verde" },
+    { type: "meshStandardMaterial", color: "red", colorLabel: "roșu" },
+    { type: "meshBasicMaterial", color: "pink", colorLabel: "roz" },
+    { type: "meshToonMaterial", color: "blue", colorLabel: "albastru" },
 ]
-export function Test4(materials: any[]) {
-    for (let i = 0; i < materials.length; i++) {
-        if (materials[i].type !== test4_materialsInfo[i].type ||
-            materials[i].props.attach !== "material" ||
-            materials[i].props.color !== test4_materialsInfo[i].color) {
-            test4Passed = false;
-            console.log(`Material ${i} failed.`);
-            return;
+export function Test4(materials: JSX.Element[]): TestResult {
+    for(let i = 0; i< test4_materialsInfo.length; i++) {
+        const expectedMaterial = test4_materialsInfo[i];
+
+        // Check whether this material exists
+        const match = materials.find((material) =>  {
+            return (
+                material.type === expectedMaterial.type &&
+                material.props.attach === "material" &&
+                material.props.color === expectedMaterial.color
+            );
+        });
+
+        if (match === undefined) {
+            return {
+                valid: false,
+                error: {
+                    description: `Nu am găsit un material de tipul "${expectedMaterial.type}" și culoarea "${expectedMaterial.colorLabel}".`
+                }
+            }
         }
     }
 
     test4Passed = true;
+    return {
+        valid: true
+    }
 }
+
 export function Test4Passed() {
     return test4Passed;
 }
@@ -231,15 +253,12 @@ const Test2Component = ({ giftFactory }: { giftFactory: ElementsFactory }) => {
     return null;
 }
 
-const Test4Component = () => {
+const Test4Component = ({ materials }: {materials: JSX.Element[] }) => {
     const onMessage = () => {
-        const didTest4Pass = Test4Passed();
+        let result: TestResult = Test4(materials);
         emitWindowEvent({
             type: WINDOW_EVENTS.TEST_4_RESULT,
-            payload: {
-                status: didTest4Pass,
-                reason: 'Test failed. Reason TBD'
-            }
+            payload: result
         });
     }
 

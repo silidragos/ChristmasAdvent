@@ -91,7 +91,6 @@ export default function Gifts() {
         }} />
       </group>
       <Test2Component giftFactory={giftFactory} />
-      <Test4Component />
     </>
   );
 }
