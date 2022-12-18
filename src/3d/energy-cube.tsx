@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { Vector3, Mesh } from "three";
 import HierarchyDay1 from "../courses/day1-hierarchy-attributes";
 import { Materials, Nodes } from "./3d.types";
-import { Test1, Test1Passed } from "../services/TestingService";
+import { Test1, Test1Component } from "../services/TestingService";
 
 export default function EnergyCube({
     nodes,
@@ -28,9 +28,9 @@ export default function EnergyCube({
             return;
         }
 
-        Test1(leftBattery.current, rightBattery.current);
+        let { valid: didTest1Pass } = Test1(leftBattery.current, rightBattery.current);
 
-        if (Test1Passed()) {
+        if (didTest1Pass) {
             let newPos = new Vector3();
             newPos.addVectors(new Vector3(Math.random(), Math.random(), Math.random()).multiplyScalar(0.2), batteryCoreMainPosition.current);
             batteryCore.current.position.set(newPos.x, newPos.y, newPos.z);
@@ -38,12 +38,16 @@ export default function EnergyCube({
 
     });
     return (
-        <group>
-            <HierarchyDay1 leftBattery={leftBattery} rightBattery={rightBattery} nodes={nodes} materials={materials} />
-            <group position={[-0.74, 2.86, 0.07]} scale={0.4}>
-                <mesh ref={batteryCore} geometry={nodes.EnergySphere_1.geometry} material={materials.Red} />
-                <mesh geometry={nodes.EnergySphere_2.geometry} material={materials.Glass} />
+
+        <>
+            <group>
+                <HierarchyDay1 leftBattery={leftBattery} rightBattery={rightBattery} nodes={nodes} materials={materials} />
+                <group position={[-0.74, 2.86, 0.07]} scale={0.4}>
+                    <mesh ref={batteryCore} geometry={nodes.EnergySphere_1.geometry} material={materials.Red} />
+                    <mesh geometry={nodes.EnergySphere_2.geometry} material={materials.Glass} />
+                </group>
             </group>
-        </group>
+            <Test1Component leftBattery={leftBattery.current} rightBattery={rightBattery.current} />
+        </>
     );
 }
