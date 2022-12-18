@@ -63,9 +63,9 @@ export default function Gifts() {
   const getGifts = function () {
     let gifts: any[] = [];
     let count = 10;
-    Test2(giftFactory.getAll());
+    const test2Result = Test2(giftFactory.getAll());
 
-    if (Test2Passed()) {
+    if (test2Result.valid) {
       for (let i = 0; i < count; i++) {
         gifts.push(
           <Day3_Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawnCallback={() => {

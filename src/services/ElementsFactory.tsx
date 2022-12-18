@@ -1,6 +1,6 @@
 export default class ElementsFactory{
-    public elements : Array<any>;
-    constructor(elementsList : Array<any>){
+    public elements : Array<JSX.Element>;
+    constructor(elementsList : Array<JSX.Element>){
         this.elements = elementsList;
     }
 
