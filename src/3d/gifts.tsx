@@ -68,7 +68,7 @@ export default function Gifts() {
     if (test2Result.valid) {
       for (let i = 0; i < count; i++) {
         gifts.push(
-          <Day3_Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawnCallback={() => {
+          <Day3_Gift key={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} onRespawnCallback={() => {
             TryPlaySound(giftsSound);
           }}>
             {giftFactory.getRandom()}
