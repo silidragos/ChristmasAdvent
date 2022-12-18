@@ -6,7 +6,7 @@ import { Vector3, BufferGeometry, PositionalAudio } from "three";
 import Curve from "./curve";
 import GiftFactory from "../services/ElementsFactory";
 import { AUDIO_PUBLIC_URL } from "../services/Constants";
-import { Day3_useFrame } from "../courses/day3-useFrame";
+import { Day3_Gift } from "../courses/day3-useFrame";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import AudioComponent, { TryPlaySound } from "./audio-component";
 import {
@@ -68,11 +68,11 @@ export default function Gifts() {
     if (Test2Passed()) {
       for (let i = 0; i < count; i++) {
         gifts.push(
-          <Day3_useFrame key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawnCallback={() => {
+          <Day3_Gift key={i} curve={curve} offset={i * (1.0 / count)} giftSpeed={giftSpeed} onRespawnCallback={() => {
             TryPlaySound(giftsSound);
           }}>
             {giftFactory.getRandom()}
-          </Day3_useFrame >
+          </Day3_Gift >
         );
       }
     }
