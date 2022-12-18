@@ -107,12 +107,13 @@ export default function GiftsPhysics() {
 
         Test4(texFactory.getAll());
 
+        let texs = texFactory.getAll();
         if (Test4Passed()) {
             for (let i = 0; i < elements.length; i++) {
                 meshes.push(
                     <mesh>
                         {elements[i].props.children}
-                        {texFactory.getAll()[i]}
+                        {texs[Math.floor(Math.random() * texs.length)]}
                     </mesh>
                 )
             }

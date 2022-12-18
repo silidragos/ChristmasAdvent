@@ -1,8 +1,10 @@
 
 const Day4_Texturing = [
-    <meshPhongMaterial attach="material" color="green" />,
-    <meshPhongMaterial attach="material" color="red" />,
-    <meshPhongMaterial attach="material" color="yellow" />
+    <meshStandardMaterial attach="material" color="green" roughness={1} metalness={0} />,
+    <meshStandardMaterial attach="material" color="green" emissive={"green"} />,
+    <meshStandardMaterial attach="material" color="red" roughness={0}  metalness={1}/>,
+    <meshBasicMaterial attach="material" color="pink" />,
+    <meshToonMaterial attach="material" color="blue" transparent={false} opacity={0.5}/> 
 ];
 
 export default Day4_Texturing;

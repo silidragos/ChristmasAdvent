@@ -117,7 +117,9 @@ let test2_expectedTypes: {
 }[] = [
     { type: 'boxGeometry', label: 'box' },
     { type: 'sphereGeometry', label: 'sphere' },
-    { type: 'torusGeometry', label: 'torus' },
+    { type: 'coneGeometry', label: 'torus' },
+    { type: 'tetrahedronGeometry', label: 'torus' },
+    { type: 'octahedronGeometry', label: 'torus' },
 ];
 
 export function Test2(gifts: JSX.Element[]): TestResult {
@@ -154,9 +156,11 @@ export function Test2Passed() {
 let test4Passed = false;
 
 let test4_materialsInfo = [
-    { type: "meshPhongMaterial", color: "green" },
-    { type: "meshPhongMaterial", color: "red" },
-    { type: "meshPhongMaterial", color: "yellow" }
+    { type: "meshStandardMaterial", color: "green" },
+    { type: "meshStandardMaterial", color: "green" },
+    { type: "meshStandardMaterial", color: "red" },
+    { type: "meshBasicMaterial", color: "pink" },
+    { type: "meshToonMaterial", color: "blue" },
 ]
 export function Test4(materials: any[]) {
     for (let i = 0; i < materials.length; i++) {

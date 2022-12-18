@@ -13,10 +13,10 @@ const Day2_CustomShapes = [
         <coneGeometry args={[0.2, 0.5]} attach="geometry" />
     </mesh>,
     <mesh>
-        <tetrahedronGeometry args={[0.1, 0]} attach="geometry" />
+        <tetrahedronGeometry args={[0.2, 0]} attach="geometry" />
     </mesh>,
     <mesh>
-        <octahedronGeometry args={[0.1, 0]} attach="geometry" />
+        <octahedronGeometry args={[0.2, 0]} attach="geometry" />
     </mesh>
 ];
 
