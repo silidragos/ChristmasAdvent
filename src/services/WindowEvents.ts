@@ -17,6 +17,7 @@ const useWindowEvent = (
 ) => {
   useEffect(() => {
     const listener = (e: MessageEvent<WindowMessage>) => {
+      console.log(e.data);
       if (e.data.type === type) {
         callback(e.data);
       }

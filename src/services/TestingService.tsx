@@ -1,4 +1,5 @@
-import { Vector3, Mesh, Quaternion, Euler } from "three";
+import { useThree } from "@react-three/fiber";
+import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
 import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { emitWindowEvent, useWindowEvent, WindowMessage } from "./WindowEvents";
@@ -8,16 +9,16 @@ interface TestResult {
     error?: {
         // Human readable description of what failed.
         description: string;
-    
+
         // Optional Stack Trace in case the code/program
         // doesn't even run/compile.
         stackTrace?: string;
-    
+
         // Optional suggestions for fixing the problem.
         // These are meant to be shown to the user,
         // and guide him towards the fix.
         suggestions?: string[];
-      };
+    };
 }
 
 const GENERIC_ERROR_MESSAGE = 'Nu am putut să evaluăm soluția. Dacă problema persistă, dă-ne un email.';
@@ -30,32 +31,47 @@ const test1_rightBatterPos = new Vector3(-0.75, 2.1, -.65);
 const test1_expectedYRotLeft = Math.PI / 2.0;
 const test1_expectedYRotRight = -Math.PI / 2.0;
 
-export function Test1(leftBattery: Mesh, rightBattery: Mesh): TestResult{
+export function Test1(scene: Scene, leftBatteryName: string, rightBatteryName: string): TestResult {
     try {
+        const maybeLeftBatteryMesh = scene.getObjectByName(leftBatteryName);
+        const maybeRightBatteryMesh = scene.getObjectByName(rightBatteryName);
+
+        if (maybeLeftBatteryMesh === undefined || maybeRightBatteryMesh === undefined) {
+            return {
+                valid: false,
+                error: {
+                    description: 'Nu am putut găsi cele 2 baterii. Le-ai schimbat numele?'
+                }
+            }
+        }
+
+        const leftBattery = maybeLeftBatteryMesh as Mesh;
+        const rightBattery = maybeRightBatteryMesh as Mesh;
+
         const leftBatteryWorldPos = new Vector3();
         leftBattery.getWorldPosition(leftBatteryWorldPos);
         const leftBatteryDistance = leftBatteryWorldPos.distanceTo(test1_leftBatteryPos);
-    
+
         const leftBatteryRotation = GetWorldRotation(leftBattery);
         const isLeftBatteryInCorrectRotation = Math.abs(leftBatteryRotation.x - test1_expectedYRotLeft) < 0.1 &&
             Math.abs(leftBatteryRotation.y) < 0.1 &&
             Math.abs(leftBatteryRotation.z) < 0.1;
-    
+
         const rightBatteryWorldPos = new Vector3();
         rightBattery.getWorldPosition(rightBatteryWorldPos);
         const rightBatteryDistance = rightBatteryWorldPos.distanceTo(test1_rightBatterPos);
-    
+
         const rightBatteryRotation = GetWorldRotation(rightBattery);
         const isRightBatteryInCorrectRotation = Math.abs(rightBatteryRotation.x - test1_expectedYRotRight) < 0.1 &&
             Math.abs(rightBatteryRotation.y) < 0.1 &&
             Math.abs(rightBatteryRotation.z) < 0.1;
-    
+
         //@ts-ignore
         test1Passed = leftBatteryDistance < 0.1 && rightBatteryDistance < 0.1 && isLeftBatteryInCorrectRotation && isRightBatteryInCorrectRotation;
-    
+
         return {
             valid: test1Passed,
-            error: test1Passed === true 
+            error: test1Passed === true
                 ? undefined
                 : {
                     description: 'Bateriile nu sunt corect poziționate!',
@@ -68,8 +84,8 @@ export function Test1(leftBattery: Mesh, rightBattery: Mesh): TestResult{
             error: {
                 description: GENERIC_ERROR_MESSAGE,
                 stackTrace: err instanceof Error
-                     ? err.stack
-                     : undefined
+                    ? err.stack
+                    : undefined
             }
         };
     }
@@ -147,7 +163,7 @@ export function Test4Passed() {
 let test5Passed = true;
 
 export function Test5(totalTime: number, value: number) {
-    if(!test5Passed) return false;
+    if (!test5Passed) return false;
     if (value - Math.sin(totalTime * 2.1) < 0.01) {
         test5Passed = true;
     } else {
@@ -164,19 +180,11 @@ export function Test5Passed() {
  * These are mounted in the page and listen to Window Events
  */
 
-const Test1Component = ({ leftBattery, rightBattery }: { leftBattery: Mesh | null, rightBattery: Mesh | null }) => {
-    const onMessage = () => {
-        let result: TestResult = {
-            valid: false
-        };
+const Test1Component = ({ leftBatteryName, rightBatteryName }: { leftBatteryName: string, rightBatteryName: string }) => {
+    const { scene } = useThree();
 
-        if (leftBattery === null || rightBattery === null) {
-            result.error = {
-                description: GENERIC_ERROR_MESSAGE
-            };
-        } else {
-            result = Test1(leftBattery, rightBattery);
-        }
+    const onMessage = () => {
+        let result: TestResult = Test1(scene, leftBatteryName, rightBatteryName);
 
         emitWindowEvent({
             type: WINDOW_EVENTS.TEST_1_RESULT,
@@ -184,7 +192,7 @@ const Test1Component = ({ leftBattery, rightBattery }: { leftBattery: Mesh | nul
         });
     }
 
-    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage, [leftBattery, rightBattery]);
+    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage, [leftBatteryName, rightBatteryName]);
     return null;
 }
 
@@ -198,7 +206,7 @@ const Test2Component = ({ giftFactory }: { giftFactory: ElementsFactory }) => {
                 reason: 'Test failed. Reason TBD'
             }
         });
-     
+
         console.log(didTest2Pass);
     }
 
