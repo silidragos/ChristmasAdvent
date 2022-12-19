@@ -6,10 +6,17 @@ import { Materials, Nodes } from "./3d.types";
 import { Test1, Test1Component } from "../services/TestingService";
 import HierarchyDay1, { MESH_NAMES } from "../courses/day1-hierarchy-attributes";
 
+interface Props {
+    nodes: Nodes;
+    materials: Materials;
+    onTestChange: (valid: boolean) => void;
+}
+
 export default function EnergyCube({
     nodes,
-    materials
-}: { nodes: Nodes; materials: Materials }) {
+    materials,
+    onTestChange,
+}: Props) {
     const { scene } = useThree();
     const batteryCore = useRef<Mesh>(null);
     const batteryCoreMainPosition = useRef<Vector3 | null>(null);
@@ -27,14 +34,14 @@ export default function EnergyCube({
             return;
         }
 
-        let { valid: didTest1Pass } = Test1(scene, MESH_NAMES.LEFT_BATTERY, MESH_NAMES.RIGHT_BATTERY);
+        let testResult = Test1(scene, MESH_NAMES.LEFT_BATTERY, MESH_NAMES.RIGHT_BATTERY);
 
-        if (didTest1Pass) {
+        if (testResult.valid) {
             let newPos = new Vector3();
             newPos.addVectors(new Vector3(Math.random(), Math.random(), Math.random()).multiplyScalar(0.2), batteryCoreMainPosition.current);
             batteryCore.current.position.set(newPos.x, newPos.y, newPos.z);
         }
-
+        onTestChange(testResult.valid);
     });
     return (
         <>

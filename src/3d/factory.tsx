@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import EnergyCube from './energy-cube';
 import { GLTF } from 'three-stdlib';
@@ -11,7 +11,6 @@ import DestinationBox from '../courses/day6-spring';
 import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
 import AudioComponent, { listener } from './audio-component';
 import * as THREE from 'three';
-import { Test1Passed } from '../services/TestingService';
 import { AUDIO_PUBLIC_URL, PUBLIC_URL } from '../services/Constants';
 
 type GLTFResult = GLTF & {
@@ -23,32 +22,33 @@ export function Factory(props: GroupProps) {
   const startLight = useRef<PointLight>(null);
   const hadBattery = useRef<boolean>(false);
 
-  let hoSound: PositionalAudio;
-  let factorySound: PositionalAudio;
+  const hoSound = useRef<PositionalAudio | undefined>(undefined);
+  const factorySound = useRef<PositionalAudio | undefined>(undefined);
 
   let lightMat: THREE.MeshBasicMaterial = useMemo(() => {
     return new MeshBasicMaterial({ color: 0xff0000 });
   }, [])
 
+  const [test1Passed, setTest1Passed] = useState(false);
+
 
   useFrame(() => {
     if (startLight.current === null) return;
 
-    let test1Passed : boolean = Test1Passed();
-    if (!hadBattery.current && test1Passed) {
+    if (!hadBattery.current && test1Passed === true) {
       hadBattery.current = true;
       startLight.current.intensity = 5;
       lightMat.color.set(0x00ff00);
 
-      hoSound.play();
-      factorySound.play();
+      hoSound.current?.play();
+      factorySound.current?.play();
 
     } else if (hadBattery.current && !test1Passed) {
       hadBattery.current = false;
       startLight.current.intensity = 0;
       lightMat.color.set(0xff0000);
 
-      factorySound.stop();
+      factorySound.current?.stop();
     }
   })
 
@@ -68,7 +68,7 @@ export function Factory(props: GroupProps) {
         </group>
       </group>
 
-      <EnergyCube nodes={nodes} materials={materials} />
+      <EnergyCube onTestChange={(valid) => setTest1Passed(valid)} nodes={nodes} materials={materials} />
       <DestinationBox nodes={nodes} materials={materials} />
 
       <group position={[-2.06, 0.31, -0.01]}>
@@ -104,11 +104,11 @@ export function Factory(props: GroupProps) {
       <GiftsPhysics />
 
       <AudioComponent url={`${AUDIO_PUBLIC_URL}/factory-loop.mp3`} volume={1} loop={true} autoplay={false} play={false} onInit={sound =>{
-        factorySound = sound;
+        factorySound.current = sound;
       }}/>
       <AudioComponent url={`${AUDIO_PUBLIC_URL}/652617__percyfrench__kitsune.mp3`}  loop={true} volume={0.25}/>
       <AudioComponent url={`${AUDIO_PUBLIC_URL}/ho-ho.mp3`} volume={1} loop={false} autoplay={false} play={false} onInit={sound =>{
-        hoSound = sound;
+        hoSound.current = sound;
       }}/>
     </group>
   )

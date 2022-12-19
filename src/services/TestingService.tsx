@@ -1,10 +1,11 @@
 import { useThree } from "@react-three/fiber";
 import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
+
 import Curve from "../3d/curve";
-import { Day3_CalculateNewPosition } from "../3d/gifts";
 import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
-import { emitWindowEvent, useWindowEvent, WindowMessage } from "./WindowEvents";
+import { Day3_CalculateNewPosition } from "../3d/gifts";
+import { emitWindowEvent, useWindowEvent } from "./WindowEvents";
 
 interface TestResult {
     valid: boolean;
@@ -26,12 +27,10 @@ interface TestResult {
 const GENERIC_ERROR_MESSAGE = 'Nu am putut să evaluăm soluția. Dacă problema persistă, dă-ne un email.';
 
 // ---------- Test 1 -------------
-
-let test1Passed = false;
-const test1_leftBatteryPos = new Vector3(-0.75, 2.1, 0.8);
-const test1_rightBatterPos = new Vector3(-0.75, 2.1, -.65);
-const test1_expectedYRotLeft = Math.PI / 2.0;
-const test1_expectedYRotRight = -Math.PI / 2.0;
+const TEST_1_CORRECT_BATTERY_LEFT_POS = new Vector3(-0.75, 2.1, 0.8);
+const TEST_1_CORRECT_BATTERY_RIGHT_POS = new Vector3(-0.75, 2.1, -.65);
+const TEST_1_CORRECT_BATTERY_LEFT_ROTATION = Math.PI / 2.0;
+const TEST_1_CORRECT_BATTERY_RIGHT_ROTATION = -Math.PI / 2.0;
 
 export function Test1(scene: Scene, leftBatteryName: string, rightBatteryName: string): TestResult {
     try {
@@ -52,28 +51,27 @@ export function Test1(scene: Scene, leftBatteryName: string, rightBatteryName: s
 
         const leftBatteryWorldPos = new Vector3();
         leftBattery.getWorldPosition(leftBatteryWorldPos);
-        const leftBatteryDistance = leftBatteryWorldPos.distanceTo(test1_leftBatteryPos);
+        const leftBatteryDistance = leftBatteryWorldPos.distanceTo(TEST_1_CORRECT_BATTERY_LEFT_POS);
 
         const leftBatteryRotation = GetWorldRotation(leftBattery);
-        const isLeftBatteryInCorrectRotation = Math.abs(leftBatteryRotation.x - test1_expectedYRotLeft) < 0.1 &&
+        const isLeftBatteryInCorrectRotation = Math.abs(leftBatteryRotation.x - TEST_1_CORRECT_BATTERY_LEFT_ROTATION) < 0.1 &&
             Math.abs(leftBatteryRotation.y) < 0.1 &&
             Math.abs(leftBatteryRotation.z) < 0.1;
 
         const rightBatteryWorldPos = new Vector3();
         rightBattery.getWorldPosition(rightBatteryWorldPos);
-        const rightBatteryDistance = rightBatteryWorldPos.distanceTo(test1_rightBatterPos);
+        const rightBatteryDistance = rightBatteryWorldPos.distanceTo(TEST_1_CORRECT_BATTERY_RIGHT_POS);
 
         const rightBatteryRotation = GetWorldRotation(rightBattery);
-        const isRightBatteryInCorrectRotation = Math.abs(rightBatteryRotation.x - test1_expectedYRotRight) < 0.1 &&
+        const isRightBatteryInCorrectRotation = Math.abs(rightBatteryRotation.x - TEST_1_CORRECT_BATTERY_RIGHT_ROTATION) < 0.1 &&
             Math.abs(rightBatteryRotation.y) < 0.1 &&
             Math.abs(rightBatteryRotation.z) < 0.1;
 
-        //@ts-ignore
-        test1Passed = leftBatteryDistance < 0.1 && rightBatteryDistance < 0.1 && isLeftBatteryInCorrectRotation && isRightBatteryInCorrectRotation;
+        const valid = leftBatteryDistance < 0.1 && rightBatteryDistance < 0.1 && isLeftBatteryInCorrectRotation && isRightBatteryInCorrectRotation;
 
         return {
-            valid: test1Passed,
-            error: test1Passed === true
+            valid,
+            error: valid === true
                 ? undefined
                 : {
                     description: 'Bateriile nu sunt corect poziționate!',
@@ -93,8 +91,20 @@ export function Test1(scene: Scene, leftBatteryName: string, rightBatteryName: s
     }
 }
 
-export function Test1Passed(): boolean {
-    return test1Passed;
+const Test1Component = ({ leftBatteryName, rightBatteryName }: { leftBatteryName: string, rightBatteryName: string }) => {
+    const { scene } = useThree();
+
+    const onMessage = () => {
+        let result: TestResult = Test1(scene, leftBatteryName, rightBatteryName);
+
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_1_RESULT,
+            payload: result
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage, [leftBatteryName, rightBatteryName]);
+    return null;
 }
 
 function GetWorldRotation(mesh: Mesh): Euler {
@@ -106,9 +116,7 @@ function GetWorldRotation(mesh: Mesh): Euler {
 }
 
 // ---------- Test 2 -------------
-
-let test2Passed = false;
-let test2_expectedTypes: {
+let TEST_2_EXPECTED_TYPES: {
     // This is the actual type we're checking to see if the
     // implementation is correct.
     type: string;
@@ -125,12 +133,12 @@ let test2_expectedTypes: {
 ];
 
 export function Test2(gifts: JSX.Element[]): TestResult {
+    const SPAN = `[Test2, gifts.length=${gifts.length}]`;
     const giftTypes = gifts.map(gift => gift.props.children.type);
 
-    for (let { type, label } of test2_expectedTypes) {
+    for (let { type, label } of TEST_2_EXPECTED_TYPES) {
         if (!giftTypes.includes(type)) {
-            test2Passed = false;
-            console.warn(`No ${type} found!`)
+            console.warn(`${SPAN} No ${type} found!`)
             return {
                 valid: false,
                 error: {
@@ -140,16 +148,24 @@ export function Test2(gifts: JSX.Element[]): TestResult {
         }
     }
 
-    console.log(`All types were found!`)
-    test2Passed = true;
+    console.log(`${SPAN} All types were found!`)
 
     return {
         valid: true,
     }
 }
 
-export function Test2Passed() {
-    return test2Passed;
+const Test2Component = ({ giftFactory }: { giftFactory: ElementsFactory }) => {
+    const onMessage = () => {
+        let result: TestResult = Test2(giftFactory.getAll());
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_2_RESULT,
+            payload: result,
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
+    return null;
 }
 
 // ---------- Test 3 -------------
@@ -225,8 +241,6 @@ const Test3Component = ({
 }
 
 // ---------- Test 4 -------------
-let test4Passed = false;
-
 let test4_materialsInfo: {
     type: string,
     color: string;
@@ -263,16 +277,23 @@ export function Test4(materials: JSX.Element[]): TestResult {
         }
     }
 
-    test4Passed = true;
     return {
         valid: true
     }
 }
 
-export function Test4Passed() {
-    return test4Passed;
-}
+const Test4Component = ({ materials }: {materials: JSX.Element[] }) => {
+    const onMessage = () => {
+        let result: TestResult = Test4(materials);
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_4_RESULT,
+            payload: result
+        });
+    }
 
+    useWindowEvent(WINDOW_EVENTS.TEST_4_RUN, onMessage);
+    return null;
+}
 
 // ---------- Test 5 -------------
 
@@ -288,54 +309,6 @@ export function Test5(totalTime: number, value: number) {
 }
 export function Test5Passed() {
     return test5Passed;
-}
-
-
-/**
- * ***** REACT COMPONENTS
- * These are mounted in the page and listen to Window Events
- */
-
-const Test1Component = ({ leftBatteryName, rightBatteryName }: { leftBatteryName: string, rightBatteryName: string }) => {
-    const { scene } = useThree();
-
-    const onMessage = () => {
-        let result: TestResult = Test1(scene, leftBatteryName, rightBatteryName);
-
-        emitWindowEvent({
-            type: WINDOW_EVENTS.TEST_1_RESULT,
-            payload: result
-        });
-    }
-
-    useWindowEvent(WINDOW_EVENTS.TEST_1_RUN, onMessage, [leftBatteryName, rightBatteryName]);
-    return null;
-}
-
-const Test2Component = ({ giftFactory }: { giftFactory: ElementsFactory }) => {
-    const onMessage = () => {
-        let result: TestResult = Test2(giftFactory.getAll());
-        emitWindowEvent({
-            type: WINDOW_EVENTS.TEST_2_RESULT,
-            payload: result,
-        });
-    }
-
-    useWindowEvent(WINDOW_EVENTS.TEST_2_RUN, onMessage);
-    return null;
-}
-
-const Test4Component = ({ materials }: {materials: JSX.Element[] }) => {
-    const onMessage = () => {
-        let result: TestResult = Test4(materials);
-        emitWindowEvent({
-            type: WINDOW_EVENTS.TEST_4_RESULT,
-            payload: result
-        });
-    }
-
-    useWindowEvent(WINDOW_EVENTS.TEST_4_RUN, onMessage);
-    return null;
 }
 
 export {
