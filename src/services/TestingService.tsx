@@ -153,31 +153,77 @@ export function Test2Passed() {
 }
 
 // ---------- Test 3 -------------
+export function Test3({
+    idx,
+    curve,
+    initialOffset,
+    giftSpeedPerSecond,
+    positions
+}: {
+    idx: number;
+    curve: Curve;
+    initialOffset: number;
+    giftSpeedPerSecond: number;
+    positions: THREE.Vector3[];
+}): TestResult {
+    if (positions[idx] === undefined) {
+        return {
+            valid: false
+        }
+    }
 
-let test3Passed = false;
+    let newOffset = (initialOffset + Date.now() / 1000.0 * giftSpeedPerSecond) % 1;
+    let expectedPos = Day3_CalculateNewPosition(curve, newOffset, () => { });
 
-let isCorrect:Array<boolean> = [];
+    const dist = expectedPos.distanceTo(positions[idx]);
+    const isValid = dist < 0.1;
 
-for(let i=0; i< 10; i++){
-    isCorrect.push(false);
-}
-
-export function Test3({ idx, curve, initialOffset, giftSpeedPerSecond, giftPosReferences}: { idx:number, curve: Curve, initialOffset: number, giftSpeedPerSecond: number, giftPosReferences: any}): TestResult {
-    let newOffset = (initialOffset + Date.now()/1000.0 * giftSpeedPerSecond) % 1;
-    let expectedPos = Day3_CalculateNewPosition(curve, newOffset, ()=>{});
-    
-    const dist = expectedPos.distanceTo(giftPosReferences[idx].position); 
-    isCorrect[idx] = dist < 0.1;
-
-    test3Passed = true;
     return {
-        valid: isCorrect[idx],
+        valid: isValid,
     }
 }
 
-export function Test3Passed() {
-    return isCorrect.findIndex(val => val === false) === -1;
+const Test3Component = ({
+    giftCount,
+    curve,
+    giftSpeedPerSecond,
+    getPositions
+}: {
+    giftCount: number;
+    curve: Curve;
+    giftSpeedPerSecond: number;
+    getPositions: () => THREE.Vector3[];
+}) => {
+    const onMessage = () => {
+        const positions = getPositions();
+        const testResults = new Array(giftCount).fill('').map((_, index) => {
+            return Test3({
+                idx: index,
+                curve,
+                positions,
+                giftSpeedPerSecond,
+                initialOffset: index * (1.0 / giftCount)
+            })
+        });
+
+        const didTestPass = testResults.every(result => result.valid === true);
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_3_RESULT,
+            payload: didTestPass === true
+                ? { valid: true }
+                : {
+                    valid: false,
+                    error: {
+                        description: 'Cadourile nu sunt corect poziționate pe bandă.'
+                    }
+                },
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_3_RUN, onMessage);
+    return null;
 }
+
 // ---------- Test 4 -------------
 let test4Passed = false;
 
@@ -295,5 +341,6 @@ const Test4Component = ({ materials }: {materials: JSX.Element[] }) => {
 export {
     Test1Component,
     Test2Component,
+    Test3Component,
     Test4Component
 };
