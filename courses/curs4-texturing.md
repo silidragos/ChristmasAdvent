@@ -3,7 +3,7 @@
 Similar cu ziua 2, avem nevoie astăzi de o lista de materiale cu care sa colorăm cadourile venite pe banda de producție, înainte de a fi trimise mai departe.
 Pentru astăzi nu avem nevoie de texturi, dar avem nevoie de anumite materiale specifice, și anume:
 
-- Un material PBR standard verde, fara stralucire, non-metalic
+- Un material PBR standard verde, fara stralucire(rough), non-metalic
 - Un material PBR verde care *emite* culoare verde.
 - Un material PBR rosu, 100% smooth, metalic
 - Un material basic, de culoare roz

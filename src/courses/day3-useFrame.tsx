@@ -1,7 +1,7 @@
 import { useFrame, Vector3 } from "@react-three/fiber";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { Group } from "three";
-import Curve from "../3d/Curve";
+import Curve from "../3d/curve";
 import { Day3_CalculateNewPosition } from "../3d/gifts";
 
 

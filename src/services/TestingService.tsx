@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber";
 import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
 
-import Curve from "../3d/Curve";
+import Curve from "../3d/curve";
 import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { Day3_CalculateNewPosition } from "../3d/gifts";
@@ -255,7 +255,7 @@ let test4_materialsInfo: {
 }[] = [
     { type: "meshStandardMaterial", color: "green", colorLabel: "verde", roughness: 1, metalness: 0 },
     { type: "meshStandardMaterial", color: "green", colorLabel: "verde", emissive: "green" },
-    { type: "meshStandardMaterial", color: "red", colorLabel: "roșu" },
+    { type: "meshStandardMaterial", color: "red", colorLabel: "roșu", roughness: 0, metalness: 1 },
     { type: "meshBasicMaterial", color: "pink", colorLabel: "roz" },
     { type: "meshToonMaterial", color: "blue", colorLabel: "albastru", transparent: true, opacity: 0.5 },
 ]
@@ -276,6 +276,10 @@ export function Test4(materials: JSX.Element[]): TestResult {
                 (expectedMaterial.opacity !== undefined || material.props.opacity === expectedMaterial.opacity)
             );
         });
+
+        if(match === undefined){
+            console.log("ERROR!!", expectedMaterial);
+        }
 
         if (match === undefined) {
             return {
