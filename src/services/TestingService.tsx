@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber";
 import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
 
-import Curve from "../3d/curve";
+import Curve from "../3d/Curve";
 import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { Day3_CalculateNewPosition } from "../3d/gifts";

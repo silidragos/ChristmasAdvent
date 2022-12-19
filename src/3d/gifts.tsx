@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import { PropsWithChildren, useMemo, useRef } from "react";
+import { Vector3, BufferGeometry, PositionalAudio } from "three";
 import { extend, ReactThreeFiber, useFrame } from "@react-three/fiber";
-import { Vector3, BufferGeometry, PositionalAudio, Group, Object3D, Mesh } from "three";
 
-import Curve from "./curve";
+import Curve from "./Curve";
+import { Day3_Gift } from "../courses/day3-useFrame";
 import GiftFactory from "../services/ElementsFactory";
 import { AUDIO_PUBLIC_URL } from "../services/Constants";
-import { Day3_Gift } from "../courses/day3-useFrame";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import AudioComponent, { TryPlaySound } from "./audio-component";
 import {
@@ -15,7 +15,6 @@ import {
   Test3,
   Test3Component,
 } from "../services/TestingService";
-import { count } from "console";
 
 const giftSpeed = 0.05;
 
