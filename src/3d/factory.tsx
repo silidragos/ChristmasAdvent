@@ -11,7 +11,7 @@ import GiftsPhysics from './gifts-physics';
 import { Materials, Nodes } from './3d.types';
 import AudioComponent from './audio-component';
 import DestinationBox from '../courses/day6-spring';
-import RotativePalette from '../courses/day5-physics';
+import RotativePalette from './palette';
 import { AUDIO_PUBLIC_URL, PUBLIC_URL } from '../services/Constants';
 
 type GLTFResult = GLTF & {
@@ -31,7 +31,6 @@ export function Factory(props: GroupProps) {
   }, [])
 
   const [test1Passed, setTest1Passed] = useState(false);
-
 
   useFrame(() => {
     if (startLight.current === null) return;

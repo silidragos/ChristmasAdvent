@@ -6,6 +6,7 @@ import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { Day3_CalculateNewPosition } from "../3d/gifts";
 import { emitWindowEvent, useWindowEvent } from "./WindowEvents";
+import { PublicApi } from "@react-three/cannon";
 
 interface TestResult {
     valid: boolean;
@@ -311,15 +312,12 @@ const Test4Component = ({ materials }: {materials: JSX.Element[] }) => {
 
 // ---------- Test 5 -------------
 
-let test5Passed = true;
+let test5Passed = false;
 
-export function Test5(totalTime: number, value: number) {
-    if (!test5Passed) return false;
-    if (value - Math.sin(totalTime * 2.1) < 0.01) {
-        test5Passed = true;
-    } else {
-        test5Passed = false;
-    }
+export function SubscribeForTest5(physicsAPI:PublicApi) {
+    physicsAPI.mass.subscribe(val =>{
+        test5Passed = val === 0;
+    })
 }
 export function Test5Passed() {
     return test5Passed;

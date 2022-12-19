@@ -1,10 +1,12 @@
 # Ziua 5. Împinge cadourile în sac!
 
-Trebuie să mișcăm paleta de împingere! Aceasta trebuie să meargă ba în față ba în spate, să împingă cadourile colorate anterior, care cad pe măsuță, ca în cele din urmă să se rostogolească în sac,
+Paleta de împingere a cadourilor în sac este total defectă! Nu stă fixă 😓
 
-Pentru a nu brusca nimic prea tare recomandăm un traseu sinusoidal.
+Aceasta ar trebui să nu fie influențată de celelalte obiecte, ci doar paleta să le împingă pe ele. Ar trebui modificat doar un lucru în fișierul nostru. Găsește greșeala și repară paleta!
 
-Testele noastre urmăresc numărul de cadouri care ajung la destinație 🧑‍🔧
+P.S. Am dat enable la tag-ul `<Debug/>` pentru a putea vedea mai bine colliderele din scena.
+
+P.P.S. Înțelege mai bine cum funcționează paleta din `/3d/palette/tsx`.
 
 ![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c5-cerinta.png)
 
