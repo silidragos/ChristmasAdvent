@@ -1,16 +1,17 @@
-import { useMemo, useRef, useState } from 'react'
-import { useGLTF } from '@react-three/drei'
-import EnergyCube from './energy-cube';
-import { GLTF } from 'three-stdlib';
-import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
-import { Materials, Nodes } from './3d.types';
-import Gifts from './gifts';
-import GiftsPhysics from './gifts-physics';
-import RotativePalette from '../courses/day5-physics';
-import DestinationBox from '../courses/day6-spring';
-import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
-import AudioComponent, { listener } from './audio-component';
 import * as THREE from 'three';
+import { GLTF } from 'three-stdlib';
+import { useGLTF } from '@react-three/drei'
+import { useMemo, useRef, useState } from 'react'
+import { GroupProps, useFrame } from '@react-three/fiber';
+import { MeshBasicMaterial, PointLight, PositionalAudio } from 'three';
+
+import Gifts from './gifts';
+import EnergyCube from './EnergyCube';
+import GiftsPhysics from './gifts-physics';
+import { Materials, Nodes } from './3d.types';
+import AudioComponent from './audio-component';
+import DestinationBox from '../courses/day6-spring';
+import RotativePalette from '../courses/day5-physics';
 import { AUDIO_PUBLIC_URL, PUBLIC_URL } from '../services/Constants';
 
 type GLTFResult = GLTF & {
@@ -68,7 +69,7 @@ export function Factory(props: GroupProps) {
         </group>
       </group>
 
-      <EnergyCube onTestChange={(valid) => setTest1Passed(valid)} nodes={nodes} materials={materials} />
+      <EnergyCube onTest1ValidityChange={(valid) => setTest1Passed(valid)} nodes={nodes} materials={materials} />
       <DestinationBox nodes={nodes} materials={materials} />
 
       <group position={[-2.06, 0.31, -0.01]}>
