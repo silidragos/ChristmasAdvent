@@ -23,7 +23,7 @@ Ajută-ne calculând corect formula pentru `offsetAlongCurveSinceLastFrame`.
 
 2) De asemenea, vom stoca rezultatul într-un Vector3 numit `calculatedPosition: Vector3`. Asignează la fiecare frame poziția calculată pe elementul `parent.current`.
 
-![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)
+![Cerinta 2](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c2-cerinta.png)
 
 ---
 

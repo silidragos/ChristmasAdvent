@@ -9,7 +9,7 @@ Opțiuni există, dar am decis pentru săptămâna aceasta să rămânem la Thre
 Așa că hai să facem un scurt intro despre aceasta.
 
 
-![mesh-to-geo](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c1-main.png)
+![mesh-to-geo](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c1-main.png)
 
 ## Setup
 
@@ -36,7 +36,7 @@ La bază, orice obiect are în spate un [Object3D](https://threejs.org/docs/?q=o
 
 Don't worry! Vom învăța mai multe despre tipuri de geometrie și materiale în zilele care urmează. 
 
-![mesh-to-geo](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c1-mesh.jpg)
+![mesh-to-geo](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c1-mesh.jpg)
 
 Importantă de menționat aici este ierarhia/parentarea. Orice entitate care aparține de o alta, este parentată în DOM de aceasta. Apoi, pentru a descrie fiecare entitate avem atribute, cum sunt în cazul nostru `position`, `rotation`, sau `args` (care se refera de obicei la parametrii din constructor).
 
@@ -60,7 +60,7 @@ Rotația este reprezentată și ea în 3 valori, in functie de axa în jurul că
 
 
 
-![Position, rotation and scale](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c1-pos-rot-scale.jpg)
+![Position, rotation and scale](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c1-pos-rot-scale.jpg)
 
 
 !!Fiecare din aceste trei valori sunt relative la părintele lor direct. Pentru asta trebuie să vorbim despre Ierarhie.

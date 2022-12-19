@@ -2,7 +2,7 @@
 
 Great! Tot flow-ul este complet, dar vrem un indicator care să ne anunțe când cadourile au intrat în sac. Ultimul pas este acela de a aplica o animație textului "Good Children".
 
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-cerinta.png)
+![](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c6-cerinta.png)
 
 ---
 
@@ -14,7 +14,7 @@ Să facem animații folosing Physics Engines poate arăta foarte plăcut, dar es
 
 Dar dacă vrem ceva mai similar cu animațiile din CSS? Unde putem anima orice proprietate, într-o anumită perioadă de timp, să aplicăm peste un *ease in*, un *ease out*, sau alte funcții care să facă animația noastră eye-catchy 😍 și totul în doar câteva linii de cod?
 
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-ease.png)
+![](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c6-ease.png)
 [Află mai multe despre ease functions](https://easings.net/)
 
 În 3D sunt multe librării care fac asta, și de obicei poartă denumirea de "Tweening libraries", iar mai exact, noi vom vorbi astăzi despre 

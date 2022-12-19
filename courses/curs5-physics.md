@@ -8,7 +8,7 @@ P.S. Am dat enable la tag-ul `<Debug/>` pentru a putea vedea mai bine colliderel
 
 P.P.S. Înțelege mai bine cum funcționează paleta din `/3d/palette/tsx`.
 
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c5-cerinta.png)
+![](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c5-cerinta.png)
 
 ---
 

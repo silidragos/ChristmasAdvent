@@ -16,7 +16,7 @@ Asigurați-vă ca toate formele sunt sub formă de elemente JSX, și fac parte d
 
 Formele nu sunt încă colorate, dar ne vom ocupa de asta peste 2 zile. 🦄
 
-![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)
+![Cerinta 2](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c2-cerinta.png)
 
 ---
 
