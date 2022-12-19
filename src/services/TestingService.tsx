@@ -187,12 +187,17 @@ let test4_materialsInfo: {
     // Romanian label used to correctly display the error
     // string (if any) to the user.
     colorLabel: string;
+    roughness?: number;
+    metalness?: number;
+    emissive?: string;
+    transparent?: boolean;
+    opacity?: number;
 }[] = [
-    { type: "meshStandardMaterial", color: "green", colorLabel: "verde" },
-    { type: "meshStandardMaterial", color: "green", colorLabel: "verde" },
+    { type: "meshStandardMaterial", color: "green", colorLabel: "verde", roughness: 1, metalness: 0 },
+    { type: "meshStandardMaterial", color: "green", colorLabel: "verde", emissive: "green" },
     { type: "meshStandardMaterial", color: "red", colorLabel: "roșu" },
     { type: "meshBasicMaterial", color: "pink", colorLabel: "roz" },
-    { type: "meshToonMaterial", color: "blue", colorLabel: "albastru" },
+    { type: "meshToonMaterial", color: "blue", colorLabel: "albastru", transparent: true, opacity: 0.5 },
 ]
 export function Test4(materials: JSX.Element[]): TestResult {
     for(let i = 0; i< test4_materialsInfo.length; i++) {
@@ -203,7 +208,12 @@ export function Test4(materials: JSX.Element[]): TestResult {
             return (
                 material.type === expectedMaterial.type &&
                 material.props.attach === "material" &&
-                material.props.color === expectedMaterial.color
+                material.props.color === expectedMaterial.color && 
+                (expectedMaterial.roughness !== undefined || material.props.roughness === expectedMaterial.roughness) &&
+                (expectedMaterial.metalness !== undefined || material.props.metalness === expectedMaterial.metalness) &&
+                (expectedMaterial.emissive !== undefined || material.props.emissive === expectedMaterial.emissive)  &&
+                (expectedMaterial.transparent !== undefined || material.props.transparent === expectedMaterial.transparent) &&
+                (expectedMaterial.opacity !== undefined || material.props.opacity === expectedMaterial.opacity)
             );
         });
 
