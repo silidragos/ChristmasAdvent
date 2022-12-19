@@ -3,7 +3,7 @@ import { PropsWithChildren, useMemo, useRef } from "react";
 import { Vector3, BufferGeometry, PositionalAudio } from "three";
 import { extend, ReactThreeFiber, useFrame } from "@react-three/fiber";
 
-import Curve from "./curve";
+import Curve from "./Curve";
 import { Day3_Gift } from "../courses/day3-useFrame";
 import GiftFactory from "../services/ElementsFactory";
 import { AUDIO_PUBLIC_URL } from "../services/Constants";

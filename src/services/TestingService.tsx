@@ -1,7 +1,7 @@
 import { useThree } from "@react-three/fiber";
 import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
 
-import Curve from "../3d/curve";
+import Curve from "../3d/Curve";
 import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { Day3_CalculateNewPosition } from "../3d/gifts";
@@ -311,21 +311,57 @@ const Test4Component = ({ materials }: {materials: JSX.Element[] }) => {
 }
 
 // ---------- Test 5 -------------
+async function Test5(physicsAPI: PublicApi): Promise<TestResult> {
+    const SPAN = `[SubscribeForTest5]`;
 
-let test5Passed = false;
+    try {
+        const result: TestResult = await new Promise((resolve) => {
+            physicsAPI.mass.subscribe((massValue) => {
+                const valid = massValue === 0;
 
-export function SubscribeForTest5(physicsAPI:PublicApi) {
-    physicsAPI.mass.subscribe(val =>{
-        test5Passed = val === 0;
-    })
+                resolve({
+                    valid,
+                    error: valid === false
+                        ? {
+                            description: 'Soluția ta nu e corectă. Mai încearcă!'
+                        }
+                        : undefined
+                });
+            })
+        })
+        return result;
+    } catch (err) {
+        console.error(`${SPAN} Failed to evaluate solution`, err);
+        return {
+            valid: false,
+            error: {
+                description: GENERIC_ERROR_MESSAGE,
+                stackTrace: err instanceof Error
+                    ? err.stack
+                    : undefined
+            }
+        }
+    }
 }
-export function Test5Passed() {
-    return test5Passed;
+
+const Test5Component = ({ physicsAPI }: { physicsAPI: PublicApi }) => {
+    const onMessage = async () => {
+        let result: TestResult = await Test5(physicsAPI);
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_5_RESULT,
+            payload: result
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_5_RUN, onMessage);
+    return null;
 }
+
 
 export {
     Test1Component,
     Test2Component,
     Test3Component,
-    Test4Component
+    Test4Component,
+    Test5Component,
 };
