@@ -148,4 +148,4 @@ Aceasta este folosită în `src/3d/gifs.tsx`.
 >       }, []);
 
 
-Codul este în `src/3d/curve.tsx`.
+Codul este în `src/3d/Curve.tsx`.

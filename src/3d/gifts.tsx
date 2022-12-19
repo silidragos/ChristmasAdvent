@@ -1,23 +1,20 @@
 import * as THREE from "three";
-import { useMemo, useRef } from "react";
-import { extend, ReactThreeFiber, useFrame } from "@react-three/fiber";
+import { PropsWithChildren, useMemo, useRef } from "react";
 import { Vector3, BufferGeometry, PositionalAudio } from "three";
+import { extend, ReactThreeFiber, useFrame } from "@react-three/fiber";
 
-import Curve from "./curve";
+import Curve from "./Curve";
+import { Day3_Gift } from "../courses/day3-useFrame";
 import GiftFactory from "../services/ElementsFactory";
 import { AUDIO_PUBLIC_URL } from "../services/Constants";
-import { Day3_Gift } from "../courses/day3-useFrame";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import AudioComponent, { TryPlaySound } from "./audio-component";
 import {
   Test2,
   Test2Component,
-  Test2Passed,
   Test3,
-  Test3Passed,
-  Test4Component,
+  Test3Component,
 } from "../services/TestingService";
-import { count } from "console";
 
 const giftSpeed = 0.05;
 
@@ -42,10 +39,27 @@ export function Day3_CalculateNewPosition(curve: Curve, newOffset: number, onRes
   return newPosOnCurve;
 }
 
-function Day3_Tester({ idx, curve, initialOffset, giftSpeedPerSecond, children, giftPosReferences}: { idx:number, curve: Curve, initialOffset: number, giftSpeedPerSecond: number, children: React.ReactNode, giftPosReferences: any}){
+function Day3_Tester({
+  idx,
+  curve,
+  initialOffset,
+  giftSpeedPerSecond,
+  children,
+  giftPosReferences
+}: PropsWithChildren<{
+  idx:number,
+  curve: Curve,
+  initialOffset: number,
+  giftSpeedPerSecond: number,
+  giftPosReferences: any[]
+}>){
 
   useFrame(()=>{
-    let isCorrect = Test3({idx, curve, initialOffset, giftSpeedPerSecond, giftPosReferences});
+    if (giftPosReferences[idx] === undefined) {
+      return;
+    }
+
+    let isCorrect = Test3({idx, curve, initialOffset, giftSpeedPerSecond, positions: giftPosReferences.map(g => g.position) });
 
     if(!isCorrect.valid){
       giftPosReferences[idx].children[0].material.color.setHex("0xff0000");
@@ -54,15 +68,13 @@ function Day3_Tester({ idx, curve, initialOffset, giftSpeedPerSecond, children, 
     }
   })
 
-  return(
-    <>
-      {children}
-    </>
-  )
+  return (
+    <> {children} </>
+  );
 }
 
 export default function Gifts() {
-  let giftPositionReferences = useRef<any>([]);
+  let giftPositionReferences = useRef<THREE.Group[]>([]);
   let giftsSound: PositionalAudio;
 
   let [myLineGeometry, curve] = useMemo(() => {
@@ -106,7 +118,7 @@ export default function Gifts() {
             <Day3_Gift key={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} onRespawnCallback={() => {
               TryPlaySound(giftsSound);
             }}
-            onInit = {(posRef: any)=>{
+            onInit = {(posRef: THREE.Group)=>{
               giftPositionReferences.current.push(posRef);
             }}>
               {giftFactory.getRandom()}
@@ -114,6 +126,16 @@ export default function Gifts() {
           </Day3_Tester>
         );
       }
+
+      gifts.push(
+        <Test3Component
+          key="test3Component"
+          giftCount={10}
+          curve={curve}
+          giftSpeedPerSecond={giftSpeed}
+          getPositions={() => giftPositionReferences.current.map(g => g.position)}
+        />
+      );
     }
     return gifts;
   }
