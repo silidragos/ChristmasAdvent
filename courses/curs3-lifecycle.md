@@ -1,10 +1,5 @@
-# Ziua 3. Să meargă banda! Cum scriem funcționalitățile?
----
-
 # Ziua 3. Să meargă banda!
 
-
-##
 Avem cadouri! Dar banda nu funcționează. Ei bine.. nu vom mișca banda, ci cadourile pe bandă. Pentru ca 3D-ul e mult "Smoke & Mirrors" 🧙‍♂️
 
 Ți-am pregătit deja traseul, folosing o clasă făcută de noi, `Curve` ale cărei poziții le poți sample-ui cu `curve.Sample(x: number)`. 

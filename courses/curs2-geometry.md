@@ -1,4 +1,5 @@
 # Ziua 2. Generatorul de cadouri.
+
 Ok. Avem curent. Acum trebuie sa generăm aleatoriu o serie de cadouri, de diferite forme. Nu îți face griji. Scopul zilei de astăzi este să ne familiarizăm cu primitivele 3D din ThreeJS.
 
 Toate informațiile despre primitive sunt [!! AICI !!](https://threejs.org/docs/#api/en/geometries/BoxGeometry) însă va trebui să le adaptezi la R3F, fie să gasești exemple funcționale în [documentația oficială](https://docs.pmnd.rs/react-three-fiber/getting-started/examples).
