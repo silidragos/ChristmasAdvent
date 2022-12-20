@@ -23,5 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 
-utils/result.txt
-utils/types.txt
+utils/result.json
+utils/types.json
+utils/tasks.json
