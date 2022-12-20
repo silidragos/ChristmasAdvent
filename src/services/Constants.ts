@@ -21,4 +21,7 @@ export const WINDOW_EVENTS = {
 
     TEST_5_RUN: 'TEST_5_RUN',
     TEST_5_RESULT: 'TEST_5_RESULT',
+
+    TEST_6_RUN: 'TEST_6_RUN',
+    TEST_6_RESULT: 'TEST_6_RESULT',
 };
