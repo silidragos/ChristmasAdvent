@@ -323,6 +323,37 @@ export function Test5Passed() {
     return test5Passed;
 }
 
+
+// ---------- Test 6 -------------
+
+let test6Passed = false;
+
+export function Test6(springApiParams:any, numberOfGifts: number) {
+    let isPositionCorrect = CompareTwoArrays(springApiParams.to.position, [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 1, 0]);
+    let isRotationCorrect = CompareTwoArrays(springApiParams.to.rotation, [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 2 * Math.PI, 0]);
+    console.log(`${isPositionCorrect} ${isRotationCorrect}`);
+    if(isPositionCorrect && isRotationCorrect){
+        test6Passed = true;   
+    }else{
+        test6Passed = false;
+    }
+}
+
+function CompareTwoArrays(arr1: Array<any>, arr2: Array<any>){
+    if(arr1.length !== arr2.length) return false;
+
+    for(let i=0; i<arr1.length; i++){
+        if(arr1[i] !== arr2[i]) return false;
+    }
+
+    return true;
+}
+
+
+export function Test6Passed() {
+    return test6Passed;
+}
+
 export {
     Test1Component,
     Test2Component,

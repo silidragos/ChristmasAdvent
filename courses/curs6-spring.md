@@ -2,7 +2,14 @@
 
 Great! Tot flow-ul este complet, dar vrem un indicator care să ne anunțe când cadourile au intrat în sac. Ultimul pas este acela de a aplica o animație textului "Good Children".
 
+Ce ne dorim este ca:
+- atunci când numărul de cadouri strânse este impar, textul să sară 1 metru în sus, și să se rotească la 180 de grade pe axa verticală (în radiani).
+- când numărul acestora este par, să se întoarcă la poziția și rotația inițială (position: `[0, 0, 0]` rotation: `[0, 0, 0]`)
+
+Înțelege mai bine cum funcționează textul din `src/3d/destination-box.tsx`, în special metoda `onCollideBegin(()=>{})` din definirea colliderului interior sacului prin CannonJS - `useBox<>`. 
+
 ![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-cerinta.png)
+
 
 ---
 

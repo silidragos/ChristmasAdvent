@@ -10,9 +10,9 @@ import EnergyCube from './EnergyCube';
 import GiftsPhysics from './gifts-physics';
 import { Materials, Nodes } from './3d.types';
 import AudioComponent from './audio-component';
-import DestinationBox from '../courses/day6-spring';
 import RotativePalette from './palette';
 import { AUDIO_PUBLIC_URL, PUBLIC_URL } from '../services/Constants';
+import DestinationBox from './destination-box';
 
 type GLTFResult = GLTF & {
   nodes: Nodes;
