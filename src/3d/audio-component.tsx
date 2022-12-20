@@ -5,6 +5,11 @@ import { PositionalAudio } from 'three';
 
 export const listener = new THREE.AudioListener();
 
+document.addEventListener("muteStateUpdated", (ev)=>{
+    //@ts-ignore
+    listener.setMasterVolume(ev.detail.isMute ? 0 : 1);
+})
+
 export const TryPlaySound = (sound: PositionalAudio)=>{
     if (sound === null || sound === undefined) {
         return;

@@ -365,7 +365,6 @@ let test6Passed = false;
 export function Test6(springApiParams:any, numberOfGifts: number) {
     let isPositionCorrect = CompareTwoArrays(springApiParams.to.position, [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 1, 0]);
     let isRotationCorrect = CompareTwoArrays(springApiParams.to.rotation, [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 2 * Math.PI, 0]);
-    console.log(`${isPositionCorrect} ${isRotationCorrect}`);
     if(isPositionCorrect && isRotationCorrect){
         test6Passed = true;   
     }else{

@@ -5,3 +5,55 @@ body{
   width: 100%;
   height: 100vh;
 }
+
+#mainScreen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  z-index: 100;
+}
+
+#mainScreen .main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -150px;
+  width: 300px;
+  height: 200px;
+}
+
+
+#mainScreen .main button {
+  background-color: transparent;
+  border: 2px solid white;
+  border-left: 0;
+  border-right: 0;
+  color: white;
+  font-size: 2em;
+  padding: 20px;
+  width: 100%;
+  cursor: pointer;
+}
+
+#mainScreen.inactive{
+  display: none;
+}
+#mainScreen .main .loading-only{
+  color: white;
+}
+
+.mute-but{
+  background-color: black;
+  margin-top: 20px;
+  margin-left: 20px;
+  border: 1px solid white;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+}

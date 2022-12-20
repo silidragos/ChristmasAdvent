@@ -1,17 +1,73 @@
 import { Factory } from './3d/factory';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Debug, Physics } from '@react-three/cannon';
 import { WINDOW_EVENTS } from './services/Constants';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { OrbitControls, Environment, useProgress } from '@react-three/drei';
 import { emitWindowEvent, useWindowEvent } from './services/WindowEvents';
 
 import './App.css';
 
+function Loading() {
+  const { progress, active } = useProgress();
+
+  if (!active) {
+    //On End
+  } else {
+    //Progress...
+    //@ts-ignore
+    document.getElementById("progress").innerText = "" + progress;
+  }
+  return (
+    <></>
+  )
+}
+
+
+function MuteUnmute(){
+  const [isMute, setIsMute] = useState(false);
+
+  return(
+    <div>
+      <button className="mute-but" onClick={() => {
+                        document.dispatchEvent(new CustomEvent("muteStateUpdated", { detail: { isMute: !isMute } }));
+                        setIsMute(!isMute);
+                    }}><span>{isMute ? "unmute": "mute"}</span></button>
+    </div>
+  )
+}
+
+function StartScreen() {
+  const isLoadingFinished = useRef<boolean>(false);
+
+  useEffect(() => {
+    document.addEventListener("loadingFinished", () => {
+      isLoadingFinished.current = true;
+    });
+  }, []);
+
+  return (
+    <div id='mainScreen' onClick={()=>{
+      //@ts-ignore
+      document.getElementById("mainScreen").classList.add("inactive");
+    }}>
+      <div className="main">
+        <button>Apasă pentru a începe!</button>
+        <p className="loading-only"><span id="progress"></span> % LOADED</p>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   return (
     <div id="canvas-container">
+      <MuteUnmute/>
+      <StartScreen></StartScreen>
       <Canvas>
+        <Suspense fallback={
+          <Loading/>
+        }>
         <OrbitControls></OrbitControls>
         <directionalLight position={[0, 2, -2]} color={"white"} intensity={.5} />
         <ambientLight intensity={.1}/>
@@ -22,6 +78,7 @@ export default function App() {
           </Debug>
         </Physics>
         <LoadListener />
+        </Suspense>
       </Canvas>
     </div>
   )

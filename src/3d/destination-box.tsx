@@ -57,7 +57,6 @@ export default function DestinationBox({ nodes, materials }: { nodes: Nodes, mat
             Test6(springParams, numberOfGifts.current);
 
             if (Test6Passed()) {
-                console.log("Trying to start...", numberOfGifts.current);
                 springAPI.start(springParams);
             }
         }
