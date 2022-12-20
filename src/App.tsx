@@ -8,24 +8,10 @@ import { emitWindowEvent, useWindowEvent } from './services/WindowEvents';
 
 import './App.css';
 
-function Loading() {
-  const { progress, active } = useProgress();
-
-  if (!active) {
-    //On End
-  } else {
-    //Progress...
-    //@ts-ignore
-    document.getElementById("progress").innerText = "" + progress;
-  }
-  return (
-    <></>
-  )
-}
 
 
 function MuteUnmute(){
-  const [isMute, setIsMute] = useState(false);
+  const [isMute, setIsMute] = useState(true);
 
   return(
     <div>
@@ -37,37 +23,13 @@ function MuteUnmute(){
   )
 }
 
-function StartScreen() {
-  const isLoadingFinished = useRef<boolean>(false);
-
-  useEffect(() => {
-    document.addEventListener("loadingFinished", () => {
-      isLoadingFinished.current = true;
-    });
-  }, []);
-
-  return (
-    <div id='mainScreen' onClick={()=>{
-      //@ts-ignore
-      document.getElementById("mainScreen").classList.add("inactive");
-    }}>
-      <div className="main">
-        <button>Apasă pentru a începe!</button>
-        <p className="loading-only"><span id="progress"></span> % LOADED</p>
-      </div>
-    </div>
-  )
-}
 
 export default function App() {
   return (
     <div id="canvas-container">
       <MuteUnmute/>
-      <StartScreen></StartScreen>
       <Canvas>
-        <Suspense fallback={
-          <Loading/>
-        }>
+        <Suspense>
         <OrbitControls></OrbitControls>
         <directionalLight position={[0, 2, -2]} color={"white"} intensity={.5} />
         <ambientLight intensity={.1}/>
