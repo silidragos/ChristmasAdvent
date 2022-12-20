@@ -1,4 +1,5 @@
 # Ziua 2. Generatorul de cadouri.
+
 Ok. Avem curent. Acum trebuie sa generăm aleatoriu o serie de cadouri, de diferite forme. Nu îți face griji. Scopul zilei de astăzi este să ne familiarizăm cu primitivele 3D din ThreeJS.
 
 Toate informațiile despre primitive sunt [!! AICI !!](https://threejs.org/docs/#api/en/geometries/BoxGeometry) însă va trebui să le adaptezi la R3F, fie să gasești exemple funcționale în [documentația oficială](https://docs.pmnd.rs/react-three-fiber/getting-started/examples).
@@ -15,7 +16,7 @@ Asigurați-vă ca toate formele sunt sub formă de elemente JSX, și fac parte d
 
 Formele nu sunt încă colorate, dar ne vom ocupa de asta peste 2 zile. 🦄
 
-![Cerinta 2](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c2-cerinta.png)
+![Cerinta 2](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c2-cerinta.png)
 
 ---
 

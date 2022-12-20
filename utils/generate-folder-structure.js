@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuid } = require('uuid');
+const { run: generateTasks } = require('./generate-tasks');
 
 const IGNORE_LIST = [
   '.DS_Store'
@@ -16,17 +17,20 @@ async function run() {
 
   result.files.push(packageJSONStructure);
 
-  fs.promises.writeFile(`${__dirname}/result.txt`, JSON.stringify(result));
-  console.log("Written folder structure in result.txt");
+  await fs.promises.writeFile(`${__dirname}/result.json`, JSON.stringify(result));
+  console.log("Written folder structure in result.json");
 
   const types = await getTypeDefinitions();
   const threeJsTypes = await createDefinition('three');
 
-  fs.promises.writeFile(`${__dirname}/types.txt`, JSON.stringify([
+  await fs.promises.writeFile(`${__dirname}/types.json`, JSON.stringify([
     ...types,
     ...threeJsTypes
   ]));
-  console.log("Written type definitions in types.txt");
+  console.log("Written type definitions in types.json");
+
+  await generateTasks();
+  console.log("Written task definitions in tasks.json");
 }
 
 async function createFolderStructure(folderName, folderPath) {

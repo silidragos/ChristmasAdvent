@@ -9,7 +9,7 @@ Pentru astăzi nu avem nevoie de texturi, dar avem nevoie de anumite materiale s
 - Un material basic, de culoare roz
 - Un material toon, albastru, cu transparență 50%
 
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c4-cerinta.png)
+![](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c4-cerinta.png)
 
 ---
 

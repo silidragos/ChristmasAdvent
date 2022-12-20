@@ -2,6 +2,7 @@
 
 Great! Tot flow-ul este complet, dar vrem un indicator care să ne anunțe când cadourile au intrat în sac. Ultimul pas este acela de a aplica o animație textului "Good Children".
 
+<<<<<<< HEAD
 Ce ne dorim este ca:
 - atunci când numărul de cadouri strânse este impar, textul să sară 1 metru în sus, și să se rotească la 180 de grade pe axa verticală (în radiani).
 - când numărul acestora este par, să se întoarcă la poziția și rotația inițială (position: `[0, 0, 0]` rotation: `[0, 0, 0]`)
@@ -9,6 +10,9 @@ Ce ne dorim este ca:
 Înțelege mai bine cum funcționează textul din `src/3d/destination-box.tsx`, în special metoda `onCollideBegin(()=>{})` din definirea colliderului interior sacului prin CannonJS - `useBox<>`. 
 
 ![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-cerinta.png)
+=======
+![](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c6-cerinta.png)
+>>>>>>> f2af74ce852ea51e4cab2d87d21904f1286386bc
 
 
 ---
@@ -21,7 +25,7 @@ Să facem animații folosing Physics Engines poate arăta foarte plăcut, dar es
 
 Dar dacă vrem ceva mai similar cu animațiile din CSS? Unde putem anima orice proprietate, într-o anumită perioadă de timp, să aplicăm peste un *ease in*, un *ease out*, sau alte funcții care să facă animația noastră eye-catchy 😍 și totul în doar câteva linii de cod?
 
-![](https://vr-projects-eu.s3.eu-central-1.amazonaws.com/front-end-ro/c6-ease.png)
+![](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c6-ease.png)
 [Află mai multe despre ease functions](https://easings.net/)
 
 În 3D sunt multe librării care fac asta, și de obicei poartă denumirea de "Tweening libraries", iar mai exact, noi vom vorbi astăzi despre 
