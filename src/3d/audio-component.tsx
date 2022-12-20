@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { PositionalAudio } from 'three';
 
 export const listener = new THREE.AudioListener();
+listener.setMasterVolume(0);
 
 export const TryPlaySound = (sound: PositionalAudio)=>{
     if (sound === null || sound === undefined) {
