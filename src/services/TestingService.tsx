@@ -1,4 +1,5 @@
 import { useThree } from "@react-three/fiber";
+import { PublicApi } from "@react-three/cannon";
 import { Vector3, Mesh, Quaternion, Euler, Scene } from "three";
 
 import Curve from "../3d/Curve";
@@ -6,7 +7,7 @@ import { WINDOW_EVENTS } from "./Constants";
 import ElementsFactory from "./ElementsFactory";
 import { Day3_CalculateNewPosition } from "../3d/gifts";
 import { emitWindowEvent, useWindowEvent } from "./WindowEvents";
-import { PublicApi } from "@react-three/cannon";
+import { Day6_GetSpringAPIParameters } from "../courses/day6-spring";
 
 interface TestResult {
     valid: boolean;
@@ -359,17 +360,39 @@ const Test5Component = ({ physicsAPI }: { physicsAPI: PublicApi }) => {
 
 
 // ---------- Test 6 -------------
+export function Test6(springApiParams: any): TestResult {
+    const isPositionOddCorrect = CompareTwoArrays(springApiParams.position.odd, [0, 1, 0]);
+    const isPositionEvenCorrect = CompareTwoArrays(springApiParams.position.even, [0, 0, 0]);
 
-let test6Passed = false;
+    const isRotationOddCorrect = CompareTwoArrays(springApiParams.rotation.odd, [0, 2 * Math.PI, 0]);
+    const isRotationEvenCorrect = CompareTwoArrays(springApiParams.rotation.even, [0, 0, 0]);
 
-export function Test6(springApiParams:any, numberOfGifts: number) {
-    let isPositionCorrect = CompareTwoArrays(springApiParams.to.position, [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 1, 0]);
-    let isRotationCorrect = CompareTwoArrays(springApiParams.to.rotation, [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 2 * Math.PI, 0]);
-    if(isPositionCorrect && isRotationCorrect){
-        test6Passed = true;   
-    }else{
-        test6Passed = false;
+   
+    if (isPositionOddCorrect && isPositionEvenCorrect && isRotationOddCorrect && isRotationEvenCorrect){
+        return {
+            valid: true,
+        }
+    } else {
+        return {
+            valid: false,
+            error: {
+                description: 'Animația nu e corect configurată!',
+            }
+        }
     }
+}
+
+const Test6Component = () => {
+    const onMessage = async () => {
+        const result: TestResult = Test6(Day6_GetSpringAPIParameters);
+        emitWindowEvent({
+            type: WINDOW_EVENTS.TEST_6_RESULT,
+            payload: result
+        });
+    }
+
+    useWindowEvent(WINDOW_EVENTS.TEST_6_RUN, onMessage);
+    return null;
 }
 
 function CompareTwoArrays(arr1: Array<any>, arr2: Array<any>){
@@ -382,15 +405,11 @@ function CompareTwoArrays(arr1: Array<any>, arr2: Array<any>){
     return true;
 }
 
-
-export function Test6Passed() {
-    return test6Passed;
-}
-
 export {
     Test1Component,
     Test2Component,
     Test3Component,
     Test4Component,
     Test5Component,
+    Test6Component,
 };

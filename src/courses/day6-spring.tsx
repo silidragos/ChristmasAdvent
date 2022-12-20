@@ -1,8 +1,26 @@
-export function Day6_GetSpringAPIParameters(numberOfGifts: number) {
-    return {
-        to: {
-            position: [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 1, 0],
-            rotation: [0, Math.floor(numberOfGifts % 2) === 0 ? 0 : 2 * Math.PI, 0]
-        }
-    };
-}
+// Modify these values to correctly set up the Animation
+const oddPosition = [0, 1, 0];
+const evenPosition = [0, 0, 0];
+
+const oddRotation = [0, 2 * Math.PI, 0];
+const evenRotation = [0, 0, 0];
+
+export const Day6_GetSpringAPIParameters: {
+    position: {
+        odd: number[],
+        even: number[],
+    },
+    rotation: {
+        odd: number[],
+        even: number[],
+    }
+} = {
+    position: {
+        odd: oddPosition,
+        even: evenPosition
+    },
+    rotation: {
+        odd: oddRotation,
+        even: evenRotation
+    }
+};
