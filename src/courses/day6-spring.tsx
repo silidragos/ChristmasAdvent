@@ -6,21 +6,21 @@ const oddRotation = [0, 2 * Math.PI, 0];
 const evenRotation = [0, 0, 0];
 
 export const Day6_GetSpringAPIParameters: {
-    position: {
-        odd: number[],
-        even: number[],
-    },
-    rotation: {
-        odd: number[],
-        even: number[],
-    }
+  position: {
+    odd: number[],
+    even: number[],
+  },
+  rotation: {
+    odd: number[],
+    even: number[],
+  }
 } = {
-    position: {
-        odd: oddPosition,
-        even: evenPosition
-    },
-    rotation: {
-        odd: oddRotation,
-        even: evenRotation
-    }
+  position: {
+    odd: oddPosition,
+    even: evenPosition
+  },
+  rotation: {
+    odd: oddRotation,
+    even: evenRotation
+  }
 };
