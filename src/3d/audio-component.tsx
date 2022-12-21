@@ -1,63 +1,75 @@
-import { useRef, useMemo, useEffect, RefObject } from 'react';
-import { useThree, useLoader } from "@react-three/fiber";
-import * as THREE from 'three';
-import { PositionalAudio } from 'three';
+import { useRef, useEffect } from 'react';
+import { useLoader } from "@react-three/fiber";
+import { AudioListener, PositionalAudio, AudioLoader } from 'three';
 
-export const listener = new THREE.AudioListener();
+export const listener = new AudioListener();
 
 listener.setMasterVolume(0);
 
-document.addEventListener("muteStateUpdated", (ev)=>{
-    //@ts-ignore
-    listener.setMasterVolume(ev.detail.isMute ? 0 : 1);
+document.addEventListener("muteStateUpdated", (ev) => {
+  //@ts-ignore
+  listener.setMasterVolume(ev.detail.isMute ? 0 : 1);
 })
 
-export const TryPlaySound = (sound: PositionalAudio)=>{
-    if (sound === null || sound === undefined) {
-        return;
-    }
+export const TryPlaySound = (sound: PositionalAudio) => {
+  if (sound === null || sound === undefined) {
+    return;
+  }
 
-    if (sound.isPlaying) {
-        sound.stop();
-    }
-    sound.play();
+  if (sound.isPlaying) {
+    sound.stop();
+  }
+  sound.play();
 }
 
-const AudioComponent = ({ url, volume = 1, autoplay = true, play = true, loop=false, onInit = (sound)=>{} } : {url : string, volume?: number, autoplay?: boolean, play?: boolean, loop?: boolean, onInit?:(sound : PositionalAudio)=>void}) => {
-    const { camera } = useThree();
-    const mainSound = useRef<PositionalAudio>(null);
+interface Props {
+  url: string;
+  volume?: number;
+  autoplay?: boolean;
+  play?: boolean;
+  loop?: boolean;
+  onInit?: (sound: PositionalAudio) => void;
+}
 
-    const buffer = useLoader(THREE.AudioLoader, url);
+const AudioComponent = ({
+  url,
+  volume = 1,
+  autoplay = true,
+  play = true,
+  loop = false,
+  onInit = () => {},
+}: Props) => {
+  const mainSound = useRef<PositionalAudio>(null);
 
-    useEffect(() => {
-        if (mainSound.current === null || mainSound.current === undefined) return;
+  const buffer = useLoader(AudioLoader, url);
 
-        mainSound.current.setBuffer(buffer);
-        mainSound.current.setLoop(loop);
-        mainSound.current.setVolume(volume);
-        if (autoplay) {
-            mainSound.current.play();
-        }
+  useEffect(() => {
+    if (mainSound.current === null || mainSound.current === undefined) return;
 
-        onInit(mainSound.current);
-    }, [mainSound.current])
+    mainSound.current.setBuffer(buffer);
+    mainSound.current.setLoop(loop);
+    mainSound.current.setVolume(volume);
+    if (autoplay) {
+      mainSound.current.play();
+    }
 
-    useEffect(() => {
-        if (mainSound.current === null || mainSound.current === undefined) return;
+    onInit(mainSound.current);
+  }, [mainSound.current])
 
-        if (play) {
-            mainSound.current.play();
-        } else {
-            if (mainSound.current.isPlaying) {
-                mainSound.current.stop();
-            }
-        }
-    }, [play])
-    return (
-        <positionalAudio ref={mainSound} args={[listener]} />
-    );
+  useEffect(() => {
+    if (mainSound.current === null || mainSound.current === undefined) return;
 
-
+    if (play) {
+      mainSound.current.play();
+    } else {
+      if (mainSound.current.isPlaying) {
+        mainSound.current.stop();
+      }
+    }
+  }, [play])
+  return (
+    <positionalAudio ref={mainSound} args={[listener]} />
+  );
 }
 
 export default AudioComponent;
