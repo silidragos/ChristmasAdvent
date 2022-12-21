@@ -109,6 +109,10 @@ export default function Gifts() {
     let count = 10;
     giftPositionReferences.current = [];
 
+    if (giftFactory.getAll().length === 0) {
+      return gifts;
+    }
+
     for (let i = 0; i < count; i++) {
       gifts.push(
         <Day3_Tester key={i} idx={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} giftPosReferences = {giftPositionReferences.current}>
