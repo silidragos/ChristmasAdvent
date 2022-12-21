@@ -6,6 +6,8 @@ Primul pas este acela de a **pune cele două baterii în formă de inel pe cilin
 
 Poziția necesită o exactitate de `+/-0.1`, iar rotația de `+/- 15 grade`. Îți vei da seama că sunt așezate corect, dupa lumina roșie care va deveni verde odată ce bateriile sunt conectate. 
 
+Deci, deschide fișierul `day1-hierarchy-attributes.tsx` și hai să poziționăm corect bateriile.
+
 ![Cerinta-1](https://d3tycb976jpudc.cloudfront.net/public/images/christmas-advent-2022/c1-cerinta.png)
 
 > Sugestie 1: Rotațiile se exprimă în radiani. Pentru acces la constanta Pi, Javascript oferă `Math.PI`.

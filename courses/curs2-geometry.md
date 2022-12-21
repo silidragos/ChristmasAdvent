@@ -4,7 +4,7 @@ Ok. Avem curent. Acum trebuie sa generăm aleatoriu o serie de cadouri, de difer
 
 Toate informațiile despre primitive sunt [!! AICI !!](https://threejs.org/docs/#api/en/geometries/BoxGeometry) însă va trebui să le adaptezi la R3F, fie să gasești exemple funcționale în [documentația oficială](https://docs.pmnd.rs/react-three-fiber/getting-started/examples).
 
-Lista dorințe este destul de simplă. Ar trebui să fie suficiente primitivele pe care ni le oferă ThreeJS. Ce trebuie neapărat să fie în array-ul exportat este:
+Lista dorințe este destul de simplă. Ar trebui să fie suficiente primitivele pe care ni le oferă ThreeJS. Deci, adaugă în Array-ul exportat din fișierul `day2-custom-shapes.tsx`:
 
  - O cutie de 40cmx40cmx40cm
  - O minge cu diametrul de 20cm. Asigură-te ca este suficient de șlefuită.
@@ -35,10 +35,12 @@ Dacă ne amintim de ieri, pentru a crea un obiect 3D avem nevoie să creăm un `
 
 ThreeJS ofera o serie de primitive 3D. Spre exemplu un simplu cub s-ar putea crea astfel:
 
->       <mesh>
->           <boxGeometry args={[1, 1, 1]}/>   <-----
->           <meshBasicMaterial color="red">
->       </mesh>
+```jsx
+<mesh>
+  <boxGeometry args={[1, 1, 1]}/>   <-----
+  <meshBasicMaterial color="red">
+</mesh>
+```
 
 `<boxGeometry>` este obiectul care ne ajută să creăm o cutie. Argumentele din constructor (din documentația ThreeJS) sunt aici incluse într-un array în `args`, și reprezintă lungimea, lățimea și înălțimea unei cutii.
 
@@ -54,6 +56,8 @@ In ThreeJS, obiectele se pot apoi importa în formatul GLTF. GLTF se consideră 
 
 În cazul nostru, obiectele sunt toate într-un singur fișier GLB (GLTF Binary), și importate folosind o utilitară asincronă @react-three/drei, "UseLoader" astfel:
 
->       const { nodes, materials } = useGLTF(PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
+```ts
+const { nodes, materials } = useGLTF(PUBLIC_URL + '/gltf/scene.glb') as GLTFResult;
+```
 
 Fiecare obiect 3D poate fi spart în componentele sale, în multiple componente JSX parentate unele la altele. În mod normal ar trebui să facem asta manual, pentru a crea toate elementele JSX din `/3d/factory.tsx`, dar din fericire există o utilitară pentru asta: [GLTF2JSX](https://github.com/pmndrs/gltfjsx).
