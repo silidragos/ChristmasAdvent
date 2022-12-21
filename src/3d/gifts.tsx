@@ -10,7 +10,6 @@ import { AUDIO_PUBLIC_URL } from "../services/Constants";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
 import AudioComponent, { TryPlaySound } from "./audio-component";
 import {
-  Test2,
   Test2Component,
   Test3,
   Test3Component,
@@ -108,35 +107,32 @@ export default function Gifts() {
   const getGifts = function () {
     let gifts: any[] = [];
     let count = 10;
-    const test2Result = Test2(giftFactory.getAll());
     giftPositionReferences.current = [];
 
-    if (test2Result.valid) {
-      for (let i = 0; i < count; i++) {
-        gifts.push(
-          <Day3_Tester key={i} idx={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} giftPosReferences = {giftPositionReferences.current}>
-            <Day3_Gift key={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} onRespawnCallback={() => {
-              TryPlaySound(giftsSound);
-            }}
-            onInit = {(posRef: THREE.Group)=>{
-              giftPositionReferences.current.push(posRef);
-            }}>
-              {giftFactory.getRandom()}
-            </Day3_Gift >
-          </Day3_Tester>
-        );
-      }
-
+    for (let i = 0; i < count; i++) {
       gifts.push(
-        <Test3Component
-          key="test3Component"
-          giftCount={10}
-          curve={curve}
-          giftSpeedPerSecond={giftSpeed}
-          getPositions={() => giftPositionReferences.current.map(g => g.position)}
-        />
+        <Day3_Tester key={i} idx={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} giftPosReferences = {giftPositionReferences.current}>
+          <Day3_Gift key={i} curve={curve} initialOffset={i * (1.0 / count)} giftSpeedPerSecond={giftSpeed} onRespawnCallback={() => {
+            TryPlaySound(giftsSound);
+          }}
+          onInit = {(posRef: THREE.Group)=>{
+            giftPositionReferences.current.push(posRef);
+          }}>
+            {giftFactory.getRandom()}
+          </Day3_Gift >
+        </Day3_Tester>
       );
     }
+
+    gifts.push(
+      <Test3Component
+        key="test3Component"
+        giftCount={10}
+        curve={curve}
+        giftSpeedPerSecond={giftSpeed}
+        getPositions={() => giftPositionReferences.current.map(g => g.position)}
+      />
+    );
     return gifts;
   }
   return (
