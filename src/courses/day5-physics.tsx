@@ -8,7 +8,7 @@ export const Day5_DefineUseBox: BoxProps = {
   args: [2, 1.2, .5],
   position: [-3, 1.55, 1.5],
   rotation: [0, 0, 0],
-  mass: 0,
+  mass: 10,
   material: {
     friction: 0
   }

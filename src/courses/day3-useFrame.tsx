@@ -34,13 +34,11 @@ function Day3_Gift({
       return
     };
 
-    let newOffset = (initialOffset + Date.now() / 1000.0 * giftSpeedPerSecond) % 1;
+    // Calculeaza noul offset in functie de timp
+    let newOffset = initialOffset + 0;
 
-    //given
     let calculatedPosition: THREE.Vector3 = Day3_CalculateNewPosition(curve, newOffset, onRespawnCallback);
-
-    //set "pos" to parent.current
-    parent.current.position.set(calculatedPosition.x, calculatedPosition.y, calculatedPosition.z)
+    parent.current.position.set(calculatedPosition.x, calculatedPosition.y, calculatedPosition.z);
   })
 
   return (

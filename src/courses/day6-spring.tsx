@@ -1,9 +1,9 @@
 // Modify these values to correctly set up the Animation
-const oddPosition: number[] = [0, 1, 0];
-const evenPosition: number[] = [0, 0, 0];
+const oddPosition: number[] = [0, 0, 0];
+const evenPosition: number[] = [0, 1, 0];
 
-const oddRotation: number[] = [0, 2 * Math.PI, 0];
-const evenRotation: number[] = [0, 0, 0];
+const oddRotation: number[] = [5, 0, 0];
+const evenRotation: number[] = [5, 0, 0];
 
 export const Day6_GetSpringAPIParameters: {
   position: {
