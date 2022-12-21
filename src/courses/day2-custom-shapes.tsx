@@ -1,4 +1,4 @@
-const Day2_CustomShapes = [
+const Day2_CustomShapes: JSX.Element[] = [
   <mesh>
     <boxGeometry args={[0.4, 0.4, 0.4]} attach="geometry" />
   </mesh>,

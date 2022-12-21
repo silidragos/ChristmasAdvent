@@ -1,4 +1,4 @@
-const Day4_Texturing = [
+const Day4_Texturing: JSX.Element[] = [
   <meshStandardMaterial attach="material" color="green" roughness={1} metalness={0} />,
   <meshStandardMaterial attach="material" color="green" emissive={"green"} />,
   <meshStandardMaterial attach="material" color="red" roughness={0} metalness={1} />,
