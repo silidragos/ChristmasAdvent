@@ -9,7 +9,7 @@ import Day4_Texturing from "../courses/day4-texturing";
 import ElementFactory from "../services/ElementsFactory";
 import AudioComponent, { listener, TryPlaySound } from "./audio-component";
 import Day2_CustomShapes from "../courses/day2-custom-shapes";
-import { Test4, Test4Component } from "../services/TestingService";
+import { Test4Component } from "../services/TestingService";
 import { AUDIO_PUBLIC_URL } from "../services/Constants";
 
 
@@ -105,10 +105,8 @@ export default function GiftsPhysics() {
 
         let meshes = [];
 
-        const testResult = Test4(texFactory.getAll());
-
         let texs = texFactory.getAll();
-        if (testResult.valid) {
+        if (texs.length > 0) {
             for (let i = 0; i < elements.length; i++) {
                 meshes.push(
                     <mesh>
